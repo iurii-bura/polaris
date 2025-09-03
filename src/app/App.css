@@ -2,7 +2,9 @@
 @import '../constants/chart-colors.css';
 
 @plugin "daisyui" {
-  themes: light --default, cupcake;
+    themes:
+        light --default,
+        cupcake;
 }
 
 /* Resizable panel styles */
@@ -52,17 +54,17 @@
   box-shadow: 0px 0px 0px 4px var(--xy-theme-color-focus);
   border-color: #8c1111;
 } */
- 
+
 .react-flow__node-componentDetails.selectable:focus:active {
-  box-shadow: var(--xy-node-boxshadow-default);
+    box-shadow: var(--xy-node-boxshadow-default);
 }
- 
+
 .react-flow__node-componentDetails.selectable:hover,
 .react-flow__node-componentDetails.draggable:hover {
-  border-color: var(--xy-theme-hover);
+    border-color: var(--xy-theme-hover);
 }
- 
+
 .react-flow__node-componentDetails.selectable.selected {
-  border-color: var(--xy-theme-selected);
-  box-shadow: var(--xy-node-boxshadow-selected-default);
+    border-color: var(--xy-theme-selected);
+    box-shadow: var(--xy-node-boxshadow-selected-default);
 }

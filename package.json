@@ -30,7 +30,6 @@
         "start": "rsbuild dev"
     },
     "dependencies": {
-
         "@xyflow/react": "12.8.4",
         "react": "19.1.1",
         "react-dom": "19.1.1",

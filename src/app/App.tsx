@@ -31,35 +31,39 @@ const App: FunctionComponent = (): ReactElement => {
         setCurrentLayout(layout);
     }, []);
 
-    const handleNodeLayoutChange = useCallback((updates: Array<{ node: ComponentData; position: { x: number; y: number } }>) => {
-        if (!updates.length){
-            return;
-        }
-
-        const updatedItems = updates.map(u => ({
-            ...u.node,
-            layouts: {
-                ...u.node.layouts,
-                [currentLayout]: {
-                    ...u.node.layouts?.[currentLayout],
-                    x: u.position.x,
-                    y: u.position.y,
-                    nodeType: u.node.layouts?.[currentLayout]?.nodeType || 'componentDetails'
-                }
+    const handleNodeLayoutChange = useCallback(
+        (updates: Array<{ node: ComponentData; position: { x: number; y: number } }>) => {
+            if (!updates.length) {
+                return;
             }
-        }));
 
-        setComponentData(prevData => {
-            return prevData.map(item => {
-                const update = updatedItems.find(({ id }) => id === item.id);
-                return update || item;
+            const updatedItems = updates.map((u) => ({
+                ...u.node,
+                layouts: {
+                    ...u.node.layouts,
+                    [currentLayout]: {
+                        ...u.node.layouts?.[currentLayout],
+                        x: u.position.x,
+                        y: u.position.y,
+                        nodeType: u.node.layouts?.[currentLayout]?.nodeType || 'componentDetails'
+                    }
+                }
+            }));
+
+            setComponentData((prevData) => {
+                return prevData.map((item) => {
+                    const update = updatedItems.find(({ id }) => id === item.id);
+                    return update || item;
+                });
             });
-        });
 
-        // console.log(updatedItems);
-        ComponentDataService.getInstance().batchUpdateComponents(updatedItems.map(item => ({ id: item.id, data: item })));
-
-    }, [currentLayout]);
+            // console.log(updatedItems);
+            ComponentDataService.getInstance().batchUpdateComponents(
+                updatedItems.map((item) => ({ id: item.id, data: item }))
+            );
+        },
+        [currentLayout]
+    );
 
     const handleMouseDown = useCallback((e: React.MouseEvent) => {
         setIsDragging(true);
@@ -71,15 +75,18 @@ const App: FunctionComponent = (): ReactElement => {
         setPanelWidth(470); // Reset to default width
     }, []);
 
-    const handleMouseMove = useCallback((e: MouseEvent) => {
-        if (!isDragging) return;
+    const handleMouseMove = useCallback(
+        (e: MouseEvent) => {
+            if (!isDragging) return;
 
-        const deltaX = dragRef.current - e.clientX;
-        const newWidth = Math.max(250, Math.min(600, panelWidth + deltaX)); // Min 250px, max 600px
+            const deltaX = dragRef.current - e.clientX;
+            const newWidth = Math.max(250, Math.min(600, panelWidth + deltaX)); // Min 250px, max 600px
 
-        setPanelWidth(newWidth);
-        dragRef.current = e.clientX;
-    }, [isDragging, panelWidth]);
+            setPanelWidth(newWidth);
+            dragRef.current = e.clientX;
+        },
+        [isDragging, panelWidth]
+    );
 
     const handleMouseUp = useCallback(() => {
         setIsDragging(false);
@@ -103,7 +110,10 @@ const App: FunctionComponent = (): ReactElement => {
 
     if (loading) {
         return (
-            <main role="main" className="min-h-screen bg-base-100 flex items-center justify-center">
+            <main
+                role="main"
+                className="min-h-screen bg-base-100 flex items-center justify-center"
+            >
                 <Loading text="Loading components..." />
             </main>
         );
@@ -111,7 +121,10 @@ const App: FunctionComponent = (): ReactElement => {
 
     if (error) {
         return (
-            <main role="main" className="min-h-screen bg-base-100 flex items-center justify-center">
+            <main
+                role="main"
+                className="min-h-screen bg-base-100 flex items-center justify-center"
+            >
                 <div className="alert alert-error max-w-md">
                     <span>Error loading components: {error}</span>
                 </div>
@@ -120,7 +133,10 @@ const App: FunctionComponent = (): ReactElement => {
     }
 
     return (
-        <main role="main" className="min-h-screen bg-base-100">
+        <main
+            role="main"
+            className="min-h-screen bg-base-100"
+        >
             <div className="flex h-screen">
                 {/* Middle: Graph section */}
                 <section className="flex-1 p-4 overflow-hidden relative">
