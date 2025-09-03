@@ -1,0 +1,482 @@
+[
+  {
+    "id": "CR-001-FX",
+    "label": "Customer Portfolio Management Engine"
+  },
+  {
+    "id": "TR-002-LM",
+    "label": "Trading Risk Assessment Gateway"
+  },
+  {
+    "id": "AC-003-BP",
+    "label": "Account Reconciliation Service"
+  },
+  {
+    "id": "PY-004-MN",
+    "label": "Payment Processing Hub"
+  },
+  {
+    "id": "LN-005-QR",
+    "label": "Loan Origination Platform"
+  },
+  {
+    "id": "KY-006-ST",
+    "label": "Know Your Customer Verification"
+  },
+  {
+    "id": "FR-007-UV",
+    "label": "Fraud Detection Analytics"
+  },
+  {
+    "id": "CM-008-WX",
+    "label": "Compliance Monitoring Dashboard"
+  },
+  {
+    "id": "RT-009-YZ",
+    "label": "Real-time Transaction Processor"
+  },
+  {
+    "id": "CR-010-AB",
+    "label": "Credit Scoring Algorithm"
+  },
+  {
+    "id": "WM-011-CD",
+    "label": "Wealth Management Advisory"
+  },
+  {
+    "id": "PF-012-EF",
+    "label": "Portfolio Performance Tracker"
+  },
+  {
+    "id": "FX-013-GH",
+    "label": "Foreign Exchange Rate Engine"
+  },
+  {
+    "id": "BO-014-IJ",
+    "label": "Back Office Settlement System"
+  },
+  {
+    "id": "RG-015-KL",
+    "label": "Regulatory Reporting Generator"
+  },
+  {
+    "id": "CL-016-MN",
+    "label": "Client Onboarding Workflow"
+  },
+  {
+    "id": "MR-017-OP",
+    "label": "Market Risk Calculator"
+  },
+  {
+    "id": "LD-018-QR",
+    "label": "Liquidity Distribution Manager"
+  },
+  {
+    "id": "TR-019-ST",
+    "label": "Trade Order Management"
+  },
+  {
+    "id": "CA-020-UV",
+    "label": "Capital Adequacy Monitor"
+  },
+  {
+    "id": "BC-021-WX",
+    "label": "Banking Core System Interface"
+  },
+  {
+    "id": "ID-022-YZ",
+    "label": "Investment Decision Support"
+  },
+  {
+    "id": "PR-023-AB",
+    "label": "Price Discovery Service"
+  },
+  {
+    "id": "CU-024-CD",
+    "label": "Currency Hedging Calculator"
+  },
+  {
+    "id": "AL-025-EF",
+    "label": "Anti-Money Laundering Scanner"
+  },
+  {
+    "id": "CF-026-GH",
+    "label": "Cash Flow Forecasting Tool"
+  },
+  {
+    "id": "DB-027-IJ",
+    "label": "Derivative Booking Platform"
+  },
+  {
+    "id": "EC-028-KL",
+    "label": "Electronic Communication Network"
+  },
+  {
+    "id": "FI-029-MN",
+    "label": "Fixed Income Trading Desk"
+  },
+  {
+    "id": "GL-030-OP",
+    "label": "General Ledger Integration"
+  },
+  {
+    "id": "HS-031-QR",
+    "label": "High-Speed Market Data Feed"
+  },
+  {
+    "id": "IC-032-ST",
+    "label": "Interest Calculation Engine"
+  },
+  {
+    "id": "JR-033-UV",
+    "label": "Journal Entry Processor"
+  },
+  {
+    "id": "KR-034-WX",
+    "label": "Key Risk Indicator Dashboard"
+  },
+  {
+    "id": "LQ-035-YZ",
+    "label": "Liquidity Quality Assessment"
+  },
+  {
+    "id": "MT-036-AB",
+    "label": "Margin Trading Controller"
+  },
+  {
+    "id": "NP-037-CD",
+    "label": "Net Position Calculator"
+  },
+  {
+    "id": "OM-038-EF",
+    "label": "Options Market Maker"
+  },
+  {
+    "id": "PC-039-GH",
+    "label": "Position Consolidation Service"
+  },
+  {
+    "id": "QM-040-IJ",
+    "label": "Quantitative Model Library"
+  },
+  {
+    "id": "RM-041-KL",
+    "label": "Relationship Management CRM"
+  },
+  {
+    "id": "SC-042-MN",
+    "label": "Securities Clearing House"
+  },
+  {
+    "id": "TD-043-OP",
+    "label": "Treasury Desk Operations"
+  },
+  {
+    "id": "UV-044-QR",
+    "label": "Underwriting Validation Engine"
+  },
+  {
+    "id": "VR-045-ST",
+    "label": "Value-at-Risk Calculator"
+  },
+  {
+    "id": "WS-046-UV",
+    "label": "Wire Transfer Settlement"
+  },
+  {
+    "id": "XR-047-WX",
+    "label": "Cross-Rate Arbitrage Detector"
+  },
+  {
+    "id": "YM-048-YZ",
+    "label": "Yield Management Optimizer"
+  },
+  {
+    "id": "ZC-049-AB",
+    "label": "Zero-Coupon Bond Pricer"
+  },
+  {
+    "id": "AD-050-CD",
+    "label": "Asset Disposition Manager"
+  },
+  {
+    "id": "BM-051-EF",
+    "label": "Business Model Validator"
+  },
+  {
+    "id": "CP-052-GH",
+    "label": "Counterparty Credit Monitor"
+  },
+  {
+    "id": "DR-053-IJ",
+    "label": "Digital Receipt Generator"
+  },
+  {
+    "id": "ES-054-KL",
+    "label": "Electronic Statement Builder"
+  },
+  {
+    "id": "FP-055-MN",
+    "label": "Financial Planning Assistant"
+  },
+  {
+    "id": "GP-056-OP",
+    "label": "Goal-Based Portfolio Manager"
+  },
+  {
+    "id": "HF-057-QR",
+    "label": "Hedge Fund Administrator"
+  },
+  {
+    "id": "IA-058-ST",
+    "label": "Investment Advisory Platform"
+  },
+  {
+    "id": "JF-059-UV",
+    "label": "Joint Fund Allocation Engine"
+  },
+  {
+    "id": "KM-060-WX",
+    "label": "Knowledge Management Portal"
+  },
+  {
+    "id": "LP-061-YZ",
+    "label": "Loan Performance Tracker"
+  },
+  {
+    "id": "MA-062-AB",
+    "label": "Market Access Gateway"
+  },
+  {
+    "id": "NC-063-CD",
+    "label": "Netting and Clearing Service"
+  },
+  {
+    "id": "OT-064-EF",
+    "label": "Options Trading Platform"
+  },
+  {
+    "id": "PM-065-GH",
+    "label": "Private Messaging System"
+  },
+  {
+    "id": "QT-066-IJ",
+    "label": "Quote Distribution Network"
+  },
+  {
+    "id": "RS-067-KL",
+    "label": "Research Signal Aggregator"
+  },
+  {
+    "id": "ST-068-MN",
+    "label": "Straight-Through Processing"
+  },
+  {
+    "id": "TA-069-OP",
+    "label": "Technical Analysis Engine"
+  },
+  {
+    "id": "UM-070-QR",
+    "label": "User Management Console"
+  },
+  {
+    "id": "VL-071-ST",
+    "label": "Volatility Ladder Builder"
+  },
+  {
+    "id": "WF-072-UV",
+    "label": "Workflow Automation Engine"
+  },
+  {
+    "id": "XD-073-WX",
+    "label": "eXecution Desk Coordinator"
+  },
+  {
+    "id": "YP-074-YZ",
+    "label": "Yield Projection Calculator"
+  },
+  {
+    "id": "ZR-075-AB",
+    "label": "Zone Risk Assessment Tool"
+  },
+  {
+    "id": "AS-076-CD",
+    "label": "Algorithmic Strategy Builder"
+  },
+  {
+    "id": "BP-077-EF",
+    "label": "Balance Sheet Projector"
+  },
+  {
+    "id": "CR-078-GH",
+    "label": "Credit Risk Aggregator"
+  },
+  {
+    "id": "DM-079-IJ",
+    "label": "Data Mart Synchronizer"
+  },
+  {
+    "id": "EB-080-KL",
+    "label": "Electronic Banking Interface"
+  },
+  {
+    "id": "FM-081-MN",
+    "label": "Fund Management Controller"
+  },
+  {
+    "id": "GS-082-OP",
+    "label": "Global Settlement Network"
+  },
+  {
+    "id": "HP-083-QR",
+    "label": "High-Performance Computing Grid"
+  },
+  {
+    "id": "IT-084-ST",
+    "label": "Index Tracking Optimizer"
+  },
+  {
+    "id": "JB-085-UV",
+    "label": "Journal Booking Engine"
+  },
+  {
+    "id": "KS-086-WX",
+    "label": "Key Statistics Generator"
+  },
+  {
+    "id": "LM-087-YZ",
+    "label": "Limit Management Framework"
+  },
+  {
+    "id": "MB-088-AB",
+    "label": "Mobile Banking Gateway"
+  },
+  {
+    "id": "NR-089-CD",
+    "label": "Notification Relay Service"
+  },
+  {
+    "id": "OP-090-EF",
+    "label": "Order Processing Engine"
+  },
+  {
+    "id": "PD-091-GH",
+    "label": "Performance Dashboard Builder"
+  },
+  {
+    "id": "QA-092-IJ",
+    "label": "Quality Assurance Framework"
+  },
+  {
+    "id": "RC-093-KL",
+    "label": "Regulatory Compliance Monitor"
+  },
+  {
+    "id": "SM-094-MN",
+    "label": "Stress Testing Model"
+  },
+  {
+    "id": "TL-095-OP",
+    "label": "Trade Lifecycle Manager"
+  },
+  {
+    "id": "UP-096-QR",
+    "label": "Unified Pricing Engine"
+  },
+  {
+    "id": "VM-097-ST",
+    "label": "Vendor Management Portal"
+  },
+  {
+    "id": "WR-098-UV",
+    "label": "Weighted Return Calculator"
+  },
+  {
+    "id": "XT-099-WX",
+    "label": "Cross-Trading Matcher"
+  },
+  {
+    "id": "YS-100-YZ",
+    "label": "Year-end Statement Processor"
+  },
+  {
+    "id": "ZF-101-AB",
+    "label": "Zero-Fill Data Validator"
+  },
+  {
+    "id": "AG-102-CD",
+    "label": "Aggregation Gateway Service"
+  },
+  {
+    "id": "BT-103-EF",
+    "label": "Batch Transaction Processor"
+  },
+  {
+    "id": "CS-104-GH",
+    "label": "Client Statement Generator"
+  },
+  {
+    "id": "DP-105-IJ",
+    "label": "Data Privacy Controller"
+  },
+  {
+    "id": "ET-106-KL",
+    "label": "Electronic Trading Platform"
+  },
+  {
+    "id": "FS-107-MN",
+    "label": "Financial Statement Compiler"
+  },
+  {
+    "id": "GT-108-OP",
+    "label": "Global Trade Repository"
+  },
+  {
+    "id": "HR-109-QR",
+    "label": "Historical Rate Archive"
+  },
+  {
+    "id": "IB-110-ST",
+    "label": "Investment Banking Suite"
+  },
+  {
+    "id": "JS-111-UV",
+    "label": "Job Scheduling Coordinator"
+  },
+  {
+    "id": "KP-112-WX",
+    "label": "Key Performance Indicator Hub"
+  },
+  {
+    "id": "LT-113-YZ",
+    "label": "Liquidity Testing Framework"
+  },
+  {
+    "id": "MC-114-AB",
+    "label": "Market Connectivity Layer"
+  },
+  {
+    "id": "NV-115-CD",
+    "label": "Net Asset Value Calculator"
+  },
+  {
+    "id": "OC-116-EF",
+    "label": "Operational Control Center"
+  },
+  {
+    "id": "PT-117-GH",
+    "label": "Portfolio Transaction Logger"
+  },
+  {
+    "id": "QR-118-IJ",
+    "label": "Quote Request Handler"
+  },
+  {
+    "id": "RP-119-KL",
+    "label": "Risk Parameter Calibrator"
+  },
+  {
+    "id": "SV-120-MN",
+    "label": "Securities Valuation Engine"
+  }
+]

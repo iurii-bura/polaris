@@ -1,0 +1,64 @@
+/**
+ * Chart Color Palette - CSS Custom Properties
+ * 
+ * These CSS custom properties can be used to easily customize
+ * chart colors across the entire application. They complement
+ * the TypeScript constants and can be overridden in themes.
+ */
+
+:root {
+  /* Chart Color Palette - Harmonious and Professional */
+  --chart-color-lavender: #a78bfa;
+  --chart-color-sage: #6ee7b7;
+  --chart-color-coral: #fca5a5;
+  --chart-color-sky: #7dd3fc;
+  --chart-color-peach: #fed7aa;
+  --chart-color-mint: #86efac;
+  --chart-color-rose: #f9a8d4;
+  --chart-color-periwinkle: #a5b4fc;
+  --chart-color-apricot: #fdba74;
+  --chart-color-seafoam: #67e8f9;
+  
+  /* Color palette array for JavaScript access */
+  --chart-colors: var(--chart-color-lavender), var(--chart-color-sage), var(--chart-color-coral), var(--chart-color-sky), var(--chart-color-peach), var(--chart-color-mint), var(--chart-color-rose), var(--chart-color-periwinkle), var(--chart-color-apricot), var(--chart-color-seafoam);
+}
+
+/* Optional: Dark theme adjustments */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Slightly adjust colors for better dark mode contrast */
+    --chart-color-lavender: #c4b5fd;
+    --chart-color-sage: #86efac;
+    --chart-color-coral: #fda4af;
+    --chart-color-sky: #93c5fd;
+    --chart-color-peach: #fed7aa;
+    --chart-color-mint: #a7f3d0;
+    --chart-color-rose: #fbcfe8;
+    --chart-color-periwinkle: #c7d2fe;
+    --chart-color-apricot: #fed7aa;
+    --chart-color-seafoam: #a5f3fc;
+  }
+}
+
+/* Utility classes for direct CSS usage */
+.chart-color-lavender { color: var(--chart-color-lavender); }
+.chart-color-sage { color: var(--chart-color-sage); }
+.chart-color-coral { color: var(--chart-color-coral); }
+.chart-color-sky { color: var(--chart-color-sky); }
+.chart-color-peach { color: var(--chart-color-peach); }
+.chart-color-mint { color: var(--chart-color-mint); }
+.chart-color-rose { color: var(--chart-color-rose); }
+.chart-color-periwinkle { color: var(--chart-color-periwinkle); }
+.chart-color-apricot { color: var(--chart-color-apricot); }
+.chart-color-seafoam { color: var(--chart-color-seafoam); }
+
+.chart-bg-lavender { background-color: var(--chart-color-lavender); }
+.chart-bg-sage { background-color: var(--chart-color-sage); }
+.chart-bg-coral { background-color: var(--chart-color-coral); }
+.chart-bg-sky { background-color: var(--chart-color-sky); }
+.chart-bg-peach { background-color: var(--chart-color-peach); }
+.chart-bg-mint { background-color: var(--chart-color-mint); }
+.chart-bg-rose { background-color: var(--chart-color-rose); }
+.chart-bg-periwinkle { background-color: var(--chart-color-periwinkle); }
+.chart-bg-apricot { background-color: var(--chart-color-apricot); }
+.chart-bg-seafoam { background-color: var(--chart-color-seafoam); }

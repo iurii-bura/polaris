@@ -1,0 +1,68 @@
+@import 'tailwindcss';
+@import '../constants/chart-colors.css';
+
+@plugin "daisyui" {
+  themes: light --default, cupcake;
+}
+
+/* Resizable panel styles */
+.resize-handle {
+    position: relative;
+}
+
+.resize-handle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(to bottom, transparent, hsl(var(--bc) / 0.3), transparent);
+    border-radius: 2px;
+}
+
+.resize-handle:hover::before {
+    background: linear-gradient(to bottom, transparent, hsl(var(--p)), transparent);
+}
+
+/* React Flow node styling */
+.react-flow__node-componentDetails {
+    border-radius: var(--xy-node-border-radius, var(--xy-node-border-radius-default));
+    width: 150px;
+    color: var(--xy-node-color, var(--xy-node-color-default));
+    text-align: center;
+    border: var(--xy-node-border, var(--xy-node-border-default));
+    background-color: var(--xy-node-background-color, var(--xy-node-background-color-default));
+    padding: 5px;
+    font-size: 12px;
+}
+
+.react-flow__node-componentDetails .label {
+    white-space: normal;
+}
+
+.react-flow__node-componentDetails .identifier {
+    font-size: 10px;
+    font-weight: bold;
+}
+
+/* focus state not necessary */
+/* .react-flow__node-componentDetails.selectable:focus {
+  box-shadow: 0px 0px 0px 4px var(--xy-theme-color-focus);
+  border-color: #8c1111;
+} */
+ 
+.react-flow__node-componentDetails.selectable:focus:active {
+  box-shadow: var(--xy-node-boxshadow-default);
+}
+ 
+.react-flow__node-componentDetails.selectable:hover,
+.react-flow__node-componentDetails.draggable:hover {
+  border-color: var(--xy-theme-hover);
+}
+ 
+.react-flow__node-componentDetails.selectable.selected {
+  border-color: var(--xy-theme-selected);
+  box-shadow: var(--xy-node-boxshadow-selected-default);
+}

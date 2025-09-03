@@ -46,7 +46,8 @@ export default pluginTs.config(
         },
         settings: {
             react: {
-                version: 'detect'
+                version: 'detect',
+                runtime: 'automatic'
             }
         },
         ...pluginReact.configs.flat.recommended,

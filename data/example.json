@@ -1,0 +1,1883 @@
+[
+  {
+    "id": "CR-001-FX",
+    "label": "Customer Portfolio Management Engine",
+    "description": "A system for managing customer portfolios.",
+    "facts": {
+      "businessCapabilities": [
+        "portfolio-management",
+        "customer-insights"
+      ],
+      "cmdb": {
+        "id": "CR-001-FX",
+        "name": "Customer Portfolio Management Engine",
+        "description": "A system for managing customer portfolios.",
+        "type": "application"
+      },
+      "cmdbFacts": {
+        "id": "CR-001-FX",
+        "name": "Customer Portfolio Management Engine",
+        "description": "A system for managing customer portfolios.",
+        "aliases": ["CPME", "Portfolio Engine"],
+        "solution": {
+          "id": "SOL-WEALTH",
+          "name": "Wealth Management Platform",
+          "link": "https://cmdb.example.com/solutions/SOL-WEALTH"
+        },
+        "subcomponents": [
+          {
+            "id": "DB-01",
+            "description": "Portfolio Database",
+            "link": "https://cmdb.example.com/components/DB-01"
+          },
+          {
+            "id": "AP-02",
+            "description": "Portfolio Analytics API",
+            "link": "https://cmdb.example.com/components/AP-02"
+          },
+          {
+            "id": "UI-03",
+            "description": "Portfolio Management Interface",
+            "link": "https://cmdb.example.com/components/UI-03"
+          }
+        ],
+        "applicationType": "web-application",
+        "applicationCategory": "core-business",
+        "businessCapabilities": ["portfolio-management", "customer-insights"],
+        "dataClassification": "confidential",
+        "architecturePattern": "layered",
+        "deploymentModel": "hybrid",
+        "status": "active",
+        "owner": {
+          "businessOwner": {
+            "name": "Sarah Martinez",
+            "email": "sarah.martinez@example.com",
+            "department": "Wealth Management"
+          },
+          "technicalOwner": {
+            "name": "Alice Johnson",
+            "email": "alice.johnson@example.com",
+            "team": "Medusa"
+          }
+        },
+        "costCenter": "WM-001",
+        "annualCost": {
+          "amount": 850000,
+          "currency": "USD"
+        },
+        "vendor": {
+          "name": "Internal Development",
+          "supportContact": "support@example.com"
+        },
+        "licenseModel": "open-source"
+      },
+      "git": {
+        "repositories": [
+          {
+            "url": "https://github.com/example/backend",
+            "description": "Backend repository",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 25 },
+                { "month": "2024-10", "commits": 18 },
+                { "month": "2024-11", "commits": 7 },
+                { "month": "2024-12", "commits": 40 },
+                { "month": "2025-01", "commits": 12 },
+                { "month": "2025-02", "commits": 80 },
+                { "month": "2025-03", "commits": 10 },
+                { "month": "2025-04", "commits": 52 },
+                { "month": "2025-05", "commits": 25 },
+                { "month": "2025-06", "commits": 45 },
+                { "month": "2025-07", "commits": 55 },
+                { "month": "2025-08", "commits": 38 }
+              ]
+            }
+          },
+          {
+            "url": "https://github.com/example/frontend",
+            "description": "Frontend repository",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 15 },
+                { "month": "2024-10", "commits": 8 },
+                { "month": "2024-11", "commits": 3 },
+                { "month": "2024-12", "commits": 20 },
+                { "month": "2025-01", "commits": 5 },
+                { "month": "2025-02", "commits": 35 },
+                { "month": "2025-03", "commits": 6 },
+                { "month": "2025-04", "commits": 25 },
+                { "month": "2025-05", "commits": 12 },
+                { "month": "2025-06", "commits": 20 },
+                { "month": "2025-07", "commits": 25 },
+                { "month": "2025-08", "commits": 18 }
+              ]
+            }
+          },
+          {
+            "url": "https://github.com/example/api",
+            "description": "API repository",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 5 },
+                { "month": "2024-10", "commits": 4 },
+                { "month": "2024-11", "commits": 2 },
+                { "month": "2024-12", "commits": 8 },
+                { "month": "2025-01", "commits": 2 },
+                { "month": "2025-02", "commits": 18 },
+                { "month": "2025-03", "commits": 2 },
+                { "month": "2025-04", "commits": 10 },
+                { "month": "2025-05", "commits": 5 },
+                { "month": "2025-06", "commits": 10 },
+                { "month": "2025-07", "commits": 11 },
+                { "month": "2025-08", "commits": 8 }
+              ]
+            }
+          }
+        ],
+        "lastCommit": "2025-08-25",
+        "topContributors": [
+          {
+            "name": "John Doe",
+            "email": "john.doe@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/1234567890"
+          },
+          {
+            "name": "Jane Smith",
+            "email": "jane.smith@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/0987654321"
+          }
+        ]
+      },
+      "techStack": [
+        {
+          "name": "Node.js",
+          "version": "16.x",
+          "source": "https://github.com/xyflow/xyflow/blob/main/packages/react/package.json"
+        },
+        {
+          "name": "React",
+          "version": "17.x",
+          "source": "https://github.com/xyflow/xyflow/blob/main/packages/react/package.json"
+        },
+        {
+          "name": "Express",
+          "version": "4.x",
+          "source": "https://github.com/xyflow/xyflow/blob/main/packages/express/package.json"
+        },
+        {
+          "name": "jQuery",
+          "version": "3.x",
+          "source": "https://github.com/xyflow/xyflow/blob/main/packages/frontend/package.json"
+        }
+      ],
+      "documents": [
+        {
+          "url": "https://docs.example.com/customer-portfolio-management/architecture",
+          "description": "Solution Architecture Document"
+        },
+        {
+          "url": "https://docs.example.com/customer-portfolio-management/api",
+          "description": "API Documentation"
+        },
+        {
+          "url": "https://docs.example.com/customer-portfolio-management/requirements",
+          "description": "Business Requirements Document"
+        }
+      ],
+      "links": [
+        {
+          "type": "kb",
+          "url": "https://docs.example.com/customer-portfolio-management"
+        }
+      ],
+      "apiSpecifications": [
+        {
+          "apiType": "REST",
+          "apiSpace": "customer-portfolio-management",
+          "specification": "https://api.example.com/customer-portfolio-management"
+        },
+        {
+          "apiType": "GraphQL",
+          "apiSpace": "customer-portfolio-management",
+          "specification": "https://api.example.com/customer-portfolio-management/graphql"
+        },
+        {
+          "apiType": "other",
+          "apiSpace": "customer-portfolio-management"
+        }
+      ],
+      "qualityMetrics": {
+        "codeCoveragePercentage": 87,
+        "linkToCoverageReport": "https://coverage.example.com/customer-portfolio-management",
+        "apiLintingIssues": {
+          "minor": 5,
+          "major": 2
+        }
+      },
+      "platforms": [
+        {
+          "type": "mainframe",
+          "comment": "Mainframe platform for managing customer portfolios"
+        },
+        {
+          "type": "azure",
+          "comment": "Certain functionality has been already migrated to Azure"
+        }
+      ],
+      "team": {
+        "teamName": "Medusa",
+        "kbSpaceLink": "https://confluence.example.com/spaces/MEDUSA/overview",
+        "solutionArchitect": {
+          "name": "Alice Johnson",
+          "email": "alice.johnson@example.com",
+          "avatarUrl": "https://www.gravatar.com/avatar/alicejohnson"
+        }
+      }
+    },
+
+    "layouts": {
+      "default": {
+        "x": 20,
+        "y": 30,
+        "nodeType": "componentDetails"
+      },
+      "team": {
+        "x": 40,
+        "y": 50,
+        "nodeType": "componentDetails"
+      }
+    }
+  },
+  {
+    "id": "TR-002-LM",
+    "label": "Trading Risk Assessment Gateway",
+    "description": "Real-time risk assessment and monitoring system for trading operations. Evaluates market exposure and provides automated risk alerts. Integrates with multiple trading platforms to ensure compliance with risk management policies.",
+    "facts": {
+      "businessCapabilities": [
+        "risk-assessment",
+        "trading-compliance",
+        "market-monitoring"
+      ],
+      "cmdb": {
+        "id": "TR-002-LM",
+        "name": "Trading Risk Assessment Gateway",
+        "description": "Gateway service that performs real-time risk calculations and regulatory compliance checks for all trading activities.",
+        "type": "application"
+      },
+      "cmdbFacts": {
+        "id": "TR-002-LM",
+        "name": "Trading Risk Assessment Gateway",
+        "description": "Gateway service that performs real-time risk calculations and regulatory compliance checks for all trading activities.",
+        "aliases": ["TRAG", "Risk Gateway"],
+        "solution": {
+          "id": "SOL-TRADING",
+          "name": "Trading Risk Management Suite",
+          "link": "https://cmdb.example.com/solutions/SOL-TRADING"
+        },
+        "subcomponents": [
+          {
+            "id": "RE-01",
+            "description": "Risk Calculation Engine",
+            "link": "https://cmdb.example.com/components/RE-01"
+          },
+          {
+            "id": "CR-02",
+            "description": "Compliance Rules Engine",
+            "link": "https://cmdb.example.com/components/CR-02"
+          },
+          {
+            "id": "AD-03",
+            "description": "Alert Distribution Service",
+            "link": "https://cmdb.example.com/components/AD-03"
+          }
+        ],
+        "applicationType": "api-service",
+        "applicationCategory": "core-business",
+        "businessCapabilities": ["risk-assessment", "trading-compliance", "market-monitoring"],
+        "dataClassification": "confidential",
+        "architecturePattern": "microservices",
+        "deploymentModel": "cloud",
+        "status": "active",
+        "owner": {
+          "businessOwner": {
+            "name": "Michael Thompson",
+            "email": "michael.thompson@example.com",
+            "department": "Trading Operations"
+          },
+          "technicalOwner": {
+            "name": "David Rodriguez",
+            "email": "david.rodriguez@example.com",
+            "team": "Phoenix"
+          }
+        },
+        "costCenter": "TRD-002",
+        "annualCost": {
+          "amount": 1200000,
+          "currency": "USD"
+        },
+        "vendor": {
+          "name": "Internal Development",
+          "supportContact": "trading-support@example.com"
+        },
+        "licenseModel": "commercial"
+      },
+      "git": {
+        "repositories": [
+          {
+            "url": "https://github.com/example/risk-engine",
+            "description": "Core risk calculation engine",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 5 },
+                { "month": "2024-10", "commits": 7 },
+                { "month": "2024-11", "commits": 3 },
+                { "month": "2024-12", "commits": 9 },
+                { "month": "2025-01", "commits": 2 },
+                { "month": "2025-02", "commits": 5 },
+                { "month": "2025-03", "commits": 4 },
+                { "month": "2025-04", "commits": 6 },
+                { "month": "2025-05", "commits": 2 },
+                { "month": "2025-06", "commits": 0 },
+                { "month": "2025-07", "commits": 0 },
+                { "month": "2025-08", "commits": 1 }
+              ]
+            }
+          },
+          {
+            "url": "https://github.com/example/compliance-rules",
+            "description": "Regulatory compliance rules repository",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 2 },
+                { "month": "2024-10", "commits": 3 },
+                { "month": "2024-11", "commits": 1 },
+                { "month": "2024-12", "commits": 4 },
+                { "month": "2025-01", "commits": 1 },
+                { "month": "2025-02", "commits": 2 },
+                { "month": "2025-03", "commits": 2 },
+                { "month": "2025-04", "commits": 3 },
+                { "month": "2025-05", "commits": 1 },
+                { "month": "2025-06", "commits": 0 },
+                { "month": "2025-07", "commits": 0 },
+                { "month": "2025-08", "commits": 1 }
+              ]
+            }
+          },
+          {
+            "url": "https://github.com/example/risk-dashboard",
+            "description": "Risk monitoring dashboard",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 1 },
+                { "month": "2024-10", "commits": 2 },
+                { "month": "2024-11", "commits": 1 },
+                { "month": "2024-12", "commits": 2 },
+                { "month": "2025-01", "commits": 0 },
+                { "month": "2025-02", "commits": 2 },
+                { "month": "2025-03", "commits": 1 },
+                { "month": "2025-04", "commits": 2 },
+                { "month": "2025-05", "commits": 1 },
+                { "month": "2025-06", "commits": 0 },
+                { "month": "2025-07", "commits": 0 },
+                { "month": "2025-08", "commits": 0 }
+              ]
+            }
+          }
+        ],
+        "lastCommit": "2025-08-28",
+        "topContributors": [
+          {
+            "name": "Michael Chen",
+            "email": "michael.chen@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/michaelchen"
+          },
+          {
+            "name": "Sarah Williams",
+            "email": "sarah.williams@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/sarahwilliams"
+          }
+        ]
+      },
+      "techStack": [
+        {
+          "name": "Java",
+          "version": "11",
+          "source": "https://github.com/example/risk-engine/blob/main/pom.xml"
+        },
+        {
+          "name": "Spring Boot",
+          "version": "2.x",
+          "source": "https://github.com/example/risk-engine/blob/main/pom.xml"
+        },
+        {
+          "name": "Redis",
+          "version": "6.x",
+          "source": "https://github.com/example/risk-engine/blob/main/docker-compose.yml"
+        },
+        {
+          "name": "Apache Struts",
+          "version": "2.5.x",
+          "source": "https://github.com/example/risk-engine/blob/main/pom.xml"
+        }
+      ],
+      "documents": [
+        {
+          "url": "https://docs.example.com/trading-risk-assessment/architecture",
+          "description": "System Architecture Document"
+        },
+        {
+          "url": "https://docs.example.com/trading-risk-assessment/compliance",
+          "description": "Regulatory Compliance Guide"
+        },
+        {
+          "url": "https://docs.example.com/trading-risk-assessment/user-manual",
+          "description": "User Manual"
+        },
+        {
+          "url": "https://docs.example.com/trading-risk-assessment/deployment",
+          "description": "Deployment Guide"
+        }
+      ],
+      "links": [
+        {
+          "type": "kb",
+          "url": "https://docs.example.com/trading-risk-assessment"
+        }
+      ],
+      "apiSpecifications": [
+        {
+          "apiType": "REST",
+          "apiSpace": "trading-risk"
+        },
+        {
+          "apiType": "SOAP",
+          "apiSpace": "trading-risk",
+          "specification": "https://api.example.com/trading-risk/wsdl"
+        }
+      ],
+      "qualityMetrics": {
+        "codeCoveragePercentage": 92,
+        "linkToCoverageReport": "https://coverage.example.com/trading-risk-assessment",
+        "apiLintingIssues": {
+          "minor": 3,
+          "major": 1
+        }
+      },
+      "platforms": [
+        {
+          "type": "azure",
+          "comment": "Deployed on Azure infrastructure for scalability and real-time processing"
+        }
+      ],
+      "team": {
+        "teamName": "Phoenix",
+        "kbSpaceLink": "https://confluence.example.com/spaces/PHOENIX/overview",
+        "solutionArchitect": {
+          "name": "David Rodriguez",
+          "email": "david.rodriguez@example.com",
+          "avatarUrl": "https://www.gravatar.com/avatar/davidrodriguez"
+        }
+      }
+    },
+    "layouts": {
+      "default": {
+        "x": 120,
+        "y": 130,
+        "nodeType": "componentDetails"
+      },
+      "team": {
+        "x": 140,
+        "y": 150,
+        "nodeType": "componentDetails"
+      }
+    }
+  },
+  {
+    "id": "AC-003-BP",
+    "label": "Account Reconciliation Service",
+    "description": "Automated reconciliation engine that matches transactions across multiple banking systems. Identifies discrepancies and generates exception reports for manual review.",
+    "facts": {
+      "businessCapabilities": [
+        "account-reconciliation",
+        "transaction-matching",
+        "exception-handling"
+      ],
+      "cmdb": {
+        "id": "AC-003-BP",
+        "name": "Account Reconciliation Service",
+        "description": "Microservice responsible for daily reconciliation processes across all account types and transaction sources.",
+        "type": "application"
+      },
+      "cmdbFacts": {
+        "id": "AC-003-BP",
+        "name": "Account Reconciliation Service",
+        "description": "Microservice responsible for daily reconciliation processes across all account types and transaction sources.",
+        "aliases": ["ARS", "Recon Service"],
+        "solution": {
+          "id": "SOL-ACCOUNTING",
+          "name": "Financial Accounting Platform",
+          "link": "https://cmdb.example.com/solutions/SOL-ACCOUNTING"
+        },
+        "subcomponents": [
+          {
+            "id": "RC-01",
+            "description": "Reconciliation Core Engine",
+            "link": "https://cmdb.example.com/components/RC-01"
+          },
+          {
+            "id": "MR-02",
+            "description": "Matching Rules Engine",
+            "link": "https://cmdb.example.com/components/MR-02"
+          },
+          {
+            "id": "ER-03",
+            "description": "Exception Reporting Service",
+            "link": "https://cmdb.example.com/components/ER-03"
+          }
+        ],
+        "applicationType": "api-service",
+        "applicationCategory": "supporting",
+        "businessCapabilities": ["account-reconciliation", "transaction-matching", "exception-handling"],
+        "dataClassification": "internal",
+        "architecturePattern": "microservices",
+        "deploymentModel": "hybrid",
+        "status": "active",
+        "owner": {
+          "businessOwner": {
+            "name": "Robert Chen",
+            "email": "robert.chen@example.com",
+            "department": "Finance Operations"
+          },
+          "technicalOwner": {
+            "name": "Lisa Park",
+            "email": "lisa.park@example.com",
+            "team": "Atlas"
+          }
+        },
+        "costCenter": "FIN-003",
+        "annualCost": {
+          "amount": 450000,
+          "currency": "USD"
+        },
+        "vendor": {
+          "name": "Internal Development",
+          "supportContact": "finance-support@example.com"
+        },
+        "licenseModel": "open-source"
+      },
+      "git": {
+        "repositories": [
+          {
+            "url": "https://github.com/example/reconciliation-core",
+            "description": "Core reconciliation algorithms",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 15 },
+                { "month": "2024-10", "commits": 28 },
+                { "month": "2024-11", "commits": 41 },
+                { "month": "2024-12", "commits": 22 },
+                { "month": "2025-01", "commits": 35 },
+                { "month": "2025-02", "commits": 48 },
+                { "month": "2025-03", "commits": 75 },
+                { "month": "2025-04", "commits": 55 },
+                { "month": "2025-05", "commits": 28 },
+                { "month": "2025-06", "commits": 41 },
+                { "month": "2025-07", "commits": 22 },
+                { "month": "2025-08", "commits": 35 }
+              ]
+            }
+          },
+          {
+            "url": "https://github.com/example/matching-rules",
+            "description": "Transaction matching rules engine",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 8 },
+                { "month": "2024-10", "commits": 17 },
+                { "month": "2024-11", "commits": 26 },
+                { "month": "2024-12", "commits": 12 },
+                { "month": "2025-01", "commits": 21 },
+                { "month": "2025-02", "commits": 30 },
+                { "month": "2025-03", "commits": 48 },
+                { "month": "2025-04", "commits": 34 },
+                { "month": "2025-05", "commits": 17 },
+                { "month": "2025-06", "commits": 26 },
+                { "month": "2025-07", "commits": 12 },
+                { "month": "2025-08", "commits": 21 }
+              ]
+            }
+          }
+        ],
+        "lastCommit": "2025-08-29",
+        "topContributors": [
+          {
+            "name": "Emma Thompson",
+            "email": "emma.thompson@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/emmathompson"
+          },
+          {
+            "name": "Robert Davis",
+            "email": "robert.davis@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/robertdavis"
+          }
+        ]
+      },
+      "techStack": [
+        {
+          "name": "Python",
+          "version": "3.11",
+          "source": "https://github.com/example/reconciliation-core/blob/main/requirements.txt"
+        },
+        {
+          "name": "Django",
+          "version": "4.2",
+          "source": "https://github.com/example/reconciliation-core/blob/main/requirements.txt"
+        },
+        {
+          "name": "PostgreSQL",
+          "version": "15.x",
+          "source": "https://github.com/example/reconciliation-core/blob/main/docker-compose.yml"
+        }
+      ],
+      "documents": [
+        {
+          "url": "https://docs.example.com/account-reconciliation/design",
+          "description": "Technical Design Document"
+        },
+        {
+          "url": "https://docs.example.com/account-reconciliation/testing",
+          "description": "Test Plan and Results"
+        }
+      ],
+      "links": [
+        {
+          "type": "kb",
+          "url": "https://docs.example.com/account-reconciliation"
+        }
+      ],
+      "apiSpecifications": [
+        {
+          "apiType": "GraphQL",
+          "apiSpace": "account-reconciliation",
+          "specification": "https://api.example.com/account-reconciliation/graphql/schema"
+        }
+      ],
+      "qualityMetrics": {
+        "codeCoveragePercentage": 78,
+        "linkToCoverageReport": "https://coverage.example.com/account-reconciliation",
+        "apiLintingIssues": {
+          "minor": 8,
+          "major": 3
+        }
+      },
+      "platforms": [
+        {
+          "type": "onprem",
+          "comment": "Running on on-premises infrastructure for data security compliance"
+        },
+        {
+          "type": "azure",
+          "comment": "Migrating batch processing components to Azure for better scalability"
+        }
+      ],
+      "team": {
+        "teamName": "Atlas",
+        "kbSpaceLink": "https://confluence.example.com/spaces/ATLAS/overview",
+        "solutionArchitect": {
+          "name": "Lisa Park",
+          "email": "lisa.park@example.com",
+          "avatarUrl": "https://www.gravatar.com/avatar/lisapark"
+        }
+      }
+    },
+    "layouts": {
+      "default": {
+        "x": 220,
+        "y": 230,
+        "nodeType": "componentDetails"
+      },
+      "team": {
+        "x": 240,
+        "y": 250,
+        "nodeType": "componentDetails"
+      }
+    }
+  },
+  {
+    "id": "PY-004-MN",
+    "label": "Payment Processing Hub",
+    "description": "Central payment orchestration platform handling multiple payment methods and channels. Processes millions of transactions daily with real-time fraud detection. Supports both domestic and international payment networks.",
+    "facts": {
+      "businessCapabilities": [
+        "payment-processing",
+        "fraud-detection",
+        "multi-channel-payments"
+      ],
+      "cmdb": {
+        "id": "PY-004-MN",
+        "name": "Payment Processing Hub",
+        "description": "High-throughput payment processing system with integrated fraud detection and multi-network routing capabilities.",
+        "type": "application"
+      },
+      "cmdbFacts": {
+        "id": "PY-004-MN",
+        "name": "Payment Processing Hub",
+        "description": "High-throughput payment processing system with integrated fraud detection and multi-network routing capabilities.",
+        "aliases": ["PPH", "Payment Hub", "Pay Gateway"],
+        "solution": {
+          "id": "SOL-PAYMENTS",
+          "name": "Digital Payment Infrastructure",
+          "link": "https://cmdb.example.com/solutions/SOL-PAYMENTS"
+        },
+        "subcomponents": [
+          {
+            "id": "PG-01",
+            "description": "Payment Gateway Core",
+            "link": "https://cmdb.example.com/components/PG-01"
+          },
+          {
+            "id": "FE-02",
+            "description": "Fraud Detection Engine",
+            "link": "https://cmdb.example.com/components/FE-02"
+          },
+          {
+            "id": "PR-03",
+            "description": "Payment Router",
+            "link": "https://cmdb.example.com/components/PR-03"
+          },
+          {
+            "id": "SM-04",
+            "description": "Settlement Manager",
+            "link": "https://cmdb.example.com/components/SM-04"
+          }
+        ],
+        "applicationType": "api-service",
+        "applicationCategory": "core-business",
+        "businessCapabilities": ["payment-processing", "fraud-detection", "multi-channel-payments"],
+        "dataClassification": "confidential",
+        "architecturePattern": "microservices",
+        "deploymentModel": "cloud",
+        "status": "active",
+        "owner": {
+          "businessOwner": {
+            "name": "Maria Rodriguez",
+            "email": "maria.rodriguez@example.com",
+            "department": "Payment Operations"
+          },
+          "technicalOwner": {
+            "name": "James Wilson",
+            "email": "james.wilson@example.com",
+            "team": "Hermes"
+          }
+        },
+        "costCenter": "PAY-004",
+        "annualCost": {
+          "amount": 2500000,
+          "currency": "USD"
+        },
+        "vendor": {
+          "name": "Internal Development",
+          "supportContact": "payments-support@example.com"
+        },
+        "licenseModel": "commercial"
+      },
+      "git": {
+        "repositories": [
+          {
+            "url": "https://github.com/example/payment-gateway",
+            "description": "Payment gateway and routing logic",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 85 },
+                { "month": "2024-10", "commits": 110 },
+                { "month": "2024-11", "commits": 96 },
+                { "month": "2024-12", "commits": 127 },
+                { "month": "2025-01", "commits": 102 },
+                { "month": "2025-02", "commits": 144 },
+                { "month": "2025-03", "commits": 107 },
+                { "month": "2025-04", "commits": 120 },
+                { "month": "2025-05", "commits": 78 },
+                { "month": "2025-06", "commits": 102 },
+                { "month": "2025-07", "commits": 90 },
+                { "month": "2025-08", "commits": 109 }
+              ]
+            }
+          },
+          {
+            "url": "https://github.com/example/fraud-engine",
+            "description": "Real-time fraud detection engine",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 45 },
+                { "month": "2024-10", "commits": 58 },
+                { "month": "2024-11", "commits": 51 },
+                { "month": "2024-12", "commits": 67 },
+                { "month": "2025-01", "commits": 54 },
+                { "month": "2025-02", "commits": 76 },
+                { "month": "2025-03", "commits": 57 },
+                { "month": "2025-04", "commits": 64 },
+                { "month": "2025-05", "commits": 42 },
+                { "month": "2025-06", "commits": 54 },
+                { "month": "2025-07", "commits": 48 },
+                { "month": "2025-08", "commits": 58 }
+              ]
+            }
+          },
+          {
+            "url": "https://github.com/example/payment-ui",
+            "description": "Payment processing dashboard",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 26 },
+                { "month": "2024-10", "commits": 35 },
+                { "month": "2024-11", "commits": 31 },
+                { "month": "2024-12", "commits": 40 },
+                { "month": "2025-01", "commits": 33 },
+                { "month": "2025-02", "commits": 47 },
+                { "month": "2025-03", "commits": 34 },
+                { "month": "2025-04", "commits": 39 },
+                { "month": "2025-05", "commits": 25 },
+                { "month": "2025-06", "commits": 33 },
+                { "month": "2025-07", "commits": 29 },
+                { "month": "2025-08", "commits": 34 }
+              ]
+            }
+          }
+        ],
+        "lastCommit": "2025-08-30",
+        "topContributors": [
+          {
+            "name": "Kevin Zhang",
+            "email": "kevin.zhang@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/kevinzhang"
+          },
+          {
+            "name": "Maria Garcia",
+            "email": "maria.garcia@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/mariagarcia"
+          }
+        ]
+      },
+      "techStack": [
+        {
+          "name": "Go",
+          "version": "1.21",
+          "source": "https://github.com/example/payment-gateway/blob/main/go.mod"
+        },
+        {
+          "name": "Kubernetes",
+          "version": "1.28",
+          "source": "https://github.com/example/payment-gateway/blob/main/k8s/deployment.yaml"
+        },
+        {
+          "name": "MongoDB",
+          "version": "7.0",
+          "source": "https://github.com/example/payment-gateway/blob/main/docker-compose.yml"
+        }
+      ],
+      "documents": [
+        {
+          "url": "https://docs.example.com/payment-processing-hub/architecture",
+          "description": "System Architecture Document"
+        },
+        {
+          "url": "https://docs.example.com/payment-processing-hub/integration",
+          "description": "Integration Guide"
+        },
+        {
+          "url": "https://docs.example.com/payment-processing-hub/security",
+          "description": "Security Requirements"
+        },
+        {
+          "url": "https://docs.example.com/payment-processing-hub/operations",
+          "description": "Operations Manual"
+        },
+        {
+          "url": "https://docs.example.com/payment-processing-hub/runbook",
+          "description": "Production Runbook"
+        }
+      ],
+      "links": [
+        {
+          "type": "kb",
+          "url": "https://docs.example.com/payment-processing-hub"
+        }
+      ],
+      "apiSpecifications": [
+        {
+          "apiType": "REST",
+          "apiSpace": "payment-processing",
+          "specification": "https://api.example.com/payment-processing/openapi.json"
+        },
+        {
+          "apiType": "GraphQL",
+          "apiSpace": "payment-processing",
+          "specification": "https://api.example.com/payment-processing/graphql/schema.graphql"
+        },
+        {
+          "apiType": "SOAP",
+          "apiSpace": "payment-processing"
+        },
+        {
+          "apiType": "other",
+          "apiSpace": "payment-processing",
+          "specification": "https://api.example.com/payment-processing/custom.xml"
+        }
+      ],
+      "qualityMetrics": {
+        "codeCoveragePercentage": 95,
+        "linkToCoverageReport": "https://coverage.example.com/payment-processing-hub",
+        "apiLintingIssues": {
+          "minor": 2,
+          "major": 0
+        }
+      },
+      "platforms": [
+        {
+          "type": "azure",
+          "comment": "Fully Azure-native deployment for global scalability and high availability"
+        }
+      ],
+      "team": {
+        "teamName": "Hermes",
+        "kbSpaceLink": "https://confluence.example.com/spaces/HERMES/overview",
+        "solutionArchitect": {
+          "name": "James Wilson",
+          "email": "james.wilson@example.com",
+          "avatarUrl": "https://www.gravatar.com/avatar/jameswilson"
+        }
+      },
+      "kafka": {
+        "publishingToTopics": [
+          "payment.events.processed",
+          "payment.events.failed",
+          "payment.events.retry",
+          "fraud.alerts.high",
+          "fraud.alerts.medium",
+          "fraud.alerts.low",
+          "transaction.confirmations.success",
+          "transaction.confirmations.pending",
+          "payment.routing.domestic",
+          "payment.routing.international",
+          "payment.reconciliation.completed",
+          "payment.reconciliation.failed",
+          "payment.notifications.customer",
+          "payment.notifications.merchant",
+          "payment.compliance.aml",
+          "payment.compliance.kyc",
+          "payment.settlement.batch",
+          "payment.settlement.realtime",
+          "payment.audit.trail"
+        ],
+        "listeningToTopics": [
+          "payment.requests.incoming",
+          "payment.requests.scheduled",
+          "payment.requests.recurring",
+          "account.updates.balance",
+          "account.updates.status",
+          "account.updates.profile",
+          "risk.scores.realtime",
+          "risk.scores.batch",
+          "merchant.onboarding.events",
+          "merchant.status.changes",
+          "fraud.model.updates",
+          "fraud.rules.changes",
+          "currency.exchange.rates",
+          "regulatory.compliance.updates",
+          "bank.network.status",
+          "payment.gateway.health",
+          "customer.preferences.updates",
+          "system.configuration.changes"
+        ]
+      }
+    },
+    "layouts": {
+      "default": {
+        "x": 320,
+        "y": 330,
+        "nodeType": "componentDetails"
+      },
+      "team": {
+        "x": 340,
+        "y": 350,
+        "nodeType": "componentDetails"
+      }
+    }
+  },
+  {
+    "id": "LN-005-QR",
+    "label": "Loan Origination Platform",
+    "description": "End-to-end loan application processing system with automated underwriting capabilities. Integrates with credit bureaus and regulatory compliance frameworks.",
+    "facts": {
+      "businessCapabilities": [
+        "loan-origination",
+        "credit-assessment",
+        "underwriting-automation"
+      ],
+      "cmdb": {
+        "id": "LN-005-QR",
+        "name": "Loan Origination Platform",
+        "description": "Legacy COBOL-based loan origination system with modern API interfaces for digital banking integration.",
+        "type": "application"
+      },
+      "cmdbFacts": {
+        "id": "LN-005-QR",
+        "name": "Loan Origination Platform",
+        "description": "Legacy COBOL-based loan origination system with modern API interfaces for digital banking integration.",
+        "aliases": ["LOP", "Loan Platform", "COBOL Loan System"],
+        "solution": {
+          "id": "SOL-LENDING",
+          "name": "Consumer Lending Suite",
+          "link": "https://cmdb.example.com/solutions/SOL-LENDING"
+        },
+        "subcomponents": [
+          {
+            "id": "LC-01",
+            "description": "Legacy COBOL Core",
+            "link": "https://cmdb.example.com/components/LC-01"
+          },
+          {
+            "id": "AW-02",
+            "description": "API Wrapper Service",
+            "link": "https://cmdb.example.com/components/AW-02"
+          },
+          {
+            "id": "UE-03",
+            "description": "Underwriting Engine",
+            "link": "https://cmdb.example.com/components/UE-03"
+          }
+        ],
+        "applicationType": "web-application",
+        "applicationCategory": "core-business",
+        "businessCapabilities": ["loan-origination", "credit-assessment", "underwriting-automation"],
+        "dataClassification": "confidential",
+        "architecturePattern": "monolith",
+        "deploymentModel": "hybrid",
+        "status": "active",
+        "owner": {
+          "businessOwner": {
+            "name": "Patricia Williams",
+            "email": "patricia.williams@example.com",
+            "department": "Consumer Lending"
+          },
+          "technicalOwner": {
+            "name": "Jennifer Kim",
+            "email": "jennifer.kim@example.com",
+            "team": "Titan"
+          }
+        },
+        "costCenter": "LEN-005",
+        "annualCost": {
+          "amount": 1800000,
+          "currency": "USD"
+        },
+        "vendor": {
+          "name": "IBM",
+          "supportContact": "ibm-support@example.com",
+          "contractEndDate": "2026-12-31"
+        },
+        "licenseModel": "commercial"
+      },
+      "git": {
+        "repositories": [
+          {
+            "url": "https://github.com/example/loan-api-wrapper",
+            "description": "Modern API wrapper for legacy loan system",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08", 
+              "data": [
+                { "month": "2024-09", "commits": 8 },
+                { "month": "2024-10", "commits": 12 },
+                { "month": "2024-11", "commits": 15 },
+                { "month": "2024-12", "commits": 10 },
+                { "month": "2025-01", "commits": 19 },
+                { "month": "2025-02", "commits": 22 },
+                { "month": "2025-03", "commits": 18 },
+                { "month": "2025-04", "commits": 20 },
+                { "month": "2025-05", "commits": 12 },
+                { "month": "2025-06", "commits": 16 },
+                { "month": "2025-07", "commits": 14 },
+                { "month": "2025-08", "commits": 18 }
+              ]
+            }
+          },
+          {
+            "url": "https://github.com/example/underwriting-rules",
+            "description": "Automated underwriting decision engine",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08", 
+              "data": [
+                { "month": "2024-09", "commits": 4 },
+                { "month": "2024-10", "commits": 6 },
+                { "month": "2024-11", "commits": 8 },
+                { "month": "2024-12", "commits": 5 },
+                { "month": "2025-01", "commits": 10 },
+                { "month": "2025-02", "commits": 12 },
+                { "month": "2025-03", "commits": 9 },
+                { "month": "2025-04", "commits": 11 },
+                { "month": "2025-05", "commits": 7 },
+                { "month": "2025-06", "commits": 9 },
+                { "month": "2025-07", "commits": 8 },
+                { "month": "2025-08", "commits": 10 }
+              ]
+            }
+          }
+        ],
+        "lastCommit": "2025-08-27",
+        "topContributors": [
+          {
+            "name": "Patricia Lee",
+            "email": "patricia.lee@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/patricialee"
+          },
+          {
+            "name": "Thomas Brown",
+            "email": "thomas.brown@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/thomasbrown"
+          }
+        ]
+      },
+      "techStack": [
+        {
+          "name": "COBOL",
+          "version": "Enterprise COBOL 6.4",
+          "source": "https://github.com/example/loan-origination/blob/main/copybooks/LOAN001.cbl"
+        },
+        {
+          "name": "CICS",
+          "version": "6.1",
+          "source": "https://github.com/example/loan-origination/blob/main/config/cics.xml"
+        },
+        {
+          "name": "DB2",
+          "version": "12.1",
+          "source": "https://github.com/example/loan-origination/blob/main/sql/schema.sql"
+        }
+      ],
+      "documents": [
+        {
+          "url": "https://docs.example.com/loan-origination-platform/legacy-docs",
+          "description": "Legacy System Documentation"
+        },
+        {
+          "url": "https://docs.example.com/loan-origination-platform/modernization",
+          "description": "Modernization Roadmap"
+        },
+        {
+          "url": "https://docs.example.com/loan-origination-platform/requirements",
+          "description": "Functional Requirements"
+        }
+      ],
+      "links": [
+        {
+          "type": "kb",
+          "url": "https://docs.example.com/loan-origination-platform"
+        }
+      ],
+      "apiSpecifications": [
+        {
+          "apiType": "SOAP",
+          "apiSpace": "loan-origination",
+          "specification": "https://api.example.com/loan-origination/services.wsdl"
+        },
+        {
+          "apiType": "REST",
+          "apiSpace": "loan-origination",
+          "specification": "https://api.example.com/loan-origination/v2/openapi.yaml"
+        }
+      ],
+      "qualityMetrics": {
+        "codeCoveragePercentage": 65,
+        "linkToCoverageReport": "https://coverage.example.com/loan-origination-platform",
+        "apiLintingIssues": {
+          "minor": 12,
+          "major": 5
+        }
+      },
+      "platforms": [
+        {
+          "type": "mainframe",
+          "comment": "Core loan processing runs on z/OS mainframe for regulatory compliance and data integrity"
+        },
+        {
+          "type": "azure",
+          "comment": "New digital interfaces and APIs deployed on Azure for modern channel integration"
+        }
+      ],
+      "team": {
+        "teamName": "Titan",
+        "kbSpaceLink": "https://confluence.example.com/spaces/TITAN/overview",
+        "solutionArchitect": {
+          "name": "Jennifer Kim",
+          "email": "jennifer.kim@example.com",
+          "avatarUrl": "https://www.gravatar.com/avatar/jenniferkim"
+        }
+      }
+    },
+    "layouts": {
+      "default": {
+        "x": 420,
+        "y": 430,
+        "nodeType": "componentDetails"
+      },
+      "team": {
+        "x": 440,
+        "y": 450,
+        "nodeType": "componentDetails"
+      }
+    }
+  },
+  {
+    "id": "CR-006-LG",
+    "label": "Legacy Account Processing System",
+    "description": "Legacy mainframe system for account processing and transaction management.",
+    "facts": {
+      "businessCapabilities": [
+        "account-processing",
+        "transaction-management"
+      ],
+      "cmdb": {
+        "id": "CR-006-LG",
+        "name": "Legacy Account Processing System",
+        "description": "Legacy mainframe system for account processing and transaction management.",
+        "type": "application"
+      },
+      "cmdbFacts": {
+        "id": "CR-006-LG",
+        "name": "Legacy Account Processing System",
+        "description": "Legacy mainframe system for account processing and transaction management.",
+        "aliases": ["LAPS", "Legacy Account System"],
+        "solution": {
+          "id": "SOL-LEGACY",
+          "name": "Legacy Banking Operations",
+          "link": "https://cmdb.example.com/solutions/SOL-LEGACY"
+        },
+        "subcomponents": [
+          {
+            "id": "MF-01",
+            "description": "Mainframe Core Processing",
+            "link": "https://cmdb.example.com/components/MF-01"
+          },
+          {
+            "id": "UI-02",
+            "description": "Legacy User Interface",
+            "link": "https://cmdb.example.com/components/UI-02"
+          }
+        ],
+        "applicationType": "web-application",
+        "applicationCategory": "core-business",
+        "businessCapabilities": ["account-processing", "transaction-management"],
+        "dataClassification": "confidential",
+        "architecturePattern": "monolith",
+        "deploymentModel": "on-premises",
+        "status": "decommissioned",
+        "owner": {
+          "businessOwner": {
+            "name": "Legacy System Manager",
+            "email": "legacy.manager@example.com",
+            "department": "IT Operations"
+          }
+        },
+        "costCenter": "LEG-006",
+        "annualCost": {
+          "amount": 300000,
+          "currency": "USD"
+        },
+        "vendor": {
+          "name": "IBM",
+          "supportContact": "legacy-support@example.com",
+          "contractEndDate": "2024-12-31"
+        },
+        "licenseModel": "commercial"
+      },
+      "git": {
+        "repositories": [
+          {
+            "url": "https://github.com/example/legacy-account-processing",
+            "description": "Legacy system repository",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08", 
+              "data": [
+                { "month": "2024-09", "commits": 0 },
+                { "month": "2024-10", "commits": 0 },
+                { "month": "2024-11", "commits": 0 },
+                { "month": "2024-12", "commits": 0 },
+                { "month": "2025-01", "commits": 0 },
+                { "month": "2025-02", "commits": 0 },
+                { "month": "2025-03", "commits": 0 },
+                { "month": "2025-04", "commits": 0 },
+                { "month": "2025-05", "commits": 0 },
+                { "month": "2025-06", "commits": 0 },
+                { "month": "2025-07", "commits": 0 },
+                { "month": "2025-08", "commits": 0 }
+              ]
+            }
+          }
+        ],
+        "lastCommit": "2024-05-15",
+        "topContributors": []
+      },
+      "techStack": [
+        {
+          "name": "AngularJS",
+          "version": "1.6.x",
+          "source": "https://github.com/example/legacy-account-processing/blob/main/package.json"
+        },
+        {
+          "name": "jQuery",
+          "version": "2.1.x",
+          "source": "https://github.com/example/legacy-account-processing/blob/main/package.json"
+        },
+        {
+          "name": "CoffeeScript",
+          "version": "1.12.x",
+          "source": "https://github.com/example/legacy-account-processing/blob/main/package.json"
+        },
+        {
+          "name": "Bower",
+          "version": "1.8.x",
+          "source": "https://github.com/example/legacy-account-processing/blob/main/bower.json"
+        },
+        {
+          "name": "Node.js",
+          "version": "14.x",
+          "source": "https://github.com/example/legacy-account-processing/blob/main/package.json"
+        }
+      ],
+      "documents": [
+        {
+          "url": "https://docs.example.com/legacy-account-processing/system-docs",
+          "description": "Legacy System Documentation"
+        }
+      ],
+      "links": [
+        {
+          "type": "kb",
+          "url": "https://docs.example.com/legacy-account-processing"
+        }
+      ],
+      "qualityMetrics": {
+        "codeCoveragePercentage": 25,
+        "linkToCoverageReport": "https://coverage.example.com/legacy-account-processing",
+        "apiLintingIssues": {
+          "minor": 45,
+          "major": 12
+        }
+      },
+      "platforms": [
+        {
+          "type": "mainframe",
+          "comment": "Running on IBM z/OS"
+        }
+      ]
+    },
+    "layouts": {
+      "default": {
+        "x": 520,
+        "y": 130,
+        "nodeType": "componentDetails"
+      }
+    }
+  },
+  {
+    "id": "CR-007-ML",
+    "label": "Machine Learning Fraud Detection",
+    "description": "Advanced ML system for real-time fraud detection and risk assessment in banking transactions.",
+    "facts": {
+      "businessCapabilities": [
+        "fraud-detection",
+        "risk-assessment",
+        "machine-learning"
+      ],
+      "cmdb": {
+        "id": "CR-007-ML",
+        "name": "Machine Learning Fraud Detection",
+        "description": "Advanced ML system for real-time fraud detection and risk assessment in banking transactions.",
+        "type": "application"
+      },
+      "cmdbFacts": {
+        "id": "CR-007-ML",
+        "name": "Machine Learning Fraud Detection",
+        "description": "Advanced ML system for real-time fraud detection and risk assessment in banking transactions.",
+        "aliases": ["MLFD", "Fraud ML", "AI Fraud Detection"],
+        "solution": {
+          "id": "SOL-SECURITY",
+          "name": "Financial Security & Risk Platform",
+          "link": "https://cmdb.example.com/solutions/SOL-SECURITY"
+        },
+        "subcomponents": [
+          {
+            "id": "ML-01",
+            "description": "ML Model Training Pipeline",
+            "link": "https://cmdb.example.com/components/ML-01"
+          },
+          {
+            "id": "FD-02",
+            "description": "Fraud Detection Service",
+            "link": "https://cmdb.example.com/components/FD-02"
+          },
+          {
+            "id": "RS-03",
+            "description": "Risk Scoring Engine",
+            "link": "https://cmdb.example.com/components/RS-03"
+          }
+        ],
+        "applicationType": "api-service",
+        "applicationCategory": "security",
+        "businessCapabilities": ["fraud-detection", "risk-assessment", "machine-learning"],
+        "dataClassification": "confidential",
+        "architecturePattern": "microservices",
+        "deploymentModel": "cloud",
+        "status": "active",
+        "owner": {
+          "businessOwner": {
+            "name": "Dr. Emily Chen",
+            "email": "emily.chen@example.com",
+            "department": "Risk Management"
+          },
+          "technicalOwner": {
+            "name": "Alice Johnson",
+            "email": "alice.johnson@example.com",
+            "team": "Data Science Team"
+          }
+        },
+        "costCenter": "SEC-007",
+        "annualCost": {
+          "amount": 950000,
+          "currency": "USD"
+        },
+        "vendor": {
+          "name": "Microsoft Azure",
+          "supportContact": "azure-support@microsoft.com",
+          "contractEndDate": "2025-12-31"
+        },
+        "licenseModel": "saas"
+      },
+      "git": {
+        "repositories": [
+          {
+            "url": "https://github.com/example/ml-fraud-detection",
+            "description": "ML fraud detection service",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 45 },
+                { "month": "2024-10", "commits": 49 },
+                { "month": "2024-11", "commits": 57 },
+                { "month": "2024-12", "commits": 41 },
+                { "month": "2025-01", "commits": 43 },
+                { "month": "2025-02", "commits": 53 },
+                { "month": "2025-03", "commits": 56 },
+                { "month": "2025-04", "commits": 61 },
+                { "month": "2025-05", "commits": 53 },
+                { "month": "2025-06", "commits": 46 },
+                { "month": "2025-07", "commits": 50 },
+                { "month": "2025-08", "commits": 55 }
+              ]
+            }
+          },
+          {
+            "url": "https://github.com/example/ml-model-training",
+            "description": "Model training pipeline",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 30 },
+                { "month": "2024-10", "commits": 33 },
+                { "month": "2024-11", "commits": 38 },
+                { "month": "2024-12", "commits": 27 },
+                { "month": "2025-01", "commits": 28 },
+                { "month": "2025-02", "commits": 36 },
+                { "month": "2025-03", "commits": 37 },
+                { "month": "2025-04", "commits": 41 },
+                { "month": "2025-05", "commits": 35 },
+                { "month": "2025-06", "commits": 30 },
+                { "month": "2025-07", "commits": 34 },
+                { "month": "2025-08", "commits": 36 }
+              ]
+            }
+          }
+        ],
+        "lastCommit": "2025-08-30",
+        "topContributors": [
+          {
+            "name": "Alice Johnson",
+            "email": "alice.johnson@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/9988776655"
+          },
+          {
+            "name": "David Wilson",
+            "email": "david.wilson@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/5544332211"
+          },
+          {
+            "name": "Emily Chen",
+            "email": "emily.chen@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/emilychen123"
+          }
+        ]
+      },
+      "techStack": [
+        {
+          "name": "Python",
+          "version": "3.12",
+          "source": "https://github.com/example/ml-fraud-detection/blob/main/requirements.txt"
+        },
+        {
+          "name": "FastAPI",
+          "version": "0.104.x",
+          "source": "https://github.com/example/ml-fraud-detection/blob/main/requirements.txt"
+        },
+        {
+          "name": "TensorFlow",
+          "version": "2.15.x",
+          "source": "https://github.com/example/ml-fraud-detection/blob/main/requirements.txt"
+        },
+        {
+          "name": "Redis",
+          "version": "7.x",
+          "source": "https://github.com/example/ml-fraud-detection/blob/main/docker-compose.yml"
+        },
+        {
+          "name": "PostgreSQL",
+          "version": "15.x",
+          "source": "https://github.com/example/ml-fraud-detection/blob/main/docker-compose.yml"
+        },
+        {
+          "name": "Apache Kafka",
+          "version": "3.5.x",
+          "source": "https://github.com/example/ml-fraud-detection/blob/main/docker-compose.yml"
+        }
+      ],
+      "documents": [
+        {
+          "url": "https://docs.example.com/ml-fraud-detection/architecture",
+          "description": "ML Architecture Document"
+        },
+        {
+          "url": "https://docs.example.com/ml-fraud-detection/model-docs",
+          "description": "Model Documentation"
+        },
+        {
+          "url": "https://docs.example.com/ml-fraud-detection/data-science",
+          "description": "Data Science Guidelines"
+        },
+        {
+          "url": "https://docs.example.com/ml-fraud-detection/training",
+          "description": "Model Training Manual"
+        }
+      ],
+      "links": [
+        {
+          "type": "kb",
+          "url": "https://docs.example.com/ml-fraud-detection"
+        }
+      ],
+      "apiSpecifications": [
+        {
+          "apiType": "REST",
+          "apiSpace": "ml-fraud-detection",
+          "specification": "https://api.example.com/ml-fraud-detection/openapi.json"
+        }
+      ],
+      "qualityMetrics": {
+        "codeCoveragePercentage": 88,
+        "linkToCoverageReport": "https://coverage.example.com/ml-fraud-detection",
+        "apiLintingIssues": {
+          "minor": 2,
+          "major": 0
+        }
+      },
+      "platforms": [
+        {
+          "type": "azure",
+          "comment": "Running on Azure ML Studio with GPU acceleration"
+        }
+      ],
+      "team": {
+        "teamName": "Data Science Team",
+        "kbSpaceLink": "https://confluence.example.com/spaces/DATASCIENCE/overview",
+        "solutionArchitect": {
+          "name": "Alice Johnson",
+          "email": "alice.johnson@example.com",
+          "avatarUrl": "https://www.gravatar.com/avatar/9988776655"
+        }
+      },
+      "kafka": {
+        "publishingToTopics": ["fraud.alerts", "risk.scores"],
+        "listeningToTopics": ["transaction.events", "user.behavior"]
+      }
+    },
+    "layouts": {
+      "default": {
+        "x": 120,
+        "y": 330,
+        "nodeType": "componentDetails"
+      }
+    }
+  },
+  {
+    "id": "CR-008-MC",
+    "label": "Mobile Banking Client",
+    "description": "Native mobile application for iOS and Android providing comprehensive banking services to retail customers.",
+    "facts": {
+      "businessCapabilities": [
+        "mobile-banking",
+        "customer-interface",
+        "payment-processing"
+      ],
+      "cmdb": {
+        "id": "CR-008-MC",
+        "name": "Mobile Banking Client",
+        "description": "Native mobile application for iOS and Android providing comprehensive banking services to retail customers.",
+        "type": "application"
+      },
+      "cmdbFacts": {
+        "id": "CR-008-MC",
+        "name": "Mobile Banking Client",
+        "description": "Native mobile application for iOS and Android providing comprehensive banking services to retail customers.",
+        "aliases": ["MBC", "Mobile App", "Banking App"],
+        "solution": {
+          "id": "SOL-DIGITAL",
+          "name": "Digital Banking Experience",
+          "link": "https://cmdb.example.com/solutions/SOL-DIGITAL"
+        },
+        "subcomponents": [
+          {
+            "id": "IO-01",
+            "description": "iOS Mobile Application",
+            "link": "https://cmdb.example.com/components/IO-01"
+          },
+          {
+            "id": "AN-02",
+            "description": "Android Mobile Application",
+            "link": "https://cmdb.example.com/components/AN-02"
+          },
+          {
+            "id": "SH-03",
+            "description": "Shared Components Library",
+            "link": "https://cmdb.example.com/components/SH-03"
+          }
+        ],
+        "applicationType": "mobile-app",
+        "applicationCategory": "core-business",
+        "businessCapabilities": ["mobile-banking", "customer-interface", "payment-processing"],
+        "dataClassification": "internal",
+        "architecturePattern": "layered",
+        "deploymentModel": "cloud",
+        "status": "active",
+        "owner": {
+          "businessOwner": {
+            "name": "Jessica Taylor",
+            "email": "jessica.taylor@example.com",
+            "department": "Digital Banking"
+          },
+          "technicalOwner": {
+            "name": "Sarah Lee",
+            "email": "sarah.lee@example.com",
+            "team": "Mobile Development Team"
+          }
+        },
+        "costCenter": "DIG-008",
+        "annualCost": {
+          "amount": 1200000,
+          "currency": "USD"
+        },
+        "vendor": {
+          "name": "Internal Development",
+          "supportContact": "mobile-support@example.com"
+        },
+        "licenseModel": "open-source"
+      },
+      "git": {
+        "repositories": [
+          {
+            "url": "https://github.com/example/mobile-banking-ios",
+            "description": "iOS mobile banking app",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 25 },
+                { "month": "2024-10", "commits": 23 },
+                { "month": "2024-11", "commits": 31 },
+                { "month": "2024-12", "commits": 28 },
+                { "month": "2025-01", "commits": 27 },
+                { "month": "2025-02", "commits": 34 },
+                { "month": "2025-03", "commits": 29 },
+                { "month": "2025-04", "commits": 32 },
+                { "month": "2025-05", "commits": 26 },
+                { "month": "2025-06", "commits": 25 },
+                { "month": "2025-07", "commits": 29 },
+                { "month": "2025-08", "commits": 31 }
+              ]
+            }
+          },
+          {
+            "url": "https://github.com/example/mobile-banking-android",
+            "description": "Android mobile banking app",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 12 },
+                { "month": "2024-10", "commits": 10 },
+                { "month": "2024-11", "commits": 14 },
+                { "month": "2024-12", "commits": 13 },
+                { "month": "2025-01", "commits": 12 },
+                { "month": "2025-02", "commits": 15 },
+                { "month": "2025-03", "commits": 14 },
+                { "month": "2025-04", "commits": 15 },
+                { "month": "2025-05", "commits": 12 },
+                { "month": "2025-06", "commits": 11 },
+                { "month": "2025-07", "commits": 13 },
+                { "month": "2025-08", "commits": 15 }
+              ]
+            }
+          },
+          {
+            "url": "https://github.com/example/mobile-banking-shared",
+            "description": "Shared components and utilities",
+            "monthlyCommits": {
+              "period": "2024-09 to 2025-08",
+              "data": [
+                { "month": "2024-09", "commits": 5 },
+                { "month": "2024-10", "commits": 5 },
+                { "month": "2024-11", "commits": 6 },
+                { "month": "2024-12", "commits": 6 },
+                { "month": "2025-01", "commits": 6 },
+                { "month": "2025-02", "commits": 7 },
+                { "month": "2025-03", "commits": 6 },
+                { "month": "2025-04", "commits": 6 },
+                { "month": "2025-05", "commits": 6 },
+                { "month": "2025-06", "commits": 5 },
+                { "month": "2025-07", "commits": 6 },
+                { "month": "2025-08", "commits": 6 }
+              ]
+            }
+          }
+        ],
+        "lastCommit": "2025-08-29",
+        "topContributors": [
+          {
+            "name": "Sarah Lee",
+            "email": "sarah.lee@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/7766554433"
+          },
+          {
+            "name": "Mark Taylor",
+            "email": "mark.taylor@example.com",
+            "avatarUrl": "https://www.gravatar.com/avatar/3322110099"
+          }
+        ]
+      },
+      "techStack": [
+        {
+          "name": "React Native",
+          "version": "0.72.x",
+          "source": "https://github.com/example/mobile-banking-shared/blob/main/package.json"
+        },
+        {
+          "name": "Expo",
+          "version": "49.x",
+          "source": "https://github.com/example/mobile-banking-shared/blob/main/package.json"
+        },
+        {
+          "name": "TypeScript",
+          "version": "5.1.x",
+          "source": "https://github.com/example/mobile-banking-shared/blob/main/package.json"
+        },
+        {
+          "name": "Redux Toolkit",
+          "version": "1.9.x",
+          "source": "https://github.com/example/mobile-banking-shared/blob/main/package.json"
+        },
+        {
+          "name": "Swift",
+          "version": "5.9",
+          "source": "https://github.com/example/mobile-banking-ios/blob/main/ios/Podfile"
+        },
+        {
+          "name": "Kotlin",
+          "version": "1.8.x",
+          "source": "https://github.com/example/mobile-banking-android/blob/main/android/build.gradle"
+        },
+        {
+          "name": "Ionic",
+          "version": "6.x",
+          "source": "https://github.com/example/mobile-banking-shared/blob/main/package.json"
+        }
+      ],
+      "documents": [
+        {
+          "url": "https://docs.example.com/mobile-banking-client/architecture",
+          "description": "Mobile Architecture Document"
+        },
+        {
+          "url": "https://docs.example.com/mobile-banking-client/user-guide",
+          "description": "Mobile App User Guide"
+        },
+        {
+          "url": "https://docs.example.com/mobile-banking-client/deployment",
+          "description": "App Store Deployment Guide"
+        }
+      ],
+      "links": [
+        {
+          "type": "kb",
+          "url": "https://docs.example.com/mobile-banking-client"
+        }
+      ],
+      "apiSpecifications": [
+        {
+          "apiType": "REST",
+          "apiSpace": "mobile-banking-api",
+          "specification": "https://api.example.com/mobile-banking/openapi.json"
+        },
+        {
+          "apiType": "GraphQL",
+          "apiSpace": "mobile-banking-graphql",
+          "specification": "https://api.example.com/mobile-banking/graphql"
+        }
+      ],
+      "qualityMetrics": {
+        "codeCoveragePercentage": 72,
+        "linkToCoverageReport": "https://coverage.example.com/mobile-banking-client",
+        "apiLintingIssues": {
+          "minor": 8,
+          "major": 1
+        }
+      },
+      "platforms": [
+        {
+          "type": "azure",
+          "comment": "Backend services hosted on Azure with global CDN"
+        }
+      ],
+      "team": {
+        "teamName": "Mobile Development Team",
+        "kbSpaceLink": "https://confluence.example.com/spaces/MOBILE/overview"
+      },
+      "kafka": {
+        "publishingToTopics": ["mobile.events", "user.interactions"],
+        "listeningToTopics": ["push.notifications", "account.updates"]
+      }
+    },
+    "layouts": {
+      "default": {
+        "x": 320,
+        "y": 230,
+        "nodeType": "componentDetails"
+      }
+    }
+  }
+]

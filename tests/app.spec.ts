@@ -7,7 +7,7 @@ test.describe('App', () => {
     });
 
     test('should have a title', async ({ page }) => {
-        await expect(page).toHaveTitle(/Title/);
+        await expect(page).toHaveTitle('Polaris');
     });
 
     test('should not have any automatically detectable accessibility issues', async ({ page }) => {
