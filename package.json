@@ -1,0 +1,64 @@
+{
+    "name": "react-typescript-boilerplate",
+    "version": "3.0.0",
+    "license": "MIT",
+    "private": true,
+    "author": "Tamas Mezei",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:mezeitamas/react-typescript-boilerplate.git"
+    },
+    "engines": {
+        "node": ">=24.7.0",
+        "npm": ">=11.5.1"
+    },
+    "scripts": {
+        "install:playwright": "playwright install --with-deps",
+        "clean": "rimraf dist/ reports/",
+        "format:check": "prettier '**/*.{js,jsx,ts,tsx,css,json,md,yml,yaml}' --check",
+        "format:fix": "prettier '**/*.{js,jsx,ts,tsx,css,json,md,yml,yaml}' --write",
+        "lint:check": "eslint .",
+        "lint:fix": "eslint --fix .",
+        "type:check": "tsc --noEmit",
+        "test:unit:check": "rstest",
+        "test:unit:update": "rstest --update",
+        "test:e2e:check": "playwright test",
+        "test:e2e:update": "playwright test --update-snapshots",
+        "audit:check": "npm audit --package-lock-only --omit=dev",
+        "build": "rsbuild build",
+        "serve": "rsbuild preview",
+        "start": "rsbuild dev"
+    },
+    "dependencies": {
+        "react": "19.1.1",
+        "react-dom": "19.1.1",
+        "react-router-dom": "7.8.2",
+        "web-vitals": "5.1.0"
+    },
+    "devDependencies": {
+        "@axe-core/playwright": "4.10.2",
+        "@eslint/js": "9.34.0",
+        "@playwright/test": "1.55.0",
+        "@rsbuild/core": "1.5.3",
+        "@rsbuild/plugin-react": "1.4.0",
+        "@rsbuild/plugin-svgr": "1.2.2",
+        "@rsdoctor/rspack-plugin": "1.2.3",
+        "@rstest/core": "0.3.2",
+        "@tailwindcss/postcss": "4.1.12",
+        "@testing-library/jest-dom": "6.8.0",
+        "@testing-library/react": "16.3.0",
+        "@types/react": "19.1.12",
+        "@types/react-dom": "19.1.9",
+        "dotenv": "17.2.2",
+        "eslint": "9.34.0",
+        "eslint-plugin-react": "7.37.5",
+        "jsdom": "26.1.0",
+        "postcss": "8.5.6",
+        "postcss-loader": "8.2.0",
+        "prettier": "3.6.2",
+        "rimraf": "6.0.1",
+        "tailwindcss": "4.1.12",
+        "typescript": "5.9.2",
+        "typescript-eslint": "8.42.0"
+    }
+}

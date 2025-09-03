@@ -1,0 +1,35 @@
+{
+    "name": "react-typescript-boilerplate",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+    "features": {
+        "ghcr.io/devcontainers/features/git:1": {},
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "24.7.0"
+        }
+    },
+    "postCreateCommand": "npm install && npm run install:playwright",
+    "customizations": {
+        "vscode": {
+            "settings": {},
+            "extensions": [
+                "EditorConfig.EditorConfig",
+                "esbenp.prettier-vscode",
+                "dbaeumer.vscode-eslint",
+                "redhat.vscode-yaml",
+                "ms-playwright.playwright"
+            ],
+            "mcp": {
+                "servers": {
+                    "playwright": {
+                        "command": "npx",
+                        "args": ["@playwright/mcp@latest"]
+                    },
+                    "rsdoctor": {
+                        "command": "npx",
+                        "args": ["-y", "@rsdoctor/mcp-server@latest"]
+                    }
+                }
+            }
+        }
+    }
+}

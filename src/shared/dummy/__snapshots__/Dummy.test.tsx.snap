@@ -1,0 +1,17 @@
+// Rstest Snapshot v1
+
+exports[`<Dummy /> > should render with upperCase 1`] = `
+<DocumentFragment>
+  <h1>
+    Hello, NAME!
+  </h1>
+</DocumentFragment>
+`;
+
+exports[`<Dummy /> > should render without upperCase 1`] = `
+<DocumentFragment>
+  <h1>
+    Hello, Name!
+  </h1>
+</DocumentFragment>
+`;

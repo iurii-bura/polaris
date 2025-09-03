@@ -1,0 +1,19 @@
+{
+    "extends": "./tsconfig.paths.json",
+    "exclude": ["node_modules"],
+    "compilerOptions": {
+        "target": "ESNext",
+        "lib": ["DOM", "ESNext"],
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "jsx": "react-jsx",
+        "strict": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "isolatedModules": true,
+        "resolveJsonModule": true,
+        "noEmit": true,
+        "noErrorTruncation": true,
+        "types": ["react", "react-dom"]
+    }
+}

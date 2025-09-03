@@ -1,0 +1,12 @@
+{
+    "servers": {
+        "playwright": {
+            "command": "npx",
+            "args": ["@playwright/mcp@latest"]
+        },
+        "rsdoctor": {
+            "command": "npx",
+            "args": ["-y", "@rsdoctor/mcp-server@latest"]
+        }
+    }
+}
