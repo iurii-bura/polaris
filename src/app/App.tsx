@@ -1,7 +1,7 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useCallback, useState, useRef, useEffect } from 'react';
 
-import './app.css';
+import './App.css';
 import { Graph, ComponentDetails, Loading, LayoutControls, type ComponentData } from 'src/components';
 import { useComponentData } from '../hooks';
 import { ComponentDataService } from 'src/services';
@@ -34,8 +34,8 @@ const App: FunctionComponent = (): ReactElement => {
     const handleNodeLayoutChange = useCallback((updates: Array<{ node: ComponentData; position: { x: number; y: number } }>) => {
         if (!updates.length){
             return;
-        } 
-        
+        }
+
         const updatedItems = updates.map(u => ({
             ...u.node,
             layouts: {
@@ -58,7 +58,7 @@ const App: FunctionComponent = (): ReactElement => {
 
         // console.log(updatedItems);
         ComponentDataService.getInstance().batchUpdateComponents(updatedItems.map(item => ({ id: item.id, data: item })));
-        
+
     }, [currentLayout]);
 
     const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -73,10 +73,10 @@ const App: FunctionComponent = (): ReactElement => {
 
     const handleMouseMove = useCallback((e: MouseEvent) => {
         if (!isDragging) return;
-        
+
         const deltaX = dragRef.current - e.clientX;
         const newWidth = Math.max(250, Math.min(600, panelWidth + deltaX)); // Min 250px, max 600px
-        
+
         setPanelWidth(newWidth);
         dragRef.current = e.clientX;
     }, [isDragging, panelWidth]);
@@ -91,7 +91,7 @@ const App: FunctionComponent = (): ReactElement => {
             document.addEventListener('mouseup', handleMouseUp);
             document.body.style.cursor = 'col-resize';
             document.body.style.userSelect = 'none';
-            
+
             return () => {
                 document.removeEventListener('mousemove', handleMouseMove);
                 document.removeEventListener('mouseup', handleMouseUp);
@@ -125,35 +125,35 @@ const App: FunctionComponent = (): ReactElement => {
                 {/* Middle: Graph section */}
                 <section className="flex-1 p-4 overflow-hidden relative">
                     <div style={{ width: '100%', height: '100%' }}>
-                        <Graph 
-                            name="Sample Graph" 
-                            graph={componentData.length > 0 ? componentData : graph} 
+                        <Graph
+                            name="Sample Graph"
+                            graph={componentData.length > 0 ? componentData : graph}
                             layout={currentLayout}
                             onSelectionChange={handleSelectionChange}
                             onLayoutChange={handleNodeLayoutChange}
                         />
                     </div>
-                    
+
                     {/* Layout Controls Widget */}
-                    <LayoutControls 
+                    <LayoutControls
                         currentLayout={currentLayout}
                         onLayoutChange={handleLayoutChange}
                     />
                 </section>
 
                 {/* Resize handle */}
-                <div 
+                <div
                     className="w-1 bg-base-300 hover:bg-primary/50 cursor-col-resize flex-shrink-0 transition-colors duration-200 resize-handle"
                     onMouseDown={handleMouseDown}
                     onDoubleClick={handleDoubleClick}
-                    style={{ 
+                    style={{
                         backgroundColor: isDragging ? 'hsl(var(--p) / 0.7)' : undefined
                     }}
                     title="Drag to resize, double-click to reset"
                 />
 
                 {/* Right hand side: Component Details section */}
-                <aside 
+                <aside
                     className="bg-base-200 p-4 border-l border-base-300 overflow-hidden flex-shrink-0"
                     style={{ width: `${panelWidth}px` }}
                 >
