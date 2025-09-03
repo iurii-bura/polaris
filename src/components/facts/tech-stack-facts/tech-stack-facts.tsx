@@ -4,6 +4,7 @@ import { FiCode, FiAlertTriangle, FiCheckCircle, FiXCircle, FiChevronDown, FiChe
 import type { TechStackItem } from '../../types';
 import { getTechnologyStatus } from './tech-whitelist';
 import TechnologyItem from './technology-item';
+import QuestionMark from './question-mark-icon';
 
 type TechStackFactsProps = {
     readonly techStack: TechStackItem[];
@@ -17,24 +18,18 @@ const TechStackFacts: FunctionComponent<TechStackFactsProps> = ({ techStack }): 
     }, []);
 
     // Calculate status summary
-    const statusSummary = techStack.reduce(
-        (acc, item) => {
-            const status = getTechnologyStatus(item.name, item.version);
-            acc[status] = (acc[status] || 0) + 1;
-            return acc;
-        },
-        {} as Record<string, number>
-    );
+    const statusSummary = techStack.reduce<Record<string, number>>((acc, item) => {
+        const status = getTechnologyStatus(item.name, item.version);
+        acc[status] = (acc[status] || 0) + 1;
+        return acc;
+    }, {});
 
     // Ensure all status types are represented for consistent UI
     const allStatuses = ['normal', 'phased-out', 'deprecated', 'unknown'];
-    const completeStatusSummary = allStatuses.reduce(
-        (acc, status) => {
-            acc[status] = statusSummary[status] || 0;
-            return acc;
-        },
-        {} as Record<string, number>
-    );
+    const completeStatusSummary = allStatuses.reduce<Record<string, number>>((acc, status) => {
+        acc[status] = statusSummary[status] || 0;
+        return acc;
+    }, {});
 
     const getStatusConfig = (status: string) => {
         switch (status) {
@@ -60,25 +55,15 @@ const TechStackFacts: FunctionComponent<TechStackFactsProps> = ({ techStack }): 
                 return {
                     className: 'bg-base-300/50 text-base-content/60 border-base-300',
                     text: 'Unknown',
-                    icon: () => <span className="text-base-content/60 font-bold">?</span>
+                    icon: QuestionMark
                 };
             default:
                 return {
                     className: 'bg-base-300/50 text-base-content/60 border-base-300',
                     text: status,
-                    icon: () => <span className="text-base-content/60 font-bold">?</span>
+                    icon: QuestionMark
                 };
         }
-    };
-
-    const getStatusIcon = (status: string) => {
-        const config = getStatusConfig(status);
-        const IconComponent = config.icon;
-        return <IconComponent className="w-4 h-4" />;
-    };
-
-    const getStatusLabel = (status: string) => {
-        return getStatusConfig(status).text;
     };
 
     const getComplianceStatus = () => {
@@ -92,6 +77,10 @@ const TechStackFacts: FunctionComponent<TechStackFactsProps> = ({ techStack }): 
     };
 
     const complianceStatus = getComplianceStatus();
+
+    const handleFullReportClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+    }, []);
 
     return (
         <div className="card bg-base-100 shadow-lg">
@@ -116,7 +105,10 @@ const TechStackFacts: FunctionComponent<TechStackFactsProps> = ({ techStack }): 
                         </div>
 
                         {/* Expand/Collapse Button */}
-                        <button className="btn btn-ghost btn-sm btn-circle">
+                        <button
+                            type="button"
+                            className="btn btn-ghost btn-sm btn-circle"
+                        >
                             {isExpanded ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />}
                         </button>
                     </div>
@@ -152,18 +144,17 @@ const TechStackFacts: FunctionComponent<TechStackFactsProps> = ({ techStack }): 
                             <div className="flex items-center justify-between mb-3">
                                 <h3 className="text-sm font-medium text-base-content/60">Dependencies</h3>
                                 <a
-                                    href="#"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-xs text-primary hover:text-primary-focus underline"
-                                    onClick={(e) => e.preventDefault()}
+                                    onClick={handleFullReportClick}
                                 >
                                     Full report
                                 </a>
                             </div>
-                            {techStack.map((item, index) => (
+                            {techStack.map((item) => (
                                 <TechnologyItem
-                                    key={`${item.name}-${index}`}
+                                    key={item.name}
                                     item={item}
                                 />
                             ))}

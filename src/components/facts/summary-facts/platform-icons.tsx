@@ -17,20 +17,20 @@ const PLATFORM_BADGES = {
 } as const;
 
 type PlatformBadgesProps = {
-    readonly platforms: Array<{ type: string; comment: string }>;
+    readonly platforms: { type: string; comment: string }[];
 };
 
 const PlatformBadges: FunctionComponent<PlatformBadgesProps> = ({ platforms }): ReactElement => {
     return (
         <div className="flex flex-wrap gap-2">
-            {platforms.map((platform, index) => {
+            {platforms.map((platform) => {
                 const platformConfig = PLATFORM_BADGES[platform.type as keyof typeof PLATFORM_BADGES];
 
                 if (!platformConfig) {
                     // Fallback for unknown platform types
                     return (
                         <div
-                            key={index}
+                            key={platform.type}
                             className="badge badge-outline tooltip"
                             data-tip={platform.comment}
                         >
@@ -41,7 +41,7 @@ const PlatformBadges: FunctionComponent<PlatformBadgesProps> = ({ platforms }): 
 
                 return (
                     <div
-                        key={index}
+                        key={platform.type}
                         className={`badge ${platformConfig.className} tooltip`}
                         data-tip={platformConfig.label}
                     >

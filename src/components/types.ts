@@ -3,10 +3,10 @@ export type Repository = {
     description: string;
     monthlyCommits: {
         period: string;
-        data: Array<{
+        data: {
             month: string;
             commits: number;
-        }>;
+        }[];
     };
 };
 

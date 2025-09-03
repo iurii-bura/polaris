@@ -32,7 +32,7 @@ const App: FunctionComponent = (): ReactElement => {
     }, []);
 
     const handleNodeLayoutChange = useCallback(
-        (updates: Array<{ node: ComponentData; position: { x: number; y: number } }>) => {
+        (updates: { node: ComponentData; position: { x: number; y: number } }[]) => {
             if (!updates.length) {
                 return;
             }

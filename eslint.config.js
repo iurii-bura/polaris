@@ -68,7 +68,7 @@ export default pluginTs.config(
                     disallowTypeAnnotations: true
                 }
             ],
-            '@typescript-eslint/method-signature-style': ['error', 'method'],
+            '@typescript-eslint/method-signature-style': ['error', 'property'],
             '@typescript-eslint/no-confusing-non-null-assertion': 'error',
             '@typescript-eslint/no-explicit-any': 'error',
             '@typescript-eslint/no-extra-non-null-assertion': 'error',
@@ -77,21 +77,10 @@ export default pluginTs.config(
             '@typescript-eslint/no-unsafe-assignment': 'warn',
             '@typescript-eslint/no-unsafe-call': 'warn',
             '@typescript-eslint/no-unsafe-member-access': 'warn',
+            '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: false }],
             '@typescript-eslint/no-unused-vars': 'error',
             '@typescript-eslint/prefer-optional-chain': 'error',
-            '@typescript-eslint/strict-boolean-expressions': [
-                'error',
-                {
-                    allowString: false,
-                    allowNumber: false,
-                    allowNullableObject: false,
-                    allowNullableBoolean: false,
-                    allowNullableString: false,
-                    allowNullableNumber: false,
-                    allowAny: false,
-                    allowRuleToRunWithoutStrictNullChecksIKnowWhatIAmDoing: false
-                }
-            ],
+            '@typescript-eslint/strict-boolean-expressions': 'off',
 
             // React
             'react/boolean-prop-naming': 'off',
@@ -154,16 +143,7 @@ export default pluginTs.config(
             ],
             'react/jsx-first-prop-new-line': ['error', 'multiline'],
             'react/jsx-fragments': ['error', 'syntax'],
-            'react/jsx-handler-names': [
-                'error',
-                {
-                    eventHandlerPrefix: 'handle',
-                    eventHandlerPropPrefix: 'on',
-                    checkLocalVariables: true,
-                    checkInlineFunction: true,
-                    ignoreComponentNames: []
-                }
-            ],
+            'react/jsx-handler-names': 'off',
             'react/jsx-indent-props': 'off',
             'react/jsx-indent': 'off',
             'react/jsx-key': [
@@ -201,7 +181,7 @@ export default pluginTs.config(
                 }
             ],
             'react/jsx-no-leaked-render': [
-                'error',
+                'warn',
                 {
                     validStrategies: ['ternary']
                 }

@@ -139,9 +139,9 @@ const getTechIcon = (name: string): ReactElement => {
 const TechStackIcons: FunctionComponent<TechStackIconsProps> = ({ techStack }): ReactElement => {
     return (
         <div className="flex flex-wrap gap-2">
-            {techStack.map((tech, index) => (
+            {techStack.map((tech) => (
                 <div
-                    key={index}
+                    key={tech.name}
                     className="tooltip"
                     data-tip={`${tech.name} ${tech.version}`}
                 >

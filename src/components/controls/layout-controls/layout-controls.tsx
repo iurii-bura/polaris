@@ -29,6 +29,7 @@ const LayoutControls: FunctionComponent<LayoutControlsProps> = ({ currentLayout,
         return (
             <div className="fixed top-4 left-4 z-50">
                 <button
+                    type="button"
                     className="btn btn-circle btn-primary shadow-lg"
                     onClick={handleToggle}
                     title="Open Layout Controls"
@@ -48,6 +49,7 @@ const LayoutControls: FunctionComponent<LayoutControlsProps> = ({ currentLayout,
                     <div className="flex items-center justify-between mb-4">
                         <h3 className="card-title text-lg">Graph Controls</h3>
                         <button
+                            type="button"
                             className="btn btn-sm btn-ghost btn-circle"
                             onClick={handleToggle}
                             title="Close Controls"

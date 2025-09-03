@@ -107,7 +107,7 @@ export const useComponentData = (): UseComponentDataResult => {
 
     // Fetch data on mount
     useEffect(() => {
-        fetchData();
+        void fetchData();
     }, [fetchData]);
 
     return {

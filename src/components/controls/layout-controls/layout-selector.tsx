@@ -19,9 +19,12 @@ const LayoutSelector: FunctionComponent<LayoutSelectorProps> = ({
             <div className="flex gap-2">
                 {availableLayouts.map((layout) => (
                     <button
+                        type="button"
                         key={layout}
                         className={`btn btn-sm ${currentLayout === layout ? 'btn-primary' : 'btn-outline'}`}
-                        onClick={() => onLayoutChange(layout)}
+                        onClick={() => {
+                            onLayoutChange(layout);
+                        }}
                     >
                         {layout.charAt(0).toUpperCase() + layout.slice(1)}
                     </button>

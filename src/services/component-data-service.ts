@@ -49,10 +49,7 @@ export class ComponentDataService {
      * Get singleton instance of the service
      */
     static getInstance(): ComponentDataService {
-        if (!ComponentDataService.instance) {
-            ComponentDataService.instance = new ComponentDataService();
-        }
-        return ComponentDataService.instance;
+        return (ComponentDataService.instance ??= new ComponentDataService());
     }
 
     /**
@@ -164,9 +161,7 @@ export class ComponentDataService {
      * @returns Promise resolving to array of updated components
      * @throws Error if any component ID is not found
      */
-    async batchUpdateComponents(
-        updates: Array<{ id: string; data: Partial<ComponentData> }>
-    ): Promise<ComponentData[]> {
+    async batchUpdateComponents(updates: { id: string; data: Partial<ComponentData> }[]): Promise<ComponentData[]> {
         // Simulate API call - batch operations typically take slightly longer than single operations
         await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.BATCH_UPDATE));
 
@@ -246,6 +241,8 @@ export class ComponentDataService {
         try {
             return localStorage.getItem(ComponentDataService.STORAGE_KEY) !== null;
         } catch (error) {
+            console.error('Failed to access localStorage:', error);
+
             return false;
         }
     }

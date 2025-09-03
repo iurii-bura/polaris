@@ -37,21 +37,21 @@ const TechnologyItem: FunctionComponent<TechnologyItemProps> = ({ item }): React
                     <span className="text-base-content/60">Version:</span>
                     <span className={`font-mono font-medium ${getVersionColor()}`}>{item.version}</span>
 
-                    {techEntry?.recommendedVersion && status !== 'normal' && (
+                    {techEntry?.recommendedVersion && status !== 'normal' ? (
                         <>
                             <span className="text-base-content/40">•</span>
                             <span className="text-base-content/60">Recommended:</span>
                             <span className="font-mono text-success font-medium">{techEntry.recommendedVersion}</span>
                         </>
-                    )}
+                    ) : null}
                 </div>
 
-                {techEntry?.comment && (
+                {techEntry?.comment ? (
                     <div className="flex items-start gap-1 mt-1">
                         <FiInfo className="w-3 h-3 text-info mt-0.5 flex-shrink-0" />
                         <span className="text-xs text-base-content/60">{techEntry.comment}</span>
                     </div>
-                )}
+                ) : null}
             </div>
 
             <div className="flex items-center gap-2 ml-3">

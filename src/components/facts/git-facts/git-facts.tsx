@@ -7,7 +7,6 @@ import {
     FiMinus,
     FiChevronDown,
     FiChevronUp,
-    FiExternalLink,
     FiUser,
     FiCalendar,
     FiFolder
@@ -15,35 +14,10 @@ import {
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import type { GitInfo } from '../../types';
 import { generateRepositoryColors } from '../../../constants';
+import CustomTooltip from './custom-tooltip';
 
 type GitFactsProps = {
     readonly git: GitInfo;
-};
-
-// Custom tooltip component that respects DaisyUI theme
-const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-        return (
-            <div className="bg-base-100 border border-base-300 rounded-lg shadow-lg p-3">
-                <p className="font-semibold text-base-content mb-2">{label}</p>
-                {payload.map((entry: any, index: number) => (
-                    <div
-                        key={index}
-                        className="flex items-center gap-2 text-sm"
-                    >
-                        <div
-                            className="w-3 h-3 rounded-sm"
-                            style={{ backgroundColor: entry.color }}
-                        />
-                        <span className="text-base-content">
-                            {entry.name}: <span className="font-medium">{entry.value} commits</span>
-                        </span>
-                    </div>
-                ))}
-            </div>
-        );
-    }
-    return null;
 };
 
 type GitStatus = 'active' | 'supported' | 'inactive';
@@ -114,8 +88,8 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
             // Add data for each repository
             git.repositories.forEach((repo) => {
                 const monthData = repo.monthlyCommits.data.find((m) => m.month === month);
-                const repoName = repo.url.split('/').pop() || 'unknown';
-                dataPoint[repoName] = monthData?.commits || 0;
+                const repoName = repo.url.split('/').pop() ?? 'unknown';
+                dataPoint[repoName] = monthData?.commits ?? 0;
             });
 
             return dataPoint;
@@ -126,6 +100,16 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
     const repositoryColors = useMemo(() => {
         return generateRepositoryColors(git.repositories);
     }, [git.repositories]);
+
+    const handleFullReportClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+    }, []);
+
+    const handleAvatarError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
+        const target = e.target as HTMLImageElement;
+        target.style.display = 'none';
+        target.nextElementSibling?.classList.remove('hidden');
+    }, []);
 
     return (
         <div className="card bg-base-100 shadow-lg">
@@ -154,7 +138,10 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
                         </div>
 
                         {/* Expand/Collapse Button */}
-                        <button className="btn btn-ghost btn-sm btn-circle">
+                        <button
+                            type="button"
+                            className="btn btn-ghost btn-sm btn-circle"
+                        >
                             {isExpanded ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />}
                         </button>
                     </div>
@@ -192,7 +179,7 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-xs text-primary hover:text-primary-focus underline"
-                                    onClick={(e) => e.preventDefault()}
+                                    onClick={handleFullReportClick}
                                 >
                                     Full report
                                 </a>
@@ -234,7 +221,7 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
                                                 cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }}
                                             />
                                             {git.repositories.map((repo) => {
-                                                const repoName = repo.url.split('/').pop() || 'unknown';
+                                                const repoName = repo.url.split('/').pop() ?? 'unknown';
                                                 return (
                                                     <Bar
                                                         key={repoName}
@@ -256,7 +243,7 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
                             <h3 className="text-sm font-medium text-base-content/60 mb-3">Repositories</h3>
                             <div className="space-y-3">
                                 {git.repositories.map((repo) => {
-                                    const repoName = repo.url.split('/').pop() || 'unknown';
+                                    const repoName = repo.url.split('/').pop() ?? 'unknown';
                                     const repoCommits = repo.monthlyCommits.data.reduce(
                                         (sum, month) => sum + month.commits,
                                         0
@@ -297,20 +284,16 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
                             <h3 className="text-sm font-medium text-base-content/60 mb-3">Top Contributors</h3>
                             {git.topContributors.length > 0 ? (
                                 <div className="space-y-3">
-                                    {git.topContributors.map((contributor, index) => (
+                                    {git.topContributors.map((contributor) => (
                                         <div
-                                            key={index}
+                                            key={contributor.name}
                                             className="flex items-center gap-3 p-3 bg-base-200/50 rounded-lg"
                                         >
                                             <img
                                                 src={contributor.avatarUrl}
                                                 alt={`${contributor.name} avatar`}
                                                 className="w-8 h-8 rounded-full bg-base-300"
-                                                onError={(e) => {
-                                                    const target = e.target as HTMLImageElement;
-                                                    target.style.display = 'none';
-                                                    target.nextElementSibling?.classList.remove('hidden');
-                                                }}
+                                                onError={handleAvatarError}
                                             />
                                             <div className="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center text-xs font-medium hidden">
                                                 <FiUser className="w-4 h-4" />

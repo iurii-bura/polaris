@@ -1,6 +1,7 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useState, useCallback, useMemo, useEffect } from 'react';
 
+import type { NodePositionChange } from '@xyflow/react';
 import {
     ReactFlow,
     applyNodeChanges,
@@ -8,14 +9,13 @@ import {
     type NodeChange,
     Background,
     BackgroundVariant,
-    NodePositionChange,
     type Edge
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
 
 import type { ComponentData } from '../types';
-import { ComponentDetailsNode, GroupNode, ResizableGroupNode } from './nodes';
+import { ComponentDetailsNode, ResizableGroupNode } from './nodes';
 
 // Type predicate function for NodePositionChange
 const isNodePositionChange = (change: NodeChange): change is NodePositionChange => {
@@ -23,11 +23,10 @@ const isNodePositionChange = (change: NodeChange): change is NodePositionChange 
 };
 
 type GraphProps = {
-    readonly name: string;
     readonly graph: ComponentData[];
     readonly layout?: string;
     readonly onSelectionChange?: (component: ComponentData | null) => void;
-    readonly onLayoutChange?: (updates: Array<{ node: ComponentData; position: { x: number; y: number } }>) => void;
+    readonly onLayoutChange?: (updates: { node: ComponentData; position: { x: number; y: number } }[]) => void;
 };
 
 const groups = [
@@ -45,13 +44,13 @@ const groups = [
     }
 ];
 
-const mapToNodes = (data: ComponentData[], layout: string = 'default'): Node[] => {
+const mapToNodes = (data: ComponentData[], layout = 'default'): Node[] => {
     console.log('Mapping to nodes...');
     const stepX = 200;
     const stepY = 100;
     const nodes = data.map((item, index) => {
         // Check if layout-specific information exists
-        const layoutInfo = layout && item.layouts && item.layouts[layout];
+        const layoutInfo = layout && item.layouts[layout];
         const numColumns = 5;
 
         // Use layout-specific position and node type if available, otherwise use grid-based defaults
@@ -76,7 +75,6 @@ const mapToNodes = (data: ComponentData[], layout: string = 'default'): Node[] =
 };
 
 const Graph: FunctionComponent<GraphProps> = ({
-    name,
     graph,
     layout,
     onSelectionChange: onSelectionChangeCallback,
@@ -129,7 +127,7 @@ const Graph: FunctionComponent<GraphProps> = ({
 
             if (selection.nodes.length > 0) {
                 const selectedNode = graph.find(({ id }) => id === selection.nodes[0].id);
-                onSelectionChangeCallback(selectedNode || null);
+                onSelectionChangeCallback(selectedNode ?? null);
             } else {
                 onSelectionChangeCallback(null);
             }

@@ -80,6 +80,10 @@ const QualityMetricsFacts: FunctionComponent<QualityMetricsFactsProps> = ({ qual
     const overallStatus = getOverallStatus();
     const overallConfig = getStatusConfig(overallStatus);
 
+    const handleFullReportClick = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+    }, []);
+
     return (
         <div className="card bg-base-100 shadow-lg">
             <div className="card-body p-6">
@@ -107,7 +111,10 @@ const QualityMetricsFacts: FunctionComponent<QualityMetricsFactsProps> = ({ qual
                         </div>
 
                         {/* Expand/Collapse Button */}
-                        <button className="btn btn-ghost btn-sm btn-circle">
+                        <button
+                            type="button"
+                            className="btn btn-ghost btn-sm btn-circle"
+                        >
                             {isExpanded ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />}
                         </button>
                     </div>
@@ -154,7 +161,7 @@ const QualityMetricsFacts: FunctionComponent<QualityMetricsFactsProps> = ({ qual
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="text-xs text-primary hover:text-primary-focus underline"
-                                    onClick={(e) => e.preventDefault()}
+                                    onClick={handleFullReportClick}
                                 >
                                     Full report
                                 </a>
@@ -175,8 +182,8 @@ const QualityMetricsFacts: FunctionComponent<QualityMetricsFactsProps> = ({ qual
                                         <div className="w-full bg-base-300 rounded-full h-2">
                                             <div
                                                 className={`h-2 rounded-full ${coverageStatus === 'good' ? 'bg-success' : coverageStatus === 'fair' ? 'bg-warning' : 'bg-error'}`}
-                                                style={{ width: `${qualityMetrics.codeCoveragePercentage}%` }}
-                                            ></div>
+                                                style={{ width: String(qualityMetrics.codeCoveragePercentage) + '%' }}
+                                            />
                                         </div>
                                         <span className="text-sm font-mono font-medium min-w-0">
                                             {qualityMetrics.codeCoveragePercentage}%

@@ -122,14 +122,17 @@ const CmdbFacts: FunctionComponent<CmdbFactsProps> = ({ cmdbFacts }): ReactEleme
                         </div>
 
                         {/* Expand/Collapse Button */}
-                        <button className="btn btn-ghost btn-sm btn-circle">
+                        <button
+                            type="button"
+                            className="btn btn-ghost btn-sm btn-circle"
+                        >
                             {isExpanded ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />}
                         </button>
                     </div>
                 </div>
 
                 {/* Expanded Content */}
-                {isExpanded && (
+                {isExpanded ? (
                     <div className="mt-4 space-y-6">
                         {/* Basic Information */}
                         <div className="space-y-3">
@@ -160,13 +163,13 @@ const CmdbFacts: FunctionComponent<CmdbFactsProps> = ({ cmdbFacts }): ReactEleme
                                         <FiLink className="w-3 h-3 inline ml-1" />
                                     </a>
                                 </div>
-                                {cmdbFacts.aliases && cmdbFacts.aliases.length > 0 && (
+                                {cmdbFacts.aliases && cmdbFacts.aliases.length > 0 ? (
                                     <div>
                                         <span className="font-medium">Aliases:</span>
                                         <div className="flex flex-wrap gap-1 mt-1">
-                                            {cmdbFacts.aliases.map((alias, index) => (
+                                            {cmdbFacts.aliases.map((alias) => (
                                                 <span
-                                                    key={index}
+                                                    key={alias}
                                                     className="badge badge-outline badge-sm"
                                                 >
                                                     {alias}
@@ -174,12 +177,12 @@ const CmdbFacts: FunctionComponent<CmdbFactsProps> = ({ cmdbFacts }): ReactEleme
                                             ))}
                                         </div>
                                     </div>
-                                )}
+                                ) : null}
                             </div>
                         </div>
 
                         {/* Subcomponents */}
-                        {cmdbFacts.subcomponents && cmdbFacts.subcomponents.length > 0 && (
+                        {cmdbFacts.subcomponents && cmdbFacts.subcomponents.length > 0 ? (
                             <div className="space-y-3">
                                 <div className="flex items-center gap-2">
                                     <FiBox className="w-4 h-4 text-primary" />
@@ -188,9 +191,9 @@ const CmdbFacts: FunctionComponent<CmdbFactsProps> = ({ cmdbFacts }): ReactEleme
                                     </span>
                                 </div>
                                 <div className="pl-6 grid gap-2">
-                                    {cmdbFacts.subcomponents.map((subcomp, index) => (
+                                    {cmdbFacts.subcomponents.map((subcomp) => (
                                         <div
-                                            key={index}
+                                            key={subcomp.id}
                                             className="flex items-center justify-between p-2 bg-base-200/50 rounded"
                                         >
                                             <div className="flex items-center gap-2">
@@ -211,7 +214,7 @@ const CmdbFacts: FunctionComponent<CmdbFactsProps> = ({ cmdbFacts }): ReactEleme
                                     ))}
                                 </div>
                             </div>
-                        )}
+                        ) : null}
 
                         {/* Technical Classification */}
                         <div className="space-y-3">
@@ -239,14 +242,14 @@ const CmdbFacts: FunctionComponent<CmdbFactsProps> = ({ cmdbFacts }): ReactEleme
                                         {cmdbFacts.dataClassification}
                                     </span>
                                 </div>
-                                {cmdbFacts.architecturePattern && (
+                                {cmdbFacts.architecturePattern ? (
                                     <div className="flex items-center gap-2">
                                         <span className="font-medium">Architecture:</span>
                                         <span className="badge badge-outline badge-sm">
                                             {cmdbFacts.architecturePattern}
                                         </span>
                                     </div>
-                                )}
+                                ) : null}
                                 <div className="flex items-center gap-2">
                                     <span className="font-medium">Deployment:</span>
                                     <span className="badge badge-accent badge-sm">
@@ -264,7 +267,7 @@ const CmdbFacts: FunctionComponent<CmdbFactsProps> = ({ cmdbFacts }): ReactEleme
                                 <span className="font-medium">Ownership</span>
                             </div>
                             <div className="pl-6 space-y-3 text-sm">
-                                {cmdbFacts.owner.businessOwner && (
+                                {cmdbFacts.owner.businessOwner ? (
                                     <div className="p-3 bg-base-200/30 rounded">
                                         <div className="flex items-center gap-2 mb-2">
                                             <FiUser className="w-4 h-4 text-success" />
@@ -284,17 +287,17 @@ const CmdbFacts: FunctionComponent<CmdbFactsProps> = ({ cmdbFacts }): ReactEleme
                                                     {cmdbFacts.owner.businessOwner.email}
                                                 </a>
                                             </div>
-                                            {cmdbFacts.owner.businessOwner.department && (
+                                            {cmdbFacts.owner.businessOwner.department ? (
                                                 <div className="flex items-center gap-2">
                                                     <FiHome className="w-3 h-3" />
                                                     {cmdbFacts.owner.businessOwner.department}
                                                 </div>
-                                            )}
+                                            ) : null}
                                         </div>
                                     </div>
-                                )}
+                                ) : null}
 
-                                {cmdbFacts.owner.technicalOwner && (
+                                {cmdbFacts.owner.technicalOwner ? (
                                     <div className="p-3 bg-base-200/30 rounded">
                                         <div className="flex items-center gap-2 mb-2">
                                             <FiSettings className="w-4 h-4 text-info" />
@@ -314,33 +317,33 @@ const CmdbFacts: FunctionComponent<CmdbFactsProps> = ({ cmdbFacts }): ReactEleme
                                                     {cmdbFacts.owner.technicalOwner.email}
                                                 </a>
                                             </div>
-                                            {cmdbFacts.owner.technicalOwner.team && (
+                                            {cmdbFacts.owner.technicalOwner.team ? (
                                                 <div className="flex items-center gap-2">
                                                     <FiUsers className="w-3 h-3" />
                                                     {cmdbFacts.owner.technicalOwner.team}
                                                 </div>
-                                            )}
+                                            ) : null}
                                         </div>
                                     </div>
-                                )}
+                                ) : null}
                             </div>
                         </div>
 
                         {/* Financial Information */}
-                        {(cmdbFacts.costCenter || cmdbFacts.annualCost) && (
+                        {cmdbFacts.costCenter || cmdbFacts.annualCost ? (
                             <div className="space-y-3">
                                 <div className="flex items-center gap-2">
                                     <FiDollarSign className="w-4 h-4 text-primary" />
                                     <span className="font-medium">Financial Information</span>
                                 </div>
                                 <div className="pl-6 space-y-2 text-sm">
-                                    {cmdbFacts.costCenter && (
+                                    {cmdbFacts.costCenter ? (
                                         <div>
                                             <span className="font-medium">Cost Center:</span>{' '}
                                             <span className="font-mono">{cmdbFacts.costCenter}</span>
                                         </div>
-                                    )}
-                                    {cmdbFacts.annualCost && (
+                                    ) : null}
+                                    {cmdbFacts.annualCost ? (
                                         <div>
                                             <span className="font-medium">Annual Cost:</span>
                                             <span className="ml-2 badge badge-warning">
@@ -348,25 +351,25 @@ const CmdbFacts: FunctionComponent<CmdbFactsProps> = ({ cmdbFacts }): ReactEleme
                                                 {cmdbFacts.annualCost.currency}
                                             </span>
                                         </div>
-                                    )}
+                                    ) : null}
                                 </div>
                             </div>
-                        )}
+                        ) : null}
 
                         {/* Vendor & Licensing */}
-                        {(cmdbFacts.vendor || cmdbFacts.licenseModel) && (
+                        {cmdbFacts.vendor || cmdbFacts.licenseModel ? (
                             <div className="space-y-3">
                                 <div className="flex items-center gap-2">
                                     <FiTag className="w-4 h-4 text-primary" />
                                     <span className="font-medium">Vendor & Licensing</span>
                                 </div>
                                 <div className="pl-6 space-y-2 text-sm">
-                                    {cmdbFacts.vendor && (
+                                    {cmdbFacts.vendor ? (
                                         <div className="space-y-1">
                                             <div>
                                                 <span className="font-medium">Vendor:</span> {cmdbFacts.vendor.name}
                                             </div>
-                                            {cmdbFacts.vendor.supportContact && (
+                                            {cmdbFacts.vendor.supportContact ? (
                                                 <div>
                                                     <span className="font-medium">Support:</span>
                                                     <a
@@ -376,26 +379,26 @@ const CmdbFacts: FunctionComponent<CmdbFactsProps> = ({ cmdbFacts }): ReactEleme
                                                         {cmdbFacts.vendor.supportContact}
                                                     </a>
                                                 </div>
-                                            )}
-                                            {cmdbFacts.vendor.contractEndDate && (
+                                            ) : null}
+                                            {cmdbFacts.vendor.contractEndDate ? (
                                                 <div>
                                                     <span className="font-medium">Contract End:</span>{' '}
                                                     {cmdbFacts.vendor.contractEndDate}
                                                 </div>
-                                            )}
+                                            ) : null}
                                         </div>
-                                    )}
-                                    {cmdbFacts.licenseModel && (
+                                    ) : null}
+                                    {cmdbFacts.licenseModel ? (
                                         <div>
                                             <span className="font-medium">License Model:</span>
                                             <span className="ml-2 badge badge-outline">{cmdbFacts.licenseModel}</span>
                                         </div>
-                                    )}
+                                    ) : null}
                                 </div>
                             </div>
-                        )}
+                        ) : null}
                     </div>
-                )}
+                ) : null}
             </div>
         </div>
     );

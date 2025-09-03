@@ -2,13 +2,13 @@ import type { FunctionComponent, ReactElement } from 'react';
 import { Handle, Position } from '@xyflow/react';
 
 type ComponentDetailsNodeProps = {
-    data: {
+    readonly data: {
         id: string;
         label: string;
     };
-    isConnectable?: boolean;
-    targetPosition?: Position;
-    sourcePosition?: Position;
+    readonly isConnectable?: boolean;
+    readonly targetPosition?: Position;
+    readonly sourcePosition?: Position;
 };
 
 export const ComponentDetailsNode: FunctionComponent<ComponentDetailsNodeProps> = ({
@@ -24,8 +24,8 @@ export const ComponentDetailsNode: FunctionComponent<ComponentDetailsNodeProps> 
                 position={targetPosition}
                 isConnectable={isConnectable}
             />
-            <p className="label">{data?.label}</p>
-            <p className="identifier">{data?.id}</p>
+            <p className="label">{data.label}</p>
+            <p className="identifier">{data.id}</p>
             <Handle
                 type="source"
                 position={sourcePosition}

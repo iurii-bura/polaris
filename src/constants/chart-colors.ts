@@ -66,13 +66,10 @@ export const getChartColor = (index: number): string => {
 /**
  * Generate color mapping for repositories
  */
-export const generateRepositoryColors = (repositories: Array<{ url: string }>): Record<string, string> => {
-    return repositories.reduce(
-        (acc, repo, index) => {
-            const repoName = repo.url.split('/').pop() || 'unknown';
-            acc[repoName] = getChartColor(index);
-            return acc;
-        },
-        {} as Record<string, string>
-    );
+export const generateRepositoryColors = (repositories: { url: string }[]): Record<string, string> => {
+    return repositories.reduce<Record<string, string>>((acc, repo, index) => {
+        const repoName = repo.url.split('/').pop() ?? 'unknown';
+        acc[repoName] = getChartColor(index);
+        return acc;
+    }, {});
 };

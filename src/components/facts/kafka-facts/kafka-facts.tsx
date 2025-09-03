@@ -61,15 +61,18 @@ const KafkaFacts: FunctionComponent<KafkaFactsProps> = ({ kafka }): ReactElement
                         </div>
 
                         {/* Expand/Collapse Button */}
-                        <button className="btn btn-ghost btn-sm btn-circle">
+                        <button
+                            type="button"
+                            className="btn btn-ghost btn-sm btn-circle"
+                        >
                             {isExpanded ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />}
                         </button>
                     </div>
                 </div>
 
-                {isExpanded && (
+                {isExpanded ? (
                     <div className="mt-4 space-y-4">
-                        {kafka.publishingToTopics.length > 0 && (
+                        {kafka.publishingToTopics.length > 0 ? (
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <FiSend className="w-4 h-4 text-success" />
@@ -79,9 +82,9 @@ const KafkaFacts: FunctionComponent<KafkaFactsProps> = ({ kafka }): ReactElement
                                     </div>
                                 </div>
                                 <div className="flex flex-wrap gap-2">
-                                    {kafka.publishingToTopics.map((topic, index) => (
+                                    {kafka.publishingToTopics.map((topic) => (
                                         <div
-                                            key={index}
+                                            key={topic}
                                             className="badge badge-outline badge-success text-xs font-mono"
                                         >
                                             {topic}
@@ -89,9 +92,9 @@ const KafkaFacts: FunctionComponent<KafkaFactsProps> = ({ kafka }): ReactElement
                                     ))}
                                 </div>
                             </div>
-                        )}
+                        ) : null}
 
-                        {kafka.listeningToTopics.length > 0 && (
+                        {kafka.listeningToTopics.length > 0 ? (
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
                                     <FiDownload className="w-4 h-4 text-info" />
@@ -99,9 +102,9 @@ const KafkaFacts: FunctionComponent<KafkaFactsProps> = ({ kafka }): ReactElement
                                     <div className="badge badge-info badge-sm">{kafka.listeningToTopics.length}</div>
                                 </div>
                                 <div className="flex flex-wrap gap-2">
-                                    {kafka.listeningToTopics.map((topic, index) => (
+                                    {kafka.listeningToTopics.map((topic) => (
                                         <div
-                                            key={index}
+                                            key={topic}
                                             className="badge badge-outline badge-info text-xs font-mono"
                                         >
                                             {topic}
@@ -109,9 +112,9 @@ const KafkaFacts: FunctionComponent<KafkaFactsProps> = ({ kafka }): ReactElement
                                     ))}
                                 </div>
                             </div>
-                        )}
+                        ) : null}
                     </div>
-                )}
+                ) : null}
             </div>
         </div>
     );

@@ -4,15 +4,15 @@ type LoadingProps = {
     /**
      * The size of the loading spinner
      */
-    size?: 'xs' | 'sm' | 'md' | 'lg';
+    readonly size?: 'xs' | 'sm' | 'md' | 'lg';
     /**
      * Optional text to display below the spinner
      */
-    text?: string;
+    readonly text?: string;
     /**
      * Additional CSS classes to apply to the container
      */
-    className?: string;
+    readonly className?: string;
 };
 
 /**
@@ -37,15 +37,15 @@ export const Loading: FunctionComponent<LoadingProps> = ({
             {/* Primary spinner - CSS based */}
             <div
                 className={`${sizeClasses[size]} border-4 border-base-300 border-t-primary rounded-full animate-spin`}
-            ></div>
+            />
 
             {/* Alternative DaisyUI spinner */}
             <span
                 className="loading loading-spinner loading-lg text-primary"
                 style={{ display: 'none' }}
-            ></span>
+            />
 
-            {text && <p className="text-base-content text-sm font-medium">{text}</p>}
+            {text ? <p className="text-base-content text-sm font-medium">{text}</p> : null}
         </div>
     );
 };

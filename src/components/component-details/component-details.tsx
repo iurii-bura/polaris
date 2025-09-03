@@ -38,7 +38,7 @@ const ComponentDetails: FunctionComponent<ComponentDetailsProps> = ({ component 
                     {/* Technical Details Cards */}
                     <TechStackFacts techStack={component.facts.techStack} />
 
-                    {component.facts.cmdbFacts && <CmdbFacts cmdbFacts={component.facts.cmdbFacts} />}
+                    {component.facts.cmdbFacts ? <CmdbFacts cmdbFacts={component.facts.cmdbFacts} /> : null}
 
                     <QualityMetricsFacts qualityMetrics={component.facts.qualityMetrics} />
 
@@ -51,7 +51,7 @@ const ComponentDetails: FunctionComponent<ComponentDetailsProps> = ({ component 
 
                     <DocumentsFacts documents={component.facts.documents} />
 
-                    {component.facts.kafka && <KafkaFacts kafka={component.facts.kafka} />}
+                    {component.facts.kafka ? <KafkaFacts kafka={component.facts.kafka} /> : null}
                 </div>
             ) : (
                 <div className="h-full flex items-center justify-center">

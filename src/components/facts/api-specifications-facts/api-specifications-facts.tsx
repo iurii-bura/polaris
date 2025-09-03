@@ -47,14 +47,17 @@ const ApiSpecificationsFacts: FunctionComponent<ApiSpecificationsFactsProps> = (
 
                     <div className="flex items-center gap-3">
                         {/* Expand/Collapse Button */}
-                        <button className="btn btn-ghost btn-sm btn-circle">
+                        <button
+                            type="button"
+                            className="btn btn-ghost btn-sm btn-circle"
+                        >
                             {isExpanded ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />}
                         </button>
                     </div>
                 </div>
 
                 {/* Expanded Content */}
-                {isExpanded && (
+                {isExpanded ? (
                     <div className="mt-4 space-y-4">
                         {!apiSpecifications || apiSpecifications.length === 0 ? (
                             <div className="text-center py-8 text-base-content/60">
@@ -64,12 +67,12 @@ const ApiSpecificationsFacts: FunctionComponent<ApiSpecificationsFactsProps> = (
                             </div>
                         ) : (
                             <>
-                                {apiSpecifications.map((api, index) => {
+                                {apiSpecifications.map((api) => {
                                     const ApiIcon = getApiTypeIcon(api.apiType);
 
                                     return (
                                         <div
-                                            key={index}
+                                            key={`${api.apiType}-${api.apiSpace}`}
                                             className="flex items-center justify-between p-3 bg-base-200/50 rounded-lg"
                                         >
                                             <div className="flex items-center gap-3">
@@ -103,7 +106,7 @@ const ApiSpecificationsFacts: FunctionComponent<ApiSpecificationsFactsProps> = (
                             </>
                         )}
                     </div>
-                )}
+                ) : null}
             </div>
         </div>
     );

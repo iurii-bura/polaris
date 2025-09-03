@@ -1,12 +1,20 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { NodeResizer, Handle, Position, type NodeProps } from '@xyflow/react';
 
-type ResizableNodeData = {
-    label?: string;
-};
+import { useCallback } from 'react';
 
-const ResizableGroupNode: FunctionComponent<NodeProps> = ({ data, selected }): ReactElement => {
-    const nodeData = data as ResizableNodeData;
+const ResizableGroupNode: FunctionComponent<NodeProps> = ({ selected }): ReactElement => {
+    const handleResizeStart = useCallback((event: MouseEvent, data: unknown) => {
+        console.log('Resize started', data);
+    }, []);
+
+    const handleResize = useCallback((event: MouseEvent, data: unknown) => {
+        console.log('Resizing', data);
+    }, []);
+
+    const handleResizeEnd = useCallback((event: MouseEvent, data: unknown) => {
+        console.log('Resize ended', data);
+    }, []);
 
     return (
         <>
@@ -21,9 +29,9 @@ const ResizableGroupNode: FunctionComponent<NodeProps> = ({ data, selected }): R
                 color="#007bff"
                 handleStyle={{ backgroundColor: '#007bff' }}
                 lineStyle={{ borderColor: '#007bff' }}
-                onResizeStart={(event, data) => console.log('Resize started', data)}
-                onResize={(event, data) => console.log('Resizing', data)}
-                onResizeEnd={(event, data) => console.log('Resize ended', data)}
+                onResizeStart={handleResizeStart}
+                onResize={handleResize}
+                onResizeEnd={handleResizeEnd}
             />
             Hello
             {/* Optional: Add handles for connections */}

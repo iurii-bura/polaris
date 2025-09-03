@@ -1,5 +1,5 @@
 import type { FunctionComponent, ReactElement } from 'react';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
     FiChevronDown,
     FiChevronUp,
@@ -43,12 +43,12 @@ const getDocumentIcon = (description: string): ReactElement => {
 const DocumentsFacts: FunctionComponent<DocumentsFactsProps> = ({ documents }): ReactElement => {
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const handleToggle = (): void => {
+    const handleToggle = useCallback(() => {
         setIsExpanded(!isExpanded);
-    };
+    }, [isExpanded]);
 
     const hasDocuments = documents && documents.length > 0;
-    const documentCount = documents?.length || 0;
+    const documentCount = documents?.length ?? 0;
 
     return (
         <div className="card bg-base-100 shadow-lg">
@@ -70,20 +70,23 @@ const DocumentsFacts: FunctionComponent<DocumentsFactsProps> = ({ documents }): 
                         </div>
 
                         {/* Expand/Collapse Button */}
-                        <button className="btn btn-ghost btn-sm btn-circle">
+                        <button
+                            type="button"
+                            className="btn btn-ghost btn-sm btn-circle"
+                        >
                             {isExpanded ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />}
                         </button>
                     </div>
                 </div>
 
                 {/* Expanded Content */}
-                {isExpanded && (
+                {isExpanded ? (
                     <div className="mt-4 space-y-4">
                         {hasDocuments ? (
                             <div className="space-y-3">
-                                {documents!.map((doc, index) => (
+                                {documents.map((doc) => (
                                     <div
-                                        key={index}
+                                        key={doc.url}
                                         className="flex items-center gap-3 p-3 rounded-lg bg-base-200 hover:bg-base-300 transition-colors"
                                     >
                                         <div className="text-primary">{getDocumentIcon(doc.description)}</div>
@@ -108,7 +111,7 @@ const DocumentsFacts: FunctionComponent<DocumentsFactsProps> = ({ documents }): 
                             </div>
                         )}
                     </div>
-                )}
+                ) : null}
             </div>
         </div>
     );

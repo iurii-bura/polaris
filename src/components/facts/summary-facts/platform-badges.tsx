@@ -1,5 +1,4 @@
 import type { FunctionComponent, ReactElement } from 'react';
-import type { Platform } from '../../types';
 
 // Platform badge styling mapping with brand-appropriate colors
 const PLATFORM_BADGES: Record<string, { className: string; label: string }> = {
@@ -18,20 +17,20 @@ const PLATFORM_BADGES: Record<string, { className: string; label: string }> = {
 };
 
 type PlatformBadgesProps = {
-    readonly platforms: Array<{ type: string; comment: string }>;
+    readonly platforms: { type: string; comment: string }[];
 };
 
 const PlatformBadges: FunctionComponent<PlatformBadgesProps> = ({ platforms }): ReactElement => {
     return (
         <div className="flex flex-wrap gap-2">
-            {platforms.map((platform, index) => {
+            {platforms.map((platform) => {
                 const platformConfig = PLATFORM_BADGES[platform.type];
 
                 if (!platformConfig) {
                     // Fallback for unknown platform types
                     return (
                         <div
-                            key={index}
+                            key={platform.type}
                             className="badge badge-outline tooltip"
                             data-tip={platform.comment}
                         >
@@ -42,7 +41,7 @@ const PlatformBadges: FunctionComponent<PlatformBadgesProps> = ({ platforms }): 
 
                 return (
                     <div
-                        key={index}
+                        key={platform.type}
                         className={`${platformConfig.className} tooltip`}
                         data-tip={platformConfig.label}
                         style={platform.type === 'azure' ? { backgroundColor: '#0078d4' } : undefined}

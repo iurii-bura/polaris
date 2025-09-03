@@ -45,6 +45,12 @@ const TeamFacts: FunctionComponent<TeamFactsProps> = ({ team }): ReactElement =>
 
     const teamStatus = getTeamStatus();
 
+    const handleAvatarError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
+        const target = e.target as HTMLImageElement;
+        target.style.display = 'none';
+        target.nextElementSibling?.classList.remove('hidden');
+    }, []);
+
     return (
         <div className="card bg-base-100 shadow-lg">
             <div className="card-body p-6">
@@ -61,19 +67,24 @@ const TeamFacts: FunctionComponent<TeamFactsProps> = ({ team }): ReactElement =>
                     <div className="flex items-center gap-3">
                         {/* Team Status - Always Visible */}
                         <div className="flex items-center gap-2">
-                            {teamStatus.showIcon && <teamStatus.icon className={`w-4 h-4 ${teamStatus.className}`} />}
+                            {teamStatus.showIcon ? (
+                                <teamStatus.icon className={`w-4 h-4 ${teamStatus.className}`} />
+                            ) : null}
                             <span className={`text-sm font-medium ${teamStatus.className}`}>{teamStatus.text}</span>
                         </div>
 
                         {/* Expand/Collapse Button */}
-                        <button className="btn btn-ghost btn-sm btn-circle">
+                        <button
+                            type="button"
+                            className="btn btn-ghost btn-sm btn-circle"
+                        >
                             {isExpanded ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />}
                         </button>
                     </div>
                 </div>
 
                 {/* Expanded Content */}
-                {isExpanded && (
+                {isExpanded ? (
                     <div className="mt-4 space-y-4">
                         {!team ? (
                             <div className="text-center py-8 text-base-content/60">
@@ -111,11 +122,7 @@ const TeamFacts: FunctionComponent<TeamFactsProps> = ({ team }): ReactElement =>
                                                     src={team.solutionArchitect.avatarUrl}
                                                     alt={`${team.solutionArchitect.name} avatar`}
                                                     className="w-8 h-8 rounded-full bg-base-300"
-                                                    onError={(e) => {
-                                                        const target = e.target as HTMLImageElement;
-                                                        target.style.display = 'none';
-                                                        target.nextElementSibling?.classList.remove('hidden');
-                                                    }}
+                                                    onError={handleAvatarError}
                                                 />
                                                 <div className="w-8 h-8 rounded-full bg-base-300 flex items-center justify-center text-xs font-medium hidden">
                                                     <FiUser className="w-4 h-4" />
@@ -147,7 +154,7 @@ const TeamFacts: FunctionComponent<TeamFactsProps> = ({ team }): ReactElement =>
                             </>
                         )}
                     </div>
-                )}
+                ) : null}
             </div>
         </div>
     );

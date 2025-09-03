@@ -8,11 +8,10 @@ import PlatformBadges from './platform-badges';
 type SummaryFactsProps = {
     readonly id: string;
     readonly businessCapabilities: string[];
-    readonly platforms: Array<{ type: string; comment: string }>;
-    readonly techStack: Array<{ name: string; version: string; source: string }>;
+    readonly platforms: { type: string; comment: string }[];
+    readonly techStack: { name: string; version: string; source: string }[];
     readonly name: string;
     readonly description: string;
-    readonly cmdbId: string;
     readonly teamName?: string;
     readonly coveragePercentage: number;
 };
@@ -24,7 +23,6 @@ const SummaryFacts: FunctionComponent<SummaryFactsProps> = ({
     techStack,
     name,
     description,
-    cmdbId,
     teamName,
     coveragePercentage
 }): ReactElement => {
@@ -40,7 +38,10 @@ const SummaryFacts: FunctionComponent<SummaryFactsProps> = ({
                                 className="tooltip"
                                 data-tip="View CMDB Entry"
                             >
-                                <button className="btn btn-ghost btn-sm btn-circle">
+                                <button
+                                    type="button"
+                                    className="btn btn-ghost btn-sm btn-circle"
+                                >
                                     <FiDatabase className="w-4 h-4" />
                                 </button>
                             </div>
@@ -58,9 +59,9 @@ const SummaryFacts: FunctionComponent<SummaryFactsProps> = ({
                         <div>
                             <h4 className="text-sm font-medium text-base-content/60 mb-2">Business Capabilities</h4>
                             <div className="flex flex-wrap gap-2">
-                                {businessCapabilities.map((capability, index) => (
+                                {businessCapabilities.map((capability) => (
                                     <BusinessCapabilityBadge
-                                        key={index}
+                                        key={capability}
                                         capability={capability}
                                     />
                                 ))}
@@ -72,7 +73,7 @@ const SummaryFacts: FunctionComponent<SummaryFactsProps> = ({
                             <h4 className="text-sm font-medium text-base-content/60 mb-2">Team</h4>
                             <div className="flex items-center gap-2">
                                 <FiUsers className="w-4 h-4 text-base-content/60" />
-                                <span className="text-sm font-medium">{teamName || 'Unknown'}</span>
+                                <span className="text-sm font-medium">{teamName ?? 'Unknown'}</span>
                             </div>
                         </div>
                     </div>
