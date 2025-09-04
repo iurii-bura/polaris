@@ -18,9 +18,7 @@ const App: FunctionComponent = (): ReactElement => {
 
     // Sync component data when graph data loads
     useEffect(() => {
-        if (graph) {
-            setComponentData(graph);
-        }
+        setComponentData(graph);
     }, [graph]);
 
     const handleSelectionChange = useCallback((component: ComponentData | null) => {
@@ -59,7 +57,7 @@ const App: FunctionComponent = (): ReactElement => {
             });
 
             // console.log(updatedItems);
-            ComponentDataService.getInstance().batchUpdateComponents(
+            void ComponentDataService.getInstance().batchUpdateComponents(
                 updatedItems.map((item) => ({ id: item.id, data: item }))
             );
         },

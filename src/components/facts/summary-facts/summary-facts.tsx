@@ -41,6 +41,7 @@ const SummaryFacts: FunctionComponent<SummaryFactsProps> = ({
                                 <button
                                     type="button"
                                     className="btn btn-ghost btn-sm btn-circle"
+                                    title="View CMDB Entry"
                                 >
                                     <FiDatabase className="w-4 h-4" />
                                 </button>

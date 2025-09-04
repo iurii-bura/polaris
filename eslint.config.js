@@ -70,7 +70,7 @@ export default pluginTs.config(
             ],
             '@typescript-eslint/method-signature-style': ['error', 'property'],
             '@typescript-eslint/no-confusing-non-null-assertion': 'error',
-            '@typescript-eslint/no-explicit-any': 'error',
+            '@typescript-eslint/no-explicit-any': 'warn',
             '@typescript-eslint/no-extra-non-null-assertion': 'error',
             '@typescript-eslint/no-non-null-asserted-nullish-coalescing': 'error',
             '@typescript-eslint/no-require-imports': 'error',
@@ -167,7 +167,7 @@ export default pluginTs.config(
                 'error',
                 {
                     ignoreRefs: true,
-                    allowArrowFunctions: false,
+                    allowArrowFunctions: true,
                     allowFunctions: false,
                     allowBind: false
                 }

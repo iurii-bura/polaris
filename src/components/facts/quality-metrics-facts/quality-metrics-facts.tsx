@@ -84,6 +84,10 @@ const QualityMetricsFacts: FunctionComponent<QualityMetricsFactsProps> = ({ qual
         e.preventDefault();
     }, []);
 
+    const getTextColorClass = (className: string): string => {
+        return className.split(' ').find((c) => c.startsWith('text-')) ?? '';
+    };
+
     return (
         <div className="card bg-base-100 shadow-lg">
             <div className="card-body p-6">
@@ -100,12 +104,8 @@ const QualityMetricsFacts: FunctionComponent<QualityMetricsFactsProps> = ({ qual
                     <div className="flex items-center gap-3">
                         {/* Overall Status - Always Visible */}
                         <div className="flex items-center gap-2">
-                            <overallConfig.icon
-                                className={`w-4 h-4 ${overallConfig.className.split(' ').find((c) => c.startsWith('text-'))}`}
-                            />
-                            <span
-                                className={`text-sm font-medium ${overallConfig.className.split(' ').find((c) => c.startsWith('text-'))}`}
-                            >
+                            <overallConfig.icon className={`w-4 h-4 ${getTextColorClass(overallConfig.className)}`} />
+                            <span className={`text-sm font-medium ${getTextColorClass(overallConfig.className)}`}>
                                 {overallConfig.text}
                             </span>
                         </div>

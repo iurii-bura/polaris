@@ -26,6 +26,9 @@ const PlatformBadges: FunctionComponent<PlatformBadgesProps> = ({ platforms }): 
             {platforms.map((platform) => {
                 const platformConfig = PLATFORM_BADGES[platform.type as keyof typeof PLATFORM_BADGES];
 
+                // Disable eslint rule for this line only as we do want to check for null/undefined here
+                // To have a proper solution, we need to rework types.
+                // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
                 if (!platformConfig) {
                     // Fallback for unknown platform types
                     return (

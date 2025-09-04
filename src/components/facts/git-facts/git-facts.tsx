@@ -80,7 +80,7 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
         if (git.repositories.length === 0) return [];
 
         // Get all months from the first repository (assuming all repos have same months)
-        const months = git.repositories[0]?.monthlyCommits.data.map((m) => m.month) || [];
+        const months = git.repositories[0]?.monthlyCommits.data.map((m) => m.month);
 
         return months.map((month) => {
             const dataPoint: Record<string, any> = { month: month.split('-')[1] }; // Show only month number
@@ -111,6 +111,10 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
         target.nextElementSibling?.classList.remove('hidden');
     }, []);
 
+    const getTextColorClass = (className: string): string => {
+        return className.split(' ').find((c) => c.startsWith('text-')) ?? '';
+    };
+
     return (
         <div className="card bg-base-100 shadow-lg">
             <div className="card-body p-6">
@@ -127,12 +131,8 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
                     <div className="flex items-center gap-3">
                         {/* Repository Status - Always Visible */}
                         <div className="flex items-center gap-2">
-                            <statusConfig.icon
-                                className={`w-4 h-4 ${statusConfig.className.split(' ').find((c) => c.startsWith('text-'))}`}
-                            />
-                            <span
-                                className={`text-sm font-medium ${statusConfig.className.split(' ').find((c) => c.startsWith('text-'))}`}
-                            >
+                            <statusConfig.icon className={`w-4 h-4 ${getTextColorClass(statusConfig.className)}`} />
+                            <span className={`text-sm font-medium ${getTextColorClass(statusConfig.className)}`}>
                                 {statusConfig.text}
                             </span>
                         </div>
@@ -214,7 +214,11 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
                                                 tick={{ fontSize: 12, fill: 'currentColor' }}
                                                 axisLine={{ stroke: 'currentColor', opacity: 0.2 }}
                                                 width={40}
-                                                tickFormatter={(value) => value.toString()}
+                                                tickFormatter={(value) => {
+                                                    // Types needs to be reworked to avoid 'any' here
+                                                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+                                                    return value.toString();
+                                                }}
                                             />
                                             <Tooltip
                                                 content={<CustomTooltip />}
