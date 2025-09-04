@@ -1,0 +1,27 @@
+// Rstest Snapshot v1
+
+exports[`<App /> > should render 1`] = `
+<DocumentFragment>
+  <main
+    class="min-h-screen bg-base-100 flex items-center justify-center"
+    role="main"
+  >
+    <div
+      class="flex flex-col items-center justify-center gap-4 p-8 "
+    >
+      <div
+        class="w-12 h-12 border-4 border-base-300 border-t-primary rounded-full animate-spin"
+      />
+      <span
+        class="loading loading-spinner loading-lg text-primary"
+        style="display: none;"
+      />
+      <p
+        class="text-base-content text-sm font-medium"
+      >
+        Loading components...
+      </p>
+    </div>
+  </main>
+</DocumentFragment>
+`;

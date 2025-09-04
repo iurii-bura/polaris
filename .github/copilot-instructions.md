@@ -70,3 +70,10 @@ You provide accurate, factual, thoughtful answers, and are a genius at reasoning
 - Prefer `useCallback()` over inline function declarations in component bodies.
 - Use `useMemo()` for expensive computations to prevent unnecessary recalculations.
 - Ensure proper dependency arrays to maintain referential equality for child component optimization.
+
+## Re-export
+
+- Use index.ts files to re-export components from their respective directories.
+- Maintain a consistent naming convention for re-exports.
+- Ensure that all re-exports are properly typed and tested.
+- Example: `export { default as LayoutControls } from './layout-controls';`

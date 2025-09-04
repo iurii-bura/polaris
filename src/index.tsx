@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { addWebVitalsReporting } from './components';
 
-import { App } from './app/App';
+import { App } from './app/app';
 
 import './index.css';
 
