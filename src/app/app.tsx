@@ -1,10 +1,11 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useCallback, useState, useRef, useEffect } from 'react';
 
-import './App.css';
 import { Graph, ComponentDetails, Loading, LayoutControls, type ComponentData } from 'src/components';
 import { useComponentData } from '../hooks';
 import { ComponentDataService } from 'src/services';
+
+import './app.css';
 
 const App: FunctionComponent = (): ReactElement => {
     const { data: graph, loading, error } = useComponentData();
@@ -42,10 +43,10 @@ const App: FunctionComponent = (): ReactElement => {
                 layouts: {
                     ...u.node.layouts,
                     [currentLayout]: {
-                        ...u.node.layouts?.[currentLayout],
+                        ...u.node.layouts[currentLayout],
                         x: u.position.x,
                         y: u.position.y,
-                        nodeType: u.node.layouts?.[currentLayout]?.nodeType || 'componentDetails'
+                        nodeType: u.node.layouts[currentLayout].nodeType || 'componentDetails'
                     }
                 }
             }));
@@ -53,7 +54,7 @@ const App: FunctionComponent = (): ReactElement => {
             setComponentData((prevData) => {
                 return prevData.map((item) => {
                     const update = updatedItems.find(({ id }) => id === item.id);
-                    return update || item;
+                    return update ?? item;
                 });
             });
 
@@ -142,7 +143,6 @@ const App: FunctionComponent = (): ReactElement => {
                 <section className="flex-1 p-4 overflow-hidden relative">
                     <div style={{ width: '100%', height: '100%' }}>
                         <Graph
-                            name="Sample Graph"
                             graph={componentData.length > 0 ? componentData : graph}
                             layout={currentLayout}
                             onSelectionChange={handleSelectionChange}
@@ -171,7 +171,7 @@ const App: FunctionComponent = (): ReactElement => {
                 {/* Right hand side: Component Details section */}
                 <aside
                     className="bg-base-200 p-4 border-l border-base-300 overflow-hidden flex-shrink-0"
-                    style={{ width: `${panelWidth}px` }}
+                    style={{ width: String(panelWidth) + 'px' }}
                 >
                     <ComponentDetails component={selectedComponent} />
                 </aside>
