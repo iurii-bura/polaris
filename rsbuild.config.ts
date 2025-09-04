@@ -6,36 +6,24 @@ import { config } from 'dotenv';
 
 config();
 
-const { SubresourceIntegrityPlugin } = rspack.experiments;
-
 export default defineConfig({
     plugins: [pluginReact(), pluginSvgr()],
     html: {
-        template: './src/index.html'
+        template: './src/index.html',
+        crossorigin: 'anonymous'
     },
-    // @ts-expect-error: accodring to the documentation it is correct
-    module: {
-        rules: [
-            {
-                test: /\.css$/,
-                use: ['postcss-loader'],
-                type: 'css'
-            }
-        ]
+    security: {
+        sri: {
+            enable: 'auto'
+        }
     },
     tools: {
         rspack: {
-            target: 'browserslist',
-            output: {
-                crossOriginLoading: 'anonymous'
-            },
             plugins: [
                 new rspack.CircularDependencyRspackPlugin({
                     failOnError: true,
                     exclude: /node_modules/
                 }),
-
-                process.env.NODE_ENV === 'production' && new SubresourceIntegrityPlugin(),
 
                 process.env.NODE_ENV === 'production' &&
                     new RsdoctorRspackPlugin({
@@ -54,11 +42,10 @@ export default defineConfig({
         }
     },
     resolve: {
-        alias: {
-            '@/shared': './src/shared'
-        }
+        aliasStrategy: 'prefer-tsconfig'
     },
     output: {
+        target: 'web',
         cleanDistPath: true,
         distPath: {
             root: './dist/bundle',
