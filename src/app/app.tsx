@@ -156,7 +156,7 @@ const App: FunctionComponent = (): ReactElement => {
                 <section className="flex-1 p-4 overflow-hidden relative">
                     <div style={{ width: '100%', height: '100%' }}>
                         <Graph
-                            graph={componentData}
+                            components={componentData}
                             groups={groups}
                             layout={currentLayout}
                             onSelectionChange={handleSelectionChange}

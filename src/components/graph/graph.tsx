@@ -23,13 +23,17 @@ const isNodePositionChange = (change: NodeChange): change is NodePositionChange 
 };
 
 type GraphProps = {
-    readonly graph: ComponentData[];
+    readonly components: ComponentData[];
     readonly groups: Group[];
     readonly layout?: string;
     readonly onSelectionChange?: (component: ComponentData | null) => void;
     readonly onLayoutChange?: (updates: { node: ComponentData; position: { x: number; y: number } }[]) => void;
 };
 
+/**
+ * Maps from the domain data structure to Graph library data structure, 
+ * joins the Groups and Nodes in one array as requried by React Flow
+ */
 const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'default'): Node[] => {
     const stepX = 200;
     const stepY = 100;
@@ -80,8 +84,9 @@ const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'defa
     return [...nodes, ...groupNodes];
 };
 
+
 const Graph: FunctionComponent<GraphProps> = ({
-    graph,
+    components,
     groups,
     layout,
     onSelectionChange: onSelectionChangeCallback,
@@ -99,15 +104,15 @@ const Graph: FunctionComponent<GraphProps> = ({
     const [nodes, setNodes] = useState<Node[]>([]);
 
     useEffect(() => {
-        setNodes(mapToNodes(graph, groups, layout));
-    }, [graph, layout]);
+        setNodes(mapToNodes(components, groups, layout));
+    }, [components, layout]);
 
     const onNodesChange = useCallback(
         (changes: NodeChange[]) => {
             const layoutUpdates = changes
                 .filter(isNodePositionChange)
                 .map((move) => {
-                    const graphNode = graph.find(({ id }) => id === move.id);
+                    const graphNode = components.find(({ id }) => id === move.id);
                     if (!graphNode) {
                         return undefined;
                     }
@@ -115,14 +120,16 @@ const Graph: FunctionComponent<GraphProps> = ({
                         node: graphNode,
                         position: move.position as { x: number; y: number }
                     };
-                })
+                });
+
+            const componentLayputUpdates = layoutUpdates
                 .filter((update): update is { node: ComponentData; position: { x: number; y: number } } => !!update);
 
-            layoutUpdates.length && onLayoutChange?.(layoutUpdates);
+            componentLayputUpdates.length && onLayoutChange?.(componentLayputUpdates);
 
             setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot));
         },
-        [graph, onLayoutChange]
+        [components, groups, onLayoutChange]
     );
 
     const onSelectionChange = useCallback(
@@ -132,13 +139,13 @@ const Graph: FunctionComponent<GraphProps> = ({
             }
 
             if (selection.nodes.length > 0) {
-                const selectedNode = graph.find(({ id }) => id === selection.nodes[0].id);
+                const selectedNode = components.find(({ id }) => id === selection.nodes[0].id);
                 onSelectionChangeCallback(selectedNode ?? null);
             } else {
                 onSelectionChangeCallback(null);
             }
         },
-        [onSelectionChangeCallback, graph]
+        [onSelectionChangeCallback, components]
     );
 
     return (
