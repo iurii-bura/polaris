@@ -1,7 +1,7 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useCallback, useState, useRef, useEffect } from 'react';
 
-import { Graph, ComponentDetails, Loading, LayoutControls, type ComponentData, type ComponentGraph } from 'src/components';
+import { Graph, ComponentDetails, Loading, LayoutControls, type ComponentData, type ComponentGraph, Group } from 'src/components';
 import { useComponentData } from '../hooks';
 import { ComponentDataService } from 'src/services';
 
@@ -15,10 +15,12 @@ const App: FunctionComponent = (): ReactElement => {
     const [isDragging, setIsDragging] = useState(false);
     const dragRef = useRef<number>(0);
     const [componentData, setComponentData] = useState<ComponentData[]>([]);
+    const [groups, setGroups] = useState<Group[]>([]);
 
     // Sync component data when graph data loads
     useEffect(() => {
         setComponentData(componentGraph.components);
+        setGroups(componentGraph.groups);
     }, [componentGraph]);
 
     /**
@@ -155,6 +157,7 @@ const App: FunctionComponent = (): ReactElement => {
                     <div style={{ width: '100%', height: '100%' }}>
                         <Graph
                             graph={componentData}
+                            groups={groups}
                             layout={currentLayout}
                             onSelectionChange={handleSelectionChange}
                             onLayoutChange={handleNodeLayoutChange}

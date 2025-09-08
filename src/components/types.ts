@@ -165,6 +165,8 @@ export type CmdbFacts = {
 export type LayoutInfo = {
     x: number;
     y: number;
+    width?: number;
+    height?: number;
     nodeType: string;
 };
 

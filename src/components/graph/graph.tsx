@@ -14,7 +14,7 @@ import {
 
 import '@xyflow/react/dist/style.css';
 
-import type { ComponentData } from '../types';
+import type { ComponentData, Group } from '../types';
 import { ComponentDetailsNode, ResizableGroupNode } from './nodes';
 
 // Type predicate function for NodePositionChange
@@ -24,31 +24,16 @@ const isNodePositionChange = (change: NodeChange): change is NodePositionChange 
 
 type GraphProps = {
     readonly graph: ComponentData[];
+    readonly groups: Group[];
     readonly layout?: string;
     readonly onSelectionChange?: (component: ComponentData | null) => void;
     readonly onLayoutChange?: (updates: { node: ComponentData; position: { x: number; y: number } }[]) => void;
 };
 
-const groups = [
-    {
-        id: 'GROUP-A',
-        data: { id: 'GROUP-A', label: 'Group A' },
-        position: { x: 100, y: 100 },
-        style: {
-            backgroundColor: 'rgba(255, 0, 255, 0.2)',
-            zIndex: -10,
-            height: 150,
-            width: 270
-        },
-        type: 'group'
-    }
-];
-
-const mapToNodes = (data: ComponentData[], layout = 'default'): Node[] => {
-    console.log('Mapping to nodes...');
+const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'default'): Node[] => {
     const stepX = 200;
     const stepY = 100;
-    const nodes = data.map((item, index) => {
+    const nodes = components.map((item, index) => {
         // Check if layout-specific information exists
         const layoutInfo = layout && item.layouts[layout];
         const numColumns = 5;
@@ -71,11 +56,33 @@ const mapToNodes = (data: ComponentData[], layout = 'default'): Node[] => {
         };
     });
 
-    return [...groups, ...nodes];
+    const groupNodes = groups
+        .filter((group) => group.layouts[layout])
+        .map((group) => {
+            const { x, y, width, height } = group.layouts[layout];
+            return {
+                id: group.id,
+                data: {
+                    id: group.id,
+                    label: group.label
+                },
+                position: { x, y },
+                style: {
+                    backgroundColor: 'rgba(255, 0, 255, 0.2)',
+                    zIndex: -10,
+                    width,
+                    height
+                },
+                type: 'group'
+            };
+        });
+
+    return [...nodes, ...groupNodes];
 };
 
 const Graph: FunctionComponent<GraphProps> = ({
     graph,
+    groups,
     layout,
     onSelectionChange: onSelectionChangeCallback,
     onLayoutChange
@@ -92,8 +99,7 @@ const Graph: FunctionComponent<GraphProps> = ({
     const [nodes, setNodes] = useState<Node[]>([]);
 
     useEffect(() => {
-        console.log('Graph or layout changed, updating nodes...', graph.length, layout);
-        setNodes(mapToNodes(graph, layout));
+        setNodes(mapToNodes(graph, groups, layout));
     }, [graph, layout]);
 
     const onNodesChange = useCallback(

@@ -1,7 +1,7 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { NodeResizer, Handle, Position, type NodeProps } from '@xyflow/react';
 
-const ResizableGroupNode: FunctionComponent<NodeProps> = ({ selected }): ReactElement => {
+const ResizableGroupNode: FunctionComponent<NodeProps> = ({ selected, data }): ReactElement => {
     return (
         <>
             {/* Add resize functionality */}
@@ -16,7 +16,7 @@ const ResizableGroupNode: FunctionComponent<NodeProps> = ({ selected }): ReactEl
                 handleStyle={{ backgroundColor: '#007bff' }}
                 lineStyle={{ borderColor: '#007bff' }}
             />
-            Hello
+            { data.label }
             {/* Optional: Add handles for connections */}
             <Handle
                 type="target"
