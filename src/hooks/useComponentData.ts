@@ -1,14 +1,14 @@
 import { useState, useEffect, useCallback } from 'react';
 
-import type { ComponentData } from '../components/types';
+import type { ComponentData, ComponentGraph } from '../components/types';
 import { ComponentDataService } from '../services/component-data-service';
 
 /**
  * Type definition for the hook's return value
  */
 export type UseComponentDataResult = {
-    /** The fetched component data */
-    data: ComponentData[];
+    /** The fetched component graph data */
+    data: ComponentGraph;
     /** Loading state indicator */
     loading: boolean;
     /** Error state if fetch fails */
@@ -30,7 +30,7 @@ export type UseComponentDataResult = {
  * @returns Object containing data, loading state, error state, and CRUD operations
  */
 export const useComponentData = (): UseComponentDataResult => {
-    const [data, setData] = useState<ComponentData[]>([]);
+    const [data, setData] = useState<ComponentGraph>({ components: [], groups: [] });
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -42,8 +42,8 @@ export const useComponentData = (): UseComponentDataResult => {
             setLoading(true);
             setError(null);
             const service = ComponentDataService.getInstance();
-            const components = await service.fetchComponents();
-            setData(components);
+            const componentGraph = await service.fetchComponentGraph();
+            setData(componentGraph);
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to fetch components';
             setError(errorMessage);
@@ -67,7 +67,10 @@ export const useComponentData = (): UseComponentDataResult => {
         try {
             const service = ComponentDataService.getInstance();
             const newComponent = await service.createComponent(componentData);
-            setData((prevData) => [...prevData, newComponent]);
+            setData((prevData) => ({
+                ...prevData,
+                components: [...prevData.components, newComponent]
+            }));
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to create component';
             setError(errorMessage);
@@ -82,7 +85,10 @@ export const useComponentData = (): UseComponentDataResult => {
         try {
             const service = ComponentDataService.getInstance();
             const updatedComponent = await service.updateComponent(id, updates);
-            setData((prevData) => prevData.map((component) => (component.id === id ? updatedComponent : component)));
+            setData((prevData) => ({
+                ...prevData,
+                components: prevData.components.map((component) => (component.id === id ? updatedComponent : component))
+            }));
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to update component';
             setError(errorMessage);
@@ -97,7 +103,10 @@ export const useComponentData = (): UseComponentDataResult => {
         try {
             const service = ComponentDataService.getInstance();
             await service.deleteComponent(id);
-            setData((prevData) => prevData.filter((component) => component.id !== id));
+            setData((prevData) => ({
+                ...prevData,
+                components: prevData.components.filter((component) => component.id !== id)
+            }));
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to delete component';
             setError(errorMessage);

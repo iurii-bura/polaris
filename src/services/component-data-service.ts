@@ -38,7 +38,7 @@ export class ComponentDataService {
      * Mock data storage - simulates a database or API data source
      * Data is loaded from localStorage first, then falls back to external JSON file
      */
-    private mockData: ComponentData[] = this.loadDataFromStorage();
+    private mockData: ComponentGraph = this.loadDataFromStorage();
 
     /**
      * Singleton instance for consistent data state across the application
@@ -55,12 +55,12 @@ export class ComponentDataService {
     /**
      * Loads component data from localStorage if available, otherwise from example.json
      */
-    private loadDataFromStorage(): ComponentData[] {
+    private loadDataFromStorage(): ComponentGraph {
         try {
             const storedData = localStorage.getItem(ComponentDataService.STORAGE_KEY);
             if (storedData) {
-                const parsedData = JSON.parse(storedData) as ComponentData[];
-                console.log('Loaded component data from localStorage:', parsedData.length, 'components');
+                const parsedData = JSON.parse(storedData) as ComponentGraph;
+                console.log('Loaded component graph from localStorage:', parsedData.components.length, 'components', parsedData.groups.length, 'groups');
                 return parsedData;
             }
         } catch (error) {
@@ -68,9 +68,12 @@ export class ComponentDataService {
         }
 
         // Fallback to example.json - extract components from new data structure
-        console.log('Loading component data from example.json');
+        console.log('Loading component graph from example.json');
         const componentGraph = mockDataJson as ComponentGraph;
-        return [...componentGraph.components];
+        return {
+            components: [...componentGraph.components],
+            groups: [...componentGraph.groups]
+        };
     }
 
     /**
@@ -80,10 +83,25 @@ export class ComponentDataService {
         try {
             const dataToStore = JSON.stringify(this.mockData);
             localStorage.setItem(ComponentDataService.STORAGE_KEY, dataToStore);
-            console.log('Saved component data to localStorage:', this.mockData.length, 'components');
+            console.log('Saved component graph to localStorage:', this.mockData.components.length, 'components', this.mockData.groups.length, 'groups');
         } catch (error) {
             console.error('Failed to save data to localStorage:', error);
         }
+    }
+
+    /**
+     * Simulates fetching the complete component graph from an API.
+     * Returns both components and groups.
+     */
+    async fetchComponentGraph(): Promise<ComponentGraph> {
+        // Simulate network delay
+        await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.FETCH_ALL));
+
+        // Return copy of mock data to prevent external mutations
+        return {
+            components: [...this.mockData.components],
+            groups: [...this.mockData.groups]
+        };
     }
 
     /**
@@ -95,7 +113,7 @@ export class ComponentDataService {
         await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.FETCH_ALL));
 
         // Return copy of mock data to prevent external mutations
-        return [...this.mockData];
+        return [...this.mockData.components];
     }
 
     /**
@@ -106,7 +124,7 @@ export class ComponentDataService {
         // Simulate network delay
         await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.FETCH_BY_ID));
 
-        const component = this.mockData.find((component) => component.id === id);
+        const component = this.mockData.components.find((component) => component.id === id);
         return component ? { ...component } : null;
     }
 
@@ -123,7 +141,7 @@ export class ComponentDataService {
         const newComponent: ComponentData = { id, ...data };
 
         // Add to mock data
-        this.mockData.push(newComponent);
+        this.mockData.components.push(newComponent);
 
         // Save to localStorage
         this.saveDataToStorage();
@@ -139,18 +157,18 @@ export class ComponentDataService {
         // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.UPDATE));
 
-        const index = this.mockData.findIndex((component) => component.id === id);
+        const index = this.mockData.components.findIndex((component) => component.id === id);
         if (index === -1) {
             throw new Error(`Component with id ${id} not found`);
         }
 
         // Update the component in mock data
-        this.mockData[index] = { ...this.mockData[index], ...updates };
+        this.mockData.components[index] = { ...this.mockData.components[index], ...updates };
 
         // Save to localStorage
         this.saveDataToStorage();
 
-        return { ...this.mockData[index] };
+        return { ...this.mockData.components[index] };
     }
 
     /**
@@ -171,7 +189,7 @@ export class ComponentDataService {
 
         // Process each update
         for (const update of updates) {
-            const index = this.mockData.findIndex((component) => component.id === update.id);
+            const index = this.mockData.components.findIndex((component) => component.id === update.id);
 
             if (index === -1) {
                 notFoundIds.push(update.id);
@@ -179,8 +197,8 @@ export class ComponentDataService {
             }
 
             // Update the component in mock data
-            this.mockData[index] = { ...this.mockData[index], ...update.data };
-            updatedComponents.push({ ...this.mockData[index] });
+            this.mockData.components[index] = { ...this.mockData.components[index], ...update.data };
+            updatedComponents.push({ ...this.mockData.components[index] });
         }
 
         // Throw error if any components were not found
@@ -202,13 +220,13 @@ export class ComponentDataService {
         // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.DELETE));
 
-        const index = this.mockData.findIndex((component) => component.id === id);
+        const index = this.mockData.components.findIndex((component) => component.id === id);
         if (index === -1) {
             throw new Error(`Component with id ${id} not found`);
         }
 
         // Remove from mock data
-        this.mockData.splice(index, 1);
+        this.mockData.components.splice(index, 1);
 
         // Save to localStorage
         this.saveDataToStorage();
@@ -218,7 +236,7 @@ export class ComponentDataService {
      * Utility method to get current mock data count (useful for testing)
      */
     getDataCount(): number {
-        return this.mockData.length;
+        return this.mockData.components.length;
     }
 
     /**
@@ -229,7 +247,10 @@ export class ComponentDataService {
         try {
             localStorage.removeItem(ComponentDataService.STORAGE_KEY);
             const componentGraph = mockDataJson as ComponentGraph;
-            this.mockData = [...componentGraph.components];
+            this.mockData = {
+                components: [...componentGraph.components],
+                groups: [...componentGraph.groups]
+            };
             console.log('Cleared stored data and reset to example.json');
         } catch (error) {
             console.error('Failed to clear stored data:', error);

@@ -1,14 +1,14 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useCallback, useState, useRef, useEffect } from 'react';
 
-import { Graph, ComponentDetails, Loading, LayoutControls, type ComponentData } from 'src/components';
+import { Graph, ComponentDetails, Loading, LayoutControls, type ComponentData, type ComponentGraph } from 'src/components';
 import { useComponentData } from '../hooks';
 import { ComponentDataService } from 'src/services';
 
 import './app.css';
 
 const App: FunctionComponent = (): ReactElement => {
-    const { data: graph, loading, error } = useComponentData();
+    const { data: componentGraph, loading, error } = useComponentData();
     const [selectedComponent, setSelectedComponent] = useState<ComponentData | null>(null);
     const [currentLayout, setCurrentLayout] = useState<string>('default');
     const [panelWidth, setPanelWidth] = useState(470); // Default panel width in pixels
@@ -18,18 +18,32 @@ const App: FunctionComponent = (): ReactElement => {
 
     // Sync component data when graph data loads
     useEffect(() => {
-        setComponentData(graph);
-    }, [graph]);
+        setComponentData(componentGraph.components);
+    }, [componentGraph]);
 
+    /**
+     * Handles selection changes in the graph, updates which component is selected
+     * @param component The component that was selected, or null if nothing is selected
+     */
     const handleSelectionChange = useCallback((component: ComponentData | null) => {
         component && setSelectedComponent(component);
     }, []);
 
+
+    /**
+     * Handles the change of the layout (e.g., switching between different layout views)
+     * @param layout The new layout identifier
+     */
     const handleLayoutChange = useCallback((layout: string) => {
-        console.log(`Switching to layout: ${layout}`);
         setCurrentLayout(layout);
     }, []);
 
+
+    /**
+     * Called when a node's position is changed (dragged) in the graph
+     * Updates the local state and persists the new position via the service
+     * @param updates Array of objects containing the node and its new position
+     */
     const handleNodeLayoutChange = useCallback(
         (updates: { node: ComponentData; position: { x: number; y: number } }[]) => {
             if (!updates.length) {
@@ -56,7 +70,6 @@ const App: FunctionComponent = (): ReactElement => {
                 });
             });
 
-            // console.log(updatedItems);
             void ComponentDataService.getInstance().batchUpdateComponents(
                 updatedItems.map((item) => ({ id: item.id, data: item }))
             );
@@ -141,7 +154,7 @@ const App: FunctionComponent = (): ReactElement => {
                 <section className="flex-1 p-4 overflow-hidden relative">
                     <div style={{ width: '100%', height: '100%' }}>
                         <Graph
-                            graph={componentData.length > 0 ? componentData : graph}
+                            graph={componentData}
                             layout={currentLayout}
                             onSelectionChange={handleSelectionChange}
                             onLayoutChange={handleNodeLayoutChange}
