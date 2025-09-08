@@ -9,7 +9,7 @@
         "url": "git@github.com:iurii-bura/polaris.git"
     },
     "engines": {
-        "node": ">=24.6.0",
+        "node": ">=24.7.0",
         "npm": ">=11.5.1"
     },
     "scripts": {
@@ -40,29 +40,29 @@
     },
     "devDependencies": {
         "@axe-core/playwright": "4.10.2",
-        "@eslint/js": "9.34.0",
+        "@eslint/js": "9.35.0",
         "@playwright/test": "1.55.0",
-        "@rsbuild/core": "1.5.3",
+        "@rsbuild/core": "1.5.4",
         "@rsbuild/plugin-react": "1.4.0",
         "@rsbuild/plugin-svgr": "1.2.2",
         "@rsdoctor/rspack-plugin": "1.2.3",
         "@rstest/core": "0.3.2",
-        "@tailwindcss/postcss": "4.1.12",
+        "@tailwindcss/postcss": "4.1.13",
         "@testing-library/jest-dom": "6.8.0",
         "@testing-library/react": "16.3.0",
         "@types/react": "19.1.12",
         "@types/react-dom": "19.1.9",
-        "daisyui": "5.1.6",
+        "daisyui": "5.1.8",
         "dotenv": "17.2.2",
-        "eslint": "9.34.0",
+        "eslint": "9.35.0",
         "eslint-plugin-react": "7.37.5",
         "jsdom": "26.1.0",
         "postcss": "8.5.6",
         "postcss-loader": "8.2.0",
         "prettier": "3.6.2",
         "rimraf": "6.0.1",
-        "tailwindcss": "4.1.12",
+        "tailwindcss": "4.1.13",
         "typescript": "5.9.2",
-        "typescript-eslint": "8.42.0"
+        "typescript-eslint": "8.43.0"
     }
 }
