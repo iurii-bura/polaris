@@ -1,4 +1,4 @@
-import type { ComponentData } from '../components/types';
+import type { ComponentData, ComponentGraph } from '../components/types';
 import mockDataJson from '../../data/example.json';
 
 /**
@@ -67,9 +67,10 @@ export class ComponentDataService {
             console.warn('Failed to load data from localStorage, falling back to example.json:', error);
         }
 
-        // Fallback to example.json
+        // Fallback to example.json - extract components from new data structure
         console.log('Loading component data from example.json');
-        return [...(mockDataJson as ComponentData[])];
+        const componentGraph = mockDataJson as ComponentGraph;
+        return [...componentGraph.components];
     }
 
     /**
@@ -227,7 +228,8 @@ export class ComponentDataService {
     clearStoredData(): void {
         try {
             localStorage.removeItem(ComponentDataService.STORAGE_KEY);
-            this.mockData = [...(mockDataJson as ComponentData[])];
+            const componentGraph = mockDataJson as ComponentGraph;
+            this.mockData = [...componentGraph.components];
             console.log('Cleared stored data and reset to example.json');
         } catch (error) {
             console.error('Failed to clear stored data:', error);

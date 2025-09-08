@@ -192,3 +192,16 @@ export type ComponentData = {
     facts: Facts;
     layouts: Layouts;
 };
+
+export type Group = {
+    id: string;
+    label: string;
+    description: string;
+    componentIds: string[];
+    layouts: Layouts;
+};
+
+export type ComponentGraph = {
+    components: ComponentData[];
+    groups: Group[];
+};
