@@ -1,7 +1,7 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useCallback, useState, useRef, useEffect } from 'react';
 
-import { Graph, ComponentDetails, Loading, LayoutControls, type ComponentData, type ComponentGraph, Group } from 'src/components';
+import { Graph, ComponentDetails, Loading, LayoutControls, type ComponentData, type ComponentGraph, Group, type ComponentLayoutUpdate } from 'src/components';
 import { useComponentData } from '../hooks';
 import { ComponentDataService } from 'src/services';
 
@@ -44,26 +44,28 @@ const App: FunctionComponent = (): ReactElement => {
     /**
      * Called when a node's position is changed (dragged) in the graph
      * Updates the local state and persists the new position via the service
-     * @param updates Array of objects containing the node and its new position
+     * @param updates Array of ComponentLayoutUpdate objects containing the node and optionally its new position or dimensions
      */
     const handleNodeLayoutChange = useCallback(
-        (updates: { node: ComponentData; position: { x: number; y: number } }[]) => {
+        (updates: ComponentLayoutUpdate[]) => {
             if (!updates.length) {
                 return;
             }
 
-            const updatedItems = updates.map((u) => ({
-                ...u.node,
-                layouts: {
-                    ...u.node.layouts,
-                    [currentLayout]: {
-                        ...u.node.layouts[currentLayout],
-                        x: u.position.x,
-                        y: u.position.y,
-                        nodeType: u.node.layouts[currentLayout].nodeType || 'componentDetails'
+            const updatedItems = updates
+                .filter((u) => u.position) // Only process updates with position changes for now
+                .map((u) => ({
+                    ...u.node,
+                    layouts: {
+                        ...u.node.layouts,
+                        [currentLayout]: {
+                            ...u.node.layouts[currentLayout],
+                            x: u.position!.x,
+                            y: u.position!.y,
+                            nodeType: u.node.layouts[currentLayout].nodeType || 'componentDetails'
+                        }
                     }
-                }
-            }));
+                }));
 
             setComponentData((prevData) => {
                 return prevData.map((item) => {

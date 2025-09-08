@@ -14,7 +14,7 @@ import {
 
 import '@xyflow/react/dist/style.css';
 
-import type { ComponentData, Group } from '../types';
+import type { ComponentData, Group, ComponentLayoutUpdate } from '../types';
 import { ComponentDetailsNode, ResizableGroupNode } from './nodes';
 
 // Type predicate function for NodePositionChange
@@ -27,7 +27,7 @@ type GraphProps = {
     readonly groups: Group[];
     readonly layout?: string;
     readonly onSelectionChange?: (component: ComponentData | null) => void;
-    readonly onLayoutChange?: (updates: { node: ComponentData; position: { x: number; y: number } }[]) => void;
+    readonly onLayoutChange?: (updates: ComponentLayoutUpdate[]) => void;
 };
 
 /**
@@ -119,13 +119,13 @@ const Graph: FunctionComponent<GraphProps> = ({
                     return {
                         node: graphNode,
                         position: move.position as { x: number; y: number }
-                    };
+                    } as ComponentLayoutUpdate;
                 });
 
-            const componentLayputUpdates = layoutUpdates
-                .filter((update): update is { node: ComponentData; position: { x: number; y: number } } => !!update);
+            const componentLayoutUpdates = layoutUpdates
+                .filter((update): update is ComponentLayoutUpdate => !!update);
 
-            componentLayputUpdates.length && onLayoutChange?.(componentLayputUpdates);
+            componentLayoutUpdates.length && onLayoutChange?.(componentLayoutUpdates);
 
             setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot));
         },
