@@ -1,7 +1,7 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useCallback, useState, useRef, useEffect } from 'react';
 
-import { Graph, ComponentDetails, Loading, LayoutControls, type ComponentData, type ComponentGraph, Group, type ComponentLayoutUpdate } from 'src/components';
+import { Graph, ComponentDetails, Loading, LayoutControls, type ComponentData, type ComponentGraph, Group, type ComponentLayoutUpdate, GraphNode } from 'src/components';
 import { useComponentData } from '../hooks';
 import { ComponentDataService } from 'src/services';
 
@@ -40,32 +40,32 @@ const App: FunctionComponent = (): ReactElement => {
         setCurrentLayout(layout);
     }, []);
 
-
     /**
      * Called when a node's position is changed (dragged) in the graph
      * Updates the local state and persists the new position via the service
      * @param updates Array of ComponentLayoutUpdate objects containing the node and optionally its new position or dimensions
      */
-    const handleNodeLayoutChange = useCallback(
+    const handleComponentLayoutChange = useCallback(
         (updates: ComponentLayoutUpdate[]) => {
+            console.log('Layout updates:', updates.length);
             if (!updates.length) {
                 return;
             }
 
             const updatedItems = updates
-                .filter((u) => u.position) // Only process updates with position changes for now
                 .map((u) => ({
                     ...u.node,
                     layouts: {
                         ...u.node.layouts,
                         [currentLayout]: {
                             ...u.node.layouts[currentLayout],
-                            x: u.position!.x,
-                            y: u.position!.y,
+                            ...(u.position && { x: u.position.x, y: u.position.y }),
+                            // ...(u.size && { width: u.size.width, height: u.size.height }),
                             nodeType: u.node.layouts[currentLayout].nodeType || 'componentDetails'
                         }
                     }
                 }));
+
 
             setComponentData((prevData) => {
                 return prevData.map((item) => {
@@ -74,9 +74,9 @@ const App: FunctionComponent = (): ReactElement => {
                 });
             });
 
-            void ComponentDataService.getInstance().batchUpdateComponents(
-                updatedItems.map((item) => ({ id: item.id, data: item }))
-            );
+            // void ComponentDataService.getInstance().batchUpdateComponents(
+            //     updatedItems.map((item) => ({ id: item.id, data: item }))
+            // );
         },
         [currentLayout]
     );
@@ -162,7 +162,7 @@ const App: FunctionComponent = (): ReactElement => {
                             groups={groups}
                             layout={currentLayout}
                             onSelectionChange={handleSelectionChange}
-                            onLayoutChange={handleNodeLayoutChange}
+                            onComponentLayoutChange={handleComponentLayoutChange}
                         />
                     </div>
 

@@ -211,10 +211,14 @@ export type ComponentGraph = {
 // Graph node update types
 export type GraphNode = ComponentData | Group;
 
-export type LayoutUpdate<T extends GraphNode = GraphNode> = {
-    node: T;
+export type ComponentLayoutUpdate = {
+    node: ComponentData;
     position?: { x: number; y: number };
-    dimensions?: { width: number; height: number };
+    size?: { width: number; height: number };
 };
 
-export type ComponentLayoutUpdate = LayoutUpdate<ComponentData>;
+export type GroupLayoutUpdate = {
+    node: Group;
+    position?: { x: number; y: number };
+    size?: { width: number; height: number };
+};

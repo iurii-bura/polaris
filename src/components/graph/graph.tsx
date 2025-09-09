@@ -1,7 +1,7 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useState, useCallback, useMemo, useEffect } from 'react';
 
-import type { NodePositionChange } from '@xyflow/react';
+import type { NodeDimensionChange, NodePositionChange } from '@xyflow/react';
 import {
     ReactFlow,
     applyNodeChanges,
@@ -14,12 +14,23 @@ import {
 
 import '@xyflow/react/dist/style.css';
 
-import type { ComponentData, Group, ComponentLayoutUpdate } from '../types';
+import type { ComponentData, Group, ComponentLayoutUpdate, GroupLayoutUpdate } from '../types';
 import { ComponentDetailsNode, ResizableGroupNode } from './nodes';
 
-// Type predicate function for NodePositionChange
-const isNodePositionChange = (change: NodeChange): change is NodePositionChange => {
+
+// Type guard for completed position changes
+const isCompletedPositionChange = (change: NodeChange): change is NodePositionChange => {
     return change.type === 'position' && !change.dragging;
+};
+
+// Type guard for completed dimension changes
+const isCompletedDimensionChange = (change: NodeChange): change is NodeDimensionChange => {
+    return change.type === 'dimensions' && !change.resizing;
+};
+
+// Combined type guard for any completed change
+const isCompletedChange = (change: NodeChange): change is NodePositionChange | NodeDimensionChange => {
+    return isCompletedPositionChange(change) || isCompletedDimensionChange(change);
 };
 
 type GraphProps = {
@@ -27,7 +38,8 @@ type GraphProps = {
     readonly groups: Group[];
     readonly layout?: string;
     readonly onSelectionChange?: (component: ComponentData | null) => void;
-    readonly onLayoutChange?: (updates: ComponentLayoutUpdate[]) => void;
+    readonly onComponentLayoutChange?: (updates: ComponentLayoutUpdate[]) => void;
+    readonly onGroupLayoutChange?: (updates: GroupLayoutUpdate[]) => void;
 };
 
 /**
@@ -85,12 +97,38 @@ const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'defa
 };
 
 
+function mapChangesToLayoutUpdates<T extends { id: string }>(
+    changes: (NodePositionChange | NodeDimensionChange)[],
+    nodes: T[]
+): Array<{
+    node: T;
+    position?: { x: number; y: number };
+    size?: { width: number; height: number };
+}> {
+    return changes
+        .map((change) => {
+            const node = nodes.find(({ id }) => id === change.id);
+
+            if (!node) {
+                return undefined;
+            }
+
+            return {
+                node,
+                position: change.type === 'position' ? change.position : undefined,
+                size: change.type === 'dimensions' ? change.dimensions : undefined
+            };
+        })
+        .filter((update): update is NonNullable<typeof update> => !!update);
+}
+
 const Graph: FunctionComponent<GraphProps> = ({
     components,
     groups,
     layout,
     onSelectionChange: onSelectionChangeCallback,
-    onLayoutChange
+    onComponentLayoutChange,
+    onGroupLayoutChange
 }): ReactElement => {
     // Custom node types
     const nodeTypes = useMemo(
@@ -109,27 +147,16 @@ const Graph: FunctionComponent<GraphProps> = ({
 
     const onNodesChange = useCallback(
         (changes: NodeChange[]) => {
-            const layoutUpdates = changes
-                .filter(isNodePositionChange)
-                .map((move) => {
-                    const graphNode = components.find(({ id }) => id === move.id);
-                    if (!graphNode) {
-                        return undefined;
-                    }
-                    return {
-                        node: graphNode,
-                        position: move.position as { x: number; y: number }
-                    } as ComponentLayoutUpdate;
-                });
-
-            const componentLayoutUpdates = layoutUpdates
-                .filter((update): update is ComponentLayoutUpdate => !!update);
-
-            componentLayoutUpdates.length && onLayoutChange?.(componentLayoutUpdates);
+            const completedChanges = changes.filter(isCompletedChange);
+            const componentUpdates = mapChangesToLayoutUpdates(completedChanges, components);
+            const groupUpdates = mapChangesToLayoutUpdates(completedChanges, groups);
+            
+            componentUpdates.length && onComponentLayoutChange?.(componentUpdates);
+            groupUpdates.length && onGroupLayoutChange?.(groupUpdates);
 
             setNodes((nodesSnapshot) => applyNodeChanges(changes, nodesSnapshot));
         },
-        [components, groups, onLayoutChange]
+        [components, groups, onComponentLayoutChange, onGroupLayoutChange]
     );
 
     const onSelectionChange = useCallback(
