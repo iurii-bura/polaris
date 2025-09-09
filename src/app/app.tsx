@@ -1,7 +1,18 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useCallback, useState, useRef, useEffect } from 'react';
 
-import { Graph, ComponentDetails, Loading, LayoutControls, type ComponentData, type ComponentGraph, Group, type ComponentLayoutUpdate, GraphNode, GroupLayoutUpdate } from 'src/components';
+import {
+    Graph,
+    ComponentDetails,
+    Loading,
+    LayoutControls,
+    type ComponentData,
+    type ComponentGraph,
+    Group,
+    type ComponentLayoutUpdate,
+    GraphNode,
+    GroupLayoutUpdate
+} from 'src/components';
 import { useComponentData } from '../hooks';
 import { ComponentDataService } from 'src/services';
 
@@ -31,7 +42,6 @@ const App: FunctionComponent = (): ReactElement => {
         component && setSelectedComponent(component);
     }, []);
 
-
     /**
      * Handles the change of the layout (e.g., switching between different layout views)
      * @param layout The new layout identifier
@@ -46,40 +56,43 @@ const App: FunctionComponent = (): ReactElement => {
      * @param defaultNodeType Default node type to use if not specified
      * @returns Array of updated nodes with modified layouts
      */
-    const createUpdatedNodes = useCallback(<T extends GraphNode>(
-        updates: Array<{ node: T; position?: { x: number; y: number }; size?: { width: number; height: number } }>,
-        defaultNodeType: string
-    ): T[] => {
-        return updates.map((u) => ({
-            ...u.node,
-            layouts: {
-                ...u.node.layouts,
-                [currentLayout]: {
-                    ...u.node.layouts[currentLayout],
-                    ...(u.position && { x: u.position.x, y: u.position.y }),
-                    ...(u.size && { width: u.size.width, height: u.size.height }),
-                    nodeType: u.node.layouts[currentLayout].nodeType || defaultNodeType
+    const createUpdatedNodes = useCallback(
+        <T extends GraphNode>(
+            updates: Array<{ node: T; position?: { x: number; y: number }; size?: { width: number; height: number } }>,
+            defaultNodeType: string
+        ): T[] => {
+            return updates.map((u) => ({
+                ...u.node,
+                layouts: {
+                    ...u.node.layouts,
+                    [currentLayout]: {
+                        ...u.node.layouts[currentLayout],
+                        ...(u.position && { x: u.position.x, y: u.position.y }),
+                        ...(u.size && { width: u.size.width, height: u.size.height }),
+                        nodeType: u.node.layouts[currentLayout].nodeType || defaultNodeType
+                    }
                 }
-            }
-        }));
-    }, [currentLayout]);
+            }));
+        },
+        [currentLayout]
+    );
 
     /**
      * Generic helper function to update state array
      * @param setState State setter function
      * @param updatedItems Array of updated items
      */
-    const updateStateArray = useCallback(<T extends { id: string }>(
-        setState: React.Dispatch<React.SetStateAction<T[]>>,
-        updatedItems: T[]
-    ) => {
-        setState((prevData) => {
-            return prevData.map((item) => {
-                const update = updatedItems.find(({ id }) => id === item.id);
-                return update ?? item;
+    const updateStateArray = useCallback(
+        <T extends { id: string }>(setState: React.Dispatch<React.SetStateAction<T[]>>, updatedItems: T[]) => {
+            setState((prevData) => {
+                return prevData.map((item) => {
+                    const update = updatedItems.find(({ id }) => id === item.id);
+                    return update ?? item;
+                });
             });
-        });
-    }, []);
+        },
+        []
+    );
 
     /**
      * Handles component layout changes
@@ -94,7 +107,7 @@ const App: FunctionComponent = (): ReactElement => {
 
             const updatedComponents = createUpdatedNodes(updates, 'componentDetails');
             updateStateArray(setComponentData, updatedComponents);
-            
+
             void ComponentDataService.getInstance().batchUpdateComponents(
                 updatedComponents.map((item) => ({ id: item.id, data: item }))
             );
@@ -115,7 +128,7 @@ const App: FunctionComponent = (): ReactElement => {
 
             const updatedGroups = createUpdatedNodes(updates, 'group');
             updateStateArray(setGroups, updatedGroups);
-            
+
             void ComponentDataService.getInstance().batchUpdateGroups(
                 updatedGroups.map((item) => ({ id: item.id, data: item }))
             );

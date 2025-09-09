@@ -16,7 +16,7 @@ const ResizableGroupNode: FunctionComponent<NodeProps> = ({ selected, data }): R
                 handleStyle={{ backgroundColor: '#007bff' }}
                 lineStyle={{ borderColor: '#007bff' }}
             />
-            { data.label }
+            {data.label}
             {/* Optional: Add handles for connections */}
             <Handle
                 type="target"

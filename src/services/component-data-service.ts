@@ -61,7 +61,13 @@ export class ComponentDataService {
             const storedData = localStorage.getItem(ComponentDataService.STORAGE_KEY);
             if (storedData) {
                 const parsedData = JSON.parse(storedData) as ComponentGraph;
-                console.log('Loaded component graph from localStorage:', parsedData.components.length, 'components', parsedData.groups.length, 'groups');
+                console.log(
+                    'Loaded component graph from localStorage:',
+                    parsedData.components.length,
+                    'components',
+                    parsedData.groups.length,
+                    'groups'
+                );
                 return parsedData;
             }
         } catch (error) {
@@ -84,7 +90,13 @@ export class ComponentDataService {
         try {
             const dataToStore = JSON.stringify(this.mockData);
             localStorage.setItem(ComponentDataService.STORAGE_KEY, dataToStore);
-            console.log('Saved component graph to localStorage:', this.mockData.components.length, 'components', this.mockData.groups.length, 'groups');
+            console.log(
+                'Saved component graph to localStorage:',
+                this.mockData.components.length,
+                'components',
+                this.mockData.groups.length,
+                'groups'
+            );
         } catch (error) {
             console.error('Failed to save data to localStorage:', error);
         }

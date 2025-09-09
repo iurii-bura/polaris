@@ -17,7 +17,6 @@ import '@xyflow/react/dist/style.css';
 import type { ComponentData, Group, ComponentLayoutUpdate, GroupLayoutUpdate } from '../types';
 import { ComponentDetailsNode, ResizableGroupNode } from './nodes';
 
-
 // Type guard for completed position changes
 const isCompletedPositionChange = (change: NodeChange): change is NodePositionChange => {
     return change.type === 'position' && !change.dragging;
@@ -43,7 +42,7 @@ type GraphProps = {
 };
 
 /**
- * Maps from the domain data structure to Graph library data structure, 
+ * Maps from the domain data structure to Graph library data structure,
  * joins the Groups and Nodes in one array as requried by React Flow
  */
 const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'default'): Node[] => {
@@ -95,7 +94,6 @@ const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'defa
 
     return [...nodes, ...groupNodes];
 };
-
 
 function mapChangesToLayoutUpdates<T extends { id: string }>(
     changes: (NodePositionChange | NodeDimensionChange)[],
@@ -150,7 +148,7 @@ const Graph: FunctionComponent<GraphProps> = ({
             const completedChanges = changes.filter(isCompletedPositionChange);
             const componentUpdates = mapChangesToLayoutUpdates(completedChanges, components);
             const groupUpdates = mapChangesToLayoutUpdates(completedChanges, groups);
-            
+
             componentUpdates.length && onComponentLayoutChange?.(componentUpdates);
             groupUpdates.length && onGroupLayoutChange?.(groupUpdates);
 
