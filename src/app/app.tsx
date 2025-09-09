@@ -41,85 +41,86 @@ const App: FunctionComponent = (): ReactElement => {
     }, []);
 
     /**
-     * Called when a node's position is changed (dragged) in the graph
-     * Updates the local state and persists the new position via the service
-     * @param updates Array of ComponentLayoutUpdate objects containing the node and optionally its new position or dimensions
+     * Generic helper function to update node layouts
+     * @param updates Array of layout updates for any node type
+     * @param defaultNodeType Default node type to use if not specified
+     * @returns Array of updated nodes with modified layouts
+     */
+    const createUpdatedNodes = useCallback(<T extends GraphNode>(
+        updates: Array<{ node: T; position?: { x: number; y: number }; size?: { width: number; height: number } }>,
+        defaultNodeType: string
+    ): T[] => {
+        return updates.map((u) => ({
+            ...u.node,
+            layouts: {
+                ...u.node.layouts,
+                [currentLayout]: {
+                    ...u.node.layouts[currentLayout],
+                    ...(u.position && { x: u.position.x, y: u.position.y }),
+                    ...(u.size && { width: u.size.width, height: u.size.height }),
+                    nodeType: u.node.layouts[currentLayout].nodeType || defaultNodeType
+                }
+            }
+        }));
+    }, [currentLayout]);
+
+    /**
+     * Generic helper function to update state array
+     * @param setState State setter function
+     * @param updatedItems Array of updated items
+     */
+    const updateStateArray = useCallback(<T extends { id: string }>(
+        setState: React.Dispatch<React.SetStateAction<T[]>>,
+        updatedItems: T[]
+    ) => {
+        setState((prevData) => {
+            return prevData.map((item) => {
+                const update = updatedItems.find(({ id }) => id === item.id);
+                return update ?? item;
+            });
+        });
+    }, []);
+
+    /**
+     * Handles component layout changes
+     * Updates the local state and persists changes via the component service
+     * @param updates Array of component layout updates
      */
     const handleComponentLayoutChange = useCallback(
         (updates: ComponentLayoutUpdate[]) => {
-            console.log('Layout updates:', updates.length);
             if (!updates.length) {
                 return;
             }
 
-            const updatedItems = updates
-                .map((u) => ({
-                    ...u.node,
-                    layouts: {
-                        ...u.node.layouts,
-                        [currentLayout]: {
-                            ...u.node.layouts[currentLayout],
-                            ...(u.position && { x: u.position.x, y: u.position.y }),
-                            // ...(u.size && { width: u.size.width, height: u.size.height }),
-                            nodeType: u.node.layouts[currentLayout].nodeType || 'componentDetails'
-                        }
-                    }
-                }));
-
-
-            setComponentData((prevData) => {
-                return prevData.map((item) => {
-                    const update = updatedItems.find(({ id }) => id === item.id);
-                    return update ?? item;
-                });
-            });
-
+            const updatedComponents = createUpdatedNodes(updates, 'componentDetails');
+            updateStateArray(setComponentData, updatedComponents);
+            
             void ComponentDataService.getInstance().batchUpdateComponents(
-                updatedItems.map((item) => ({ id: item.id, data: item }))
+                updatedComponents.map((item) => ({ id: item.id, data: item }))
             );
         },
-        [currentLayout]
+        [createUpdatedNodes, updateStateArray]
     );
 
-        /**
-     * Called when a node's position is changed (dragged) in the graph
-     * Updates the local state and persists the new position via the service
-     * @param updates Array of ComponentLayoutUpdate objects containing the node and optionally its new position or dimensions
+    /**
+     * Handles group layout changes
+     * Updates the local state and persists changes via the group service
+     * @param updates Array of group layout updates
      */
     const handleGroupLayoutChange = useCallback(
         (updates: GroupLayoutUpdate[]) => {
-            console.log('Group Layout updates:', updates.length);
             if (!updates.length) {
                 return;
             }
 
-            const updatedItems = updates
-                .map((u) => ({
-                    ...u.node,
-                    layouts: {
-                        ...u.node.layouts,
-                        [currentLayout]: {
-                            ...u.node.layouts[currentLayout],
-                            ...(u.position && { x: u.position.x, y: u.position.y }),
-                            // ...(u.size && { width: u.size.width, height: u.size.height }),
-                            nodeType: u.node.layouts[currentLayout].nodeType || 'componentDetails'
-                        }
-                    }
-                }));
-
-
-            setGroups((prevData) => {
-                return prevData.map((item) => {
-                    const update = updatedItems.find(({ id }) => id === item.id);
-                    return update ?? item;
-                });
-            });
-
+            const updatedGroups = createUpdatedNodes(updates, 'group');
+            updateStateArray(setGroups, updatedGroups);
+            
             void ComponentDataService.getInstance().batchUpdateGroups(
-                updatedItems.map((item) => ({ id: item.id, data: item }))
+                updatedGroups.map((item) => ({ id: item.id, data: item }))
             );
         },
-        [currentLayout]
+        [createUpdatedNodes, updateStateArray]
     );
 
     const handleMouseDown = useCallback((e: React.MouseEvent) => {
