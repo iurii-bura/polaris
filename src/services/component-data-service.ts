@@ -1,14 +1,19 @@
 import type { ComponentData, ComponentGraph, Group } from '../components/types';
-import mockDataJson from '../../data/example.json';
+import mockDataJson from '../../data/example-2.json';
 
 /**
  * Service class for managing component data operations.
  * This abstraction allows for easy replacement with REST API calls in the future.
  *
  * Data persistence strategy:
- * 1. First load: Reads from example.json
- * 2. Subsequent loads: Reads from localStorage if available, fallback to example.json
+ * 1. First load: Configurable to read from localStorage or example.json based on preferBrowserStorage setting
+ * 2. Subsequent loads: Follows the same strategy as configured
  * 3. All updates: Automatically saved to localStorage for persistence
+ * 
+ * Configuration:
+ * - Use ComponentDataService.setPreferBrowserStorage(true) to prefer localStorage over file data
+ * - Use ComponentDataService.setPreferBrowserStorage(false) to always load from file, ignoring localStorage
+ * - Call reloadData() after changing the preference to apply the new setting
  */
 export class ComponentDataService {
     /**
@@ -36,6 +41,15 @@ export class ComponentDataService {
     private static readonly STORAGE_KEY = 'viz-lib-component-data';
 
     /**
+     * Configuration flag to control data loading behavior
+     * - true: Always prefer localStorage over file data on initialization
+     * - false: Always load from file, ignore localStorage on initialization
+     * 
+     * Note: This only affects the initial data loading. Updates are always saved to localStorage.
+     */
+    private static preferBrowserStorage: boolean = false;
+
+    /**
      * Mock data storage - simulates a database or API data source
      * Data is loaded from localStorage first, then falls back to external JSON file
      */
@@ -54,9 +68,41 @@ export class ComponentDataService {
     }
 
     /**
+     * Configure the data loading behavior for the service
+     * @param preferStorage - If true, prefers localStorage over file data on initialization
+     *                       If false, always loads from file and ignores localStorage on initialization
+     * 
+     * Note: This setting only affects initial data loading. All updates continue to be saved to localStorage.
+     * To apply this setting, you may need to call clearStoredData() and reload the service.
+     */
+    static setPreferBrowserStorage(preferStorage: boolean): void {
+        ComponentDataService.preferBrowserStorage = preferStorage;
+        console.log(`Data loading preference set to: ${preferStorage ? 'browser storage' : 'file'}`);
+    }
+
+    /**
+     * Get the current data loading preference
+     */
+    static getPreferBrowserStorage(): boolean {
+        return ComponentDataService.preferBrowserStorage;
+    }
+
+    /**
      * Loads component data from localStorage if available, otherwise from example.json
+     * Behavior is controlled by the preferBrowserStorage configuration
      */
     private loadDataFromStorage(): ComponentGraph {
+        // If preferBrowserStorage is false, skip localStorage and load directly from file
+        if (!ComponentDataService.preferBrowserStorage) {
+            console.log('Loading component graph from example.json (browser storage disabled)');
+            const componentGraph = mockDataJson as ComponentGraph;
+            return {
+                components: [...componentGraph.components],
+                groups: [...componentGraph.groups]
+            };
+        }
+
+        // Original behavior: try localStorage first, fallback to file
         try {
             const storedData = localStorage.getItem(ComponentDataService.STORAGE_KEY);
             if (storedData) {
@@ -320,5 +366,29 @@ export class ComponentDataService {
 
             return false;
         }
+    }
+
+    /**
+     * Reload data from the configured source (localStorage or file)
+     * Useful when changing the preferBrowserStorage setting
+     */
+    reloadData(): void {
+        this.mockData = this.loadDataFromStorage();
+        console.log('Data reloaded from configured source');
+    }
+
+    /**
+     * Utility method to get the current data loading configuration
+     */
+    getCurrentDataSource(): 'localStorage' | 'file' | 'mixed' {
+        if (!ComponentDataService.preferBrowserStorage) {
+            return 'file';
+        }
+        
+        if (this.isUsingStoredData()) {
+            return 'localStorage';
+        }
+        
+        return 'mixed'; // Fallback scenario where localStorage is preferred but file is used
     }
 }
