@@ -28,13 +28,6 @@ export type TechStackItem = {
     source: string;
 };
 
-export type CmdbInfo = {
-    id: string;
-    name: string;
-    description: string;
-    type: string;
-};
-
 export type Document = {
     url: string;
     description: string;
@@ -121,8 +114,7 @@ export type Layouts = Partial<Record<string, LayoutInfo>>;
 
 export type Facts = {
     businessCapabilities: string[];
-    cmdb: CmdbInfo;
-    cmdbFacts?: CmdbFacts;
+    cmdbFacts: CmdbFacts;
     git?: GitInfo;
     techStack?: TechStackItem[];
     documents?: Document[];

@@ -30,8 +30,8 @@ const ComponentDetails: FunctionComponent<ComponentDetailsProps> = ({ component 
                         businessCapabilities={component.facts.businessCapabilities}
                         platforms={component.facts.platforms}
                         techStack={component.facts.techStack}
-                        name={component.facts.cmdb.name}
-                        description={component.facts.cmdb.description}
+                        name={component.facts.cmdbFacts.name}
+                        description={component.facts.cmdbFacts.description}
                         teamName={component.facts.team?.teamName}
                         coveragePercentage={component.facts.qualityMetrics?.codeCoveragePercentage}
                     />
@@ -39,10 +39,7 @@ const ComponentDetails: FunctionComponent<ComponentDetailsProps> = ({ component 
                     {/* Technical Details Cards */}
                     {component.facts.techStack && component.facts.techStack.length > 0 && <TechStackFacts techStack={component.facts.techStack} />}
 
-                    {/* Disable eslint rule for this line only as we do want to check for null/undefined here */}
-                    {/* To have a proper solution, we need to rework types. */}
-                    {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
-                    {component.facts.cmdbFacts ? <CmdbFacts cmdbFacts={component.facts.cmdbFacts} /> : null}
+                    <CmdbFacts cmdbFacts={component.facts.cmdbFacts} />
 
                     {component.facts.qualityMetrics && <QualityMetricsFacts qualityMetrics={component.facts.qualityMetrics} />}
 
