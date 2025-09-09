@@ -1,4 +1,4 @@
-import type { ComponentData, ComponentGraph } from '../components/types';
+import type { ComponentData, ComponentGraph, Group } from '../components/types';
 import mockDataJson from '../../data/example.json';
 
 /**
@@ -26,6 +26,7 @@ export class ComponentDataService {
         CREATE: 300, // Delay for createComponent()
         UPDATE: 300, // Delay for updateComponent()
         BATCH_UPDATE: 350, // Delay for batchUpdateComponents()
+        BATCH_UPDATE_GROUPS: 350, // Delay for batchUpdateGroups()
         DELETE: 300 // Delay for deleteComponent()
     } as const;
 
@@ -210,6 +211,45 @@ export class ComponentDataService {
         this.saveDataToStorage();
 
         return updatedComponents;
+    }
+
+    /**
+     * Updates multiple groups in batch.
+     * Simulates API batch update operation.
+     * @param updates Array of objects containing group id and partial group data to update
+     * @returns Promise resolving to array of updated groups
+     * @throws Error if any group ID is not found
+     */
+    async batchUpdateGroups(updates: { id: string; data: Partial<Group> }[]): Promise<Group[]> {
+        // Simulate API call - batch operations typically take slightly longer than single operations
+        await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.BATCH_UPDATE_GROUPS));
+
+        const updatedGroups: Group[] = [];
+        const notFoundIds: string[] = [];
+
+        // Process each update
+        for (const update of updates) {
+            const index = this.mockData.groups.findIndex((group) => group.id === update.id);
+
+            if (index === -1) {
+                notFoundIds.push(update.id);
+                continue;
+            }
+
+            // Update the group in mock data
+            this.mockData.groups[index] = { ...this.mockData.groups[index], ...update.data };
+            updatedGroups.push({ ...this.mockData.groups[index] });
+        }
+
+        // Throw error if any groups were not found
+        if (notFoundIds.length > 0) {
+            throw new Error(`Groups with ids [${notFoundIds.join(', ')}] not found`);
+        }
+
+        // Save to localStorage after all updates
+        this.saveDataToStorage();
+
+        return updatedGroups;
     }
 
     /**
