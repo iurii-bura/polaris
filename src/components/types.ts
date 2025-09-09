@@ -103,63 +103,10 @@ export type CmdbFacts = {
         link: string; // Link to subcomponent CMDB entry
     }[];
 
-    // Classification
-    applicationType:
-        | 'web-application'
-        | 'desktop-application'
-        | 'mobile-app'
-        | 'api-service'
-        | 'batch-job'
-        | 'database'
-        | 'middleware'
-        | 'other';
-    applicationCategory:
-        | 'core-business'
-        | 'supporting'
-        | 'infrastructure'
-        | 'integration'
-        | 'analytics'
-        | 'security'
-        | 'other';
-
-    // Business Context
-    businessCapabilities: string[]; // Inherited from existing structure
-    dataClassification: 'public' | 'internal' | 'confidential' | 'restricted';
-
-    // Technical Details
-    architecturePattern?: 'monolith' | 'microservices' | 'soa' | 'serverless' | 'event-driven' | 'layered' | 'other';
-    deploymentModel: 'on-premises' | 'cloud' | 'hybrid' | 'multi-cloud';
-
-    // Lifecycle & Status
-    status: 'active' | 'under-development' | 'decommissioned' | 'retired';
-
-    // Financial & Governance
-    owner: {
-        businessOwner?: {
-            name: string;
-            email: string;
-            department?: string;
-        };
-        technicalOwner?: {
-            name: string;
-            email: string;
-            team?: string;
-        };
-    };
-
-    costCenter?: string;
     annualCost?: {
         amount: number;
         currency: string; // USD, EUR, etc.
     };
-
-    // Vendor & Licensing
-    vendor?: {
-        name: string;
-        supportContact?: string;
-        contractEndDate?: string;
-    };
-    licenseModel?: 'open-source' | 'commercial' | 'saas' | 'subscription' | 'perpetual';
 };
 
 export type LayoutInfo = {
