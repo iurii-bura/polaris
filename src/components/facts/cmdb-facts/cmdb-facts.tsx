@@ -32,7 +32,7 @@ const CmdbFacts: FunctionComponent<CmdbFactsProps> = ({ cmdbFacts }): ReactEleme
                 >
                     <div className="flex items-center gap-3">
                         <FiDatabase className="w-6 h-6 text-primary" />
-                        <h2 className="text-xl font-bold">CMDB Facts</h2>
+                        <h2 className="text-xl font-bold">CMDB</h2>
                     </div>
 
                     {/* Expand/Collapse Button */}
