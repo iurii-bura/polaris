@@ -8,12 +8,12 @@ import PlatformBadges from './platform-badges';
 type SummaryFactsProps = {
     readonly id: string;
     readonly businessCapabilities: string[];
-    readonly platforms: { type: string; comment: string }[];
-    readonly techStack: { name: string; version: string; source: string }[];
+    readonly platforms?: { type: string; comment: string }[];
+    readonly techStack?: { name: string; version: string; source: string }[];
     readonly name: string;
     readonly description: string;
     readonly teamName?: string;
-    readonly coveragePercentage: number;
+    readonly coveragePercentage?: number;
 };
 
 const SummaryFacts: FunctionComponent<SummaryFactsProps> = ({
@@ -82,24 +82,30 @@ const SummaryFacts: FunctionComponent<SummaryFactsProps> = ({
                     {/* Right Column */}
                     <div className="space-y-4">
                         {/* Technology Stack */}
-                        <div>
-                            <h4 className="text-sm font-medium text-base-content/60 mb-2">Technology Stack</h4>
-                            <TechStackIcons techStack={techStack} />
-                        </div>
+                        {techStack && techStack.length > 0 && (
+                            <div>
+                                <h4 className="text-sm font-medium text-base-content/60 mb-2">Technology Stack</h4>
+                                <TechStackIcons techStack={techStack} />
+                            </div>
+                        )}
 
                         {/* Test Coverage */}
-                        <div>
-                            <h4 className="text-sm font-medium text-base-content/60 mb-2">Test Coverage</h4>
-                            <CoverageScore percentage={coveragePercentage} />
-                        </div>
+                        {coveragePercentage !== undefined && (
+                            <div>
+                                <h4 className="text-sm font-medium text-base-content/60 mb-2">Test Coverage</h4>
+                                <CoverageScore percentage={coveragePercentage} />
+                            </div>
+                        )}
                     </div>
                 </div>
 
                 {/* Platform Badges */}
-                <div className="mt-4 pt-4 border-t border-base-300">
-                    <h4 className="text-sm font-medium text-base-content/60 mb-2">Platforms</h4>
-                    <PlatformBadges platforms={platforms} />
-                </div>
+                {platforms && platforms.length > 0 && (
+                    <div className="mt-4 pt-4 border-t border-base-300">
+                        <h4 className="text-sm font-medium text-base-content/60 mb-2">Platforms</h4>
+                        <PlatformBadges platforms={platforms} />
+                    </div>
+                )}
             </div>
         </div>
     );

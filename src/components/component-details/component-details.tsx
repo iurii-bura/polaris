@@ -10,7 +10,9 @@ import {
     DocumentsFacts,
     TeamFacts,
     KafkaFacts,
-    CmdbFacts
+    CmdbFacts,
+    PlatformsFacts,
+    LinksFacts
 } from '../facts';
 
 type ComponentDetailsProps = {
@@ -31,27 +33,31 @@ const ComponentDetails: FunctionComponent<ComponentDetailsProps> = ({ component 
                         name={component.facts.cmdb.name}
                         description={component.facts.cmdb.description}
                         teamName={component.facts.team?.teamName}
-                        coveragePercentage={component.facts.qualityMetrics.codeCoveragePercentage}
+                        coveragePercentage={component.facts.qualityMetrics?.codeCoveragePercentage}
                     />
 
                     {/* Technical Details Cards */}
-                    <TechStackFacts techStack={component.facts.techStack} />
+                    {component.facts.techStack && component.facts.techStack.length > 0 && <TechStackFacts techStack={component.facts.techStack} />}
 
                     {/* Disable eslint rule for this line only as we do want to check for null/undefined here */}
                     {/* To have a proper solution, we need to rework types. */}
                     {/* eslint-disable-next-line @typescript-eslint/no-unnecessary-condition */}
                     {component.facts.cmdbFacts ? <CmdbFacts cmdbFacts={component.facts.cmdbFacts} /> : null}
 
-                    <QualityMetricsFacts qualityMetrics={component.facts.qualityMetrics} />
+                    {component.facts.qualityMetrics && <QualityMetricsFacts qualityMetrics={component.facts.qualityMetrics} />}
 
                     {/* Development & Collaboration Cards */}
-                    <GitFacts git={component.facts.git} />
+                    {component.facts.git && <GitFacts git={component.facts.git} />}
 
-                    <TeamFacts team={component.facts.team} />
+                    {component.facts.team && <TeamFacts team={component.facts.team} />}
 
-                    <ApiSpecificationsFacts apiSpecifications={component.facts.apiSpecifications} />
+                    {component.facts.apiSpecifications && component.facts.apiSpecifications.length > 0 && <ApiSpecificationsFacts apiSpecifications={component.facts.apiSpecifications} />}
 
-                    <DocumentsFacts documents={component.facts.documents} />
+                    {component.facts.documents && component.facts.documents.length > 0 && <DocumentsFacts documents={component.facts.documents} />}
+
+                    {component.facts.platforms && component.facts.platforms.length > 0 && <PlatformsFacts platforms={component.facts.platforms} />}
+
+                    <LinksFacts links={component.facts.links} />
 
                     {component.facts.kafka ? <KafkaFacts kafka={component.facts.kafka} /> : null}
                 </div>
