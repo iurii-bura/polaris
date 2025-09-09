@@ -7,11 +7,10 @@ import {
     Loading,
     LayoutControls,
     type ComponentData,
-    type ComponentGraph,
-    Group,
+    type Group,
     type ComponentLayoutUpdate,
-    GraphNode,
-    GroupLayoutUpdate
+    type GraphNode,
+    type GroupLayoutUpdate
 } from 'src/components';
 import { useComponentData } from '../hooks';
 import { ComponentDataService } from 'src/services';
@@ -58,7 +57,7 @@ const App: FunctionComponent = (): ReactElement => {
      */
     const createUpdatedNodes = useCallback(
         <T extends GraphNode>(
-            updates: Array<{ node: T; position?: { x: number; y: number }; size?: { width: number; height: number } }>,
+            updates: { node: T; position?: { x: number; y: number }; size?: { width: number; height: number } }[],
             defaultNodeType: string
         ): T[] => {
             return updates.map((u) => ({
@@ -69,7 +68,7 @@ const App: FunctionComponent = (): ReactElement => {
                         ...u.node.layouts[currentLayout],
                         ...(u.position && { x: u.position.x, y: u.position.y }),
                         ...(u.size && { width: u.size.width, height: u.size.height }),
-                        nodeType: u.node.layouts[currentLayout].nodeType || defaultNodeType
+                        nodeType: u.node.layouts[currentLayout]?.nodeType ?? defaultNodeType
                     }
                 }
             }));

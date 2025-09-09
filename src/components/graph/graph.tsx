@@ -23,14 +23,14 @@ const isCompletedPositionChange = (change: NodeChange): change is NodePositionCh
 };
 
 // Type guard for completed dimension changes
-const isCompletedDimensionChange = (change: NodeChange): change is NodeDimensionChange => {
-    return change.type === 'dimensions' && !change.resizing;
-};
+// const isCompletedDimensionChange = (change: NodeChange): change is NodeDimensionChange => {
+//     return change.type === 'dimensions' && !change.resizing;
+// };
 
 // Combined type guard for any completed change
-const isCompletedChange = (change: NodeChange): change is NodePositionChange | NodeDimensionChange => {
-    return isCompletedPositionChange(change) || isCompletedDimensionChange(change);
-};
+// const isCompletedChange = (change: NodeChange): change is NodePositionChange | NodeDimensionChange => {
+//     return isCompletedPositionChange(change) || isCompletedDimensionChange(change);
+// };
 
 type GraphProps = {
     readonly components: ComponentData[];
@@ -72,9 +72,13 @@ const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'defa
     });
 
     const groupNodes = groups
-        .filter((group) => group.layouts[layout])
         .map((group) => {
-            const { x, y, width, height } = group.layouts[layout];
+            const layoutInfo = group.layouts[layout];
+            if (!layoutInfo) {
+                return null;
+            }
+
+            const { x, y, width, height } = layoutInfo;
             return {
                 id: group.id,
                 data: {
@@ -90,7 +94,8 @@ const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'defa
                 },
                 type: 'group'
             };
-        });
+        })
+        .filter((node): node is NonNullable<typeof node> => node !== null);
 
     return [...nodes, ...groupNodes];
 };
@@ -98,11 +103,11 @@ const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'defa
 function mapChangesToLayoutUpdates<T extends { id: string }>(
     changes: (NodePositionChange | NodeDimensionChange)[],
     nodes: T[]
-): Array<{
+): {
     node: T;
     position?: { x: number; y: number };
     size?: { width: number; height: number };
-}> {
+}[] {
     return changes
         .map((change) => {
             const node = nodes.find(({ id }) => id === change.id);

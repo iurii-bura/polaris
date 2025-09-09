@@ -170,7 +170,7 @@ export type LayoutInfo = {
     nodeType: string;
 };
 
-export type Layouts = Record<string, LayoutInfo>;
+export type Layouts = Partial<Record<string, LayoutInfo>>;
 
 export type Facts = {
     businessCapabilities: string[];
