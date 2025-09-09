@@ -147,7 +147,7 @@ const Graph: FunctionComponent<GraphProps> = ({
 
     const onNodesChange = useCallback(
         (changes: NodeChange[]) => {
-            const completedChanges = changes.filter(isCompletedChange);
+            const completedChanges = changes.filter(isCompletedPositionChange);
             const componentUpdates = mapChangesToLayoutUpdates(completedChanges, components);
             const groupUpdates = mapChangesToLayoutUpdates(completedChanges, groups);
             

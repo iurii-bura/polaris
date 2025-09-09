@@ -74,9 +74,9 @@ const App: FunctionComponent = (): ReactElement => {
                 });
             });
 
-            // void ComponentDataService.getInstance().batchUpdateComponents(
-            //     updatedItems.map((item) => ({ id: item.id, data: item }))
-            // );
+            void ComponentDataService.getInstance().batchUpdateComponents(
+                updatedItems.map((item) => ({ id: item.id, data: item }))
+            );
         },
         [currentLayout]
     );
