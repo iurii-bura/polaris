@@ -87,7 +87,7 @@ const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'defa
                 },
                 position: { x, y },
                 style: {
-                    backgroundColor: 'rgba(255, 0, 255, 0.2)',
+                    backgroundColor: layoutInfo.backgroundColor ?? 'rgba(255, 0, 255, 0.2)',
                     zIndex: -10,
                     width,
                     height

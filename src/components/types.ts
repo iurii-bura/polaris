@@ -108,6 +108,7 @@ export type LayoutInfo = {
     width?: number;
     height?: number;
     nodeType: string;
+    backgroundColor?: string;
 };
 
 export type Layouts = Partial<Record<string, LayoutInfo>>;
