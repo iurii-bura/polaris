@@ -83,7 +83,7 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
         const months = git.repositories[0]?.monthlyCommits.data.map((m) => m.month);
 
         return months.map((month) => {
-            const dataPoint: Record<string, any> = { month: month.split('-')[1] }; // Show only month number
+            const dataPoint: Record<string, string | number> = { month: month.split('-')[1] }; // Show only month number
 
             // Add data for each repository
             git.repositories.forEach((repo) => {
@@ -214,10 +214,8 @@ const GitFacts: FunctionComponent<GitFactsProps> = ({ git }): ReactElement => {
                                                 tick={{ fontSize: 12, fill: 'currentColor' }}
                                                 axisLine={{ stroke: 'currentColor', opacity: 0.2 }}
                                                 width={40}
-                                                tickFormatter={(value) => {
-                                                    // Types needs to be reworked to avoid 'any' here
-                                                    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-                                                    return value.toString();
+                                                tickFormatter={(value: number | string) => {
+                                                    return String(value);
                                                 }}
                                             />
                                             <Tooltip
