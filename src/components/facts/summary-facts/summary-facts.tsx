@@ -82,30 +82,30 @@ const SummaryFacts: FunctionComponent<SummaryFactsProps> = ({
                     {/* Right Column */}
                     <div className="space-y-4">
                         {/* Technology Stack */}
-                        {techStack && techStack.length > 0 && (
+                        {techStack && techStack.length > 0 ? (
                             <div>
                                 <h4 className="text-sm font-medium text-base-content/60 mb-2">Technology Stack</h4>
                                 <TechStackIcons techStack={techStack} />
                             </div>
-                        )}
+                        ) : null}
 
                         {/* Test Coverage */}
-                        {coveragePercentage !== undefined && (
+                        {coveragePercentage !== undefined ? (
                             <div>
                                 <h4 className="text-sm font-medium text-base-content/60 mb-2">Test Coverage</h4>
                                 <CoverageScore percentage={coveragePercentage} />
                             </div>
-                        )}
+                        ) : null}
                     </div>
                 </div>
 
                 {/* Platform Badges */}
-                {platforms && platforms.length > 0 && (
+                {platforms && platforms.length > 0 ? (
                     <div className="mt-4 pt-4 border-t border-base-300">
                         <h4 className="text-sm font-medium text-base-content/60 mb-2">Platforms</h4>
                         <PlatformBadges platforms={platforms} />
                     </div>
-                )}
+                ) : null}
             </div>
         </div>
     );
