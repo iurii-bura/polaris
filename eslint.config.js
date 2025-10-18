@@ -3,7 +3,7 @@ import pluginJs from '@eslint/js';
 import pluginTs from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
 
-export default pluginTs.config(
+export default pluginTs.defineConfig(
     pluginJs.configs.recommended,
     ...pluginTs.configs.strictTypeChecked,
     ...pluginTs.configs.stylisticTypeChecked,
@@ -11,7 +11,7 @@ export default pluginTs.config(
         languageOptions: {
             parserOptions: {
                 projectService: true,
-                tsconfigRootDir: import.meta.dirname,
+                tsconfigRootDir: import.meta.dirname
             }
         }
     },
