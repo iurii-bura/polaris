@@ -47,7 +47,7 @@ export class ComponentDataService {
      *
      * Note: This only affects the initial data loading. Updates are always saved to localStorage.
      */
-    private static preferBrowserStorage: boolean = false;
+    private static preferBrowserStorage = false;
 
     /**
      * Mock data storage - simulates a database or API data source
