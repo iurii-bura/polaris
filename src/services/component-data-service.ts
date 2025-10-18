@@ -9,7 +9,7 @@ import mockDataJson from '../../data/example.json';
  * 1. First load: Configurable to read from localStorage or example.json based on preferBrowserStorage setting
  * 2. Subsequent loads: Follows the same strategy as configured
  * 3. All updates: Automatically saved to localStorage for persistence
- * 
+ *
  * Configuration:
  * - Use ComponentDataService.setPreferBrowserStorage(true) to prefer localStorage over file data
  * - Use ComponentDataService.setPreferBrowserStorage(false) to always load from file, ignoring localStorage
@@ -44,7 +44,7 @@ export class ComponentDataService {
      * Configuration flag to control data loading behavior
      * - true: Always prefer localStorage over file data on initialization
      * - false: Always load from file, ignore localStorage on initialization
-     * 
+     *
      * Note: This only affects the initial data loading. Updates are always saved to localStorage.
      */
     private static preferBrowserStorage: boolean = false;
@@ -71,7 +71,7 @@ export class ComponentDataService {
      * Configure the data loading behavior for the service
      * @param preferStorage - If true, prefers localStorage over file data on initialization
      *                       If false, always loads from file and ignores localStorage on initialization
-     * 
+     *
      * Note: This setting only affects initial data loading. All updates continue to be saved to localStorage.
      * To apply this setting, you may need to call clearStoredData() and reload the service.
      */
@@ -384,11 +384,11 @@ export class ComponentDataService {
         if (!ComponentDataService.preferBrowserStorage) {
             return 'file';
         }
-        
+
         if (this.isUsingStoredData()) {
             return 'localStorage';
         }
-        
+
         return 'mixed'; // Fallback scenario where localStorage is preferred but file is used
     }
 }

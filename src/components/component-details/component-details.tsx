@@ -37,22 +37,32 @@ const ComponentDetails: FunctionComponent<ComponentDetailsProps> = ({ component 
                     />
 
                     {/* Technical Details Cards */}
-                    {component.facts.techStack && component.facts.techStack.length > 0 && <TechStackFacts techStack={component.facts.techStack} />}
+                    {component.facts.techStack && component.facts.techStack.length > 0 && (
+                        <TechStackFacts techStack={component.facts.techStack} />
+                    )}
 
                     <CmdbFacts cmdbFacts={component.facts.cmdbFacts} />
 
-                    {component.facts.qualityMetrics && <QualityMetricsFacts qualityMetrics={component.facts.qualityMetrics} />}
+                    {component.facts.qualityMetrics && (
+                        <QualityMetricsFacts qualityMetrics={component.facts.qualityMetrics} />
+                    )}
 
                     {/* Development & Collaboration Cards */}
                     {component.facts.git && <GitFacts git={component.facts.git} />}
 
                     {component.facts.team && <TeamFacts team={component.facts.team} />}
 
-                    {component.facts.apiSpecifications && component.facts.apiSpecifications.length > 0 && <ApiSpecificationsFacts apiSpecifications={component.facts.apiSpecifications} />}
+                    {component.facts.apiSpecifications && component.facts.apiSpecifications.length > 0 && (
+                        <ApiSpecificationsFacts apiSpecifications={component.facts.apiSpecifications} />
+                    )}
 
-                    {component.facts.documents && component.facts.documents.length > 0 && <DocumentsFacts documents={component.facts.documents} />}
+                    {component.facts.documents && component.facts.documents.length > 0 && (
+                        <DocumentsFacts documents={component.facts.documents} />
+                    )}
 
-                    {component.facts.platforms && component.facts.platforms.length > 0 && <PlatformsFacts platforms={component.facts.platforms} />}
+                    {component.facts.platforms && component.facts.platforms.length > 0 && (
+                        <PlatformsFacts platforms={component.facts.platforms} />
+                    )}
 
                     <LinksFacts links={component.facts.links} />
 

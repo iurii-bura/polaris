@@ -44,7 +44,7 @@ const getLinkIcon = (type: string): ReactElement => {
 // Get display name for link type
 const getLinkTypeDisplay = (type: string): string => {
     const linkType = type.toLowerCase();
-    
+
     if (linkType === 'kb') return 'Knowledge Base';
     if (linkType === 'wiki') return 'Wiki';
     if (linkType === 'docs') return 'Documentation';
@@ -52,7 +52,7 @@ const getLinkTypeDisplay = (type: string): string => {
     if (linkType === 'monitor') return 'Monitoring';
     if (linkType === 'repo') return 'Repository';
     if (linkType === 'api') return 'API';
-    
+
     // Capitalize first letter for other types
     return type.charAt(0).toUpperCase() + type.slice(1);
 };

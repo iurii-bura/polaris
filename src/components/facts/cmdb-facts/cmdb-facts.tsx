@@ -1,14 +1,6 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useState, useCallback } from 'react';
-import {
-    FiDatabase,
-    FiChevronDown,
-    FiChevronUp,
-    FiDollarSign,
-    FiTag,
-    FiLink,
-    FiBox
-} from 'react-icons/fi';
+import { FiDatabase, FiChevronDown, FiChevronUp, FiDollarSign, FiTag, FiLink, FiBox } from 'react-icons/fi';
 import type { CmdbFacts as CmdbFactsType } from '../../types';
 
 type CmdbFactsProps = {
