@@ -3,7 +3,7 @@ import pluginJs from '@eslint/js';
 import pluginTs from 'typescript-eslint';
 import pluginReact from 'eslint-plugin-react';
 
-export default pluginTs.defineConfig(
+export default pluginTs.config(
     pluginJs.configs.recommended,
     ...pluginTs.configs.strictTypeChecked,
     ...pluginTs.configs.stylisticTypeChecked,
