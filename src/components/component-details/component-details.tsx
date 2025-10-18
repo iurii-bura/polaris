@@ -1,5 +1,6 @@
 import type { FunctionComponent, ReactElement } from 'react';
-import type { ComponentData } from '../types';
+import { useMemo } from 'react';
+import type { ComponentData, Facts } from '../types';
 import NoComponentSelected from './no-component-selected';
 import {
     SummaryFacts,
@@ -19,60 +20,56 @@ type ComponentDetailsProps = {
     readonly component: ComponentData | null;
 };
 
+/*
+ * Ideally this function (and the whole application) should be completely independent
+ * on specific types of facts. There should be a flexibility to add more types dynamically
+ * witohut touching this code
+ */
+const getFactCards = (facts: Facts): ReactElement[] => {
+    const techStack = facts.techStack && facts.techStack.length > 0 && <TechStackFacts techStack={facts.techStack} />;
+    const cmdb = <CmdbFacts cmdbFacts={facts.cmdbFacts} />;
+    const qualityMetrics = facts.qualityMetrics && <QualityMetricsFacts qualityMetrics={facts.qualityMetrics} />;
+    const git = facts.git && <GitFacts git={facts.git} />;
+    const team = facts.team && <TeamFacts team={facts.team} />;
+    const api = facts.apiSpecifications && facts.apiSpecifications.length > 0 && (
+        <ApiSpecificationsFacts apiSpecifications={facts.apiSpecifications} />
+    );
+    const docs = facts.documents && facts.documents.length > 0 && <DocumentsFacts documents={facts.documents} />;
+    const platforms = facts.platforms && facts.platforms.length > 0 && <PlatformsFacts platforms={facts.platforms} />;
+    const links = <LinksFacts links={facts.links} />;
+    const kafka = facts.kafka && <KafkaFacts kafka={facts.kafka} />;
+
+    return [techStack, cmdb, qualityMetrics, git, team, api, docs, platforms, links, kafka].filter((el) => !!el);
+};
+
 const ComponentDetails: FunctionComponent<ComponentDetailsProps> = ({ component }): ReactElement => {
+    if (component === null) {
+        return (
+            <div className="h-full flex items-center justify-center">
+                <NoComponentSelected />
+            </div>
+        );
+    }
+
+    const facts = useMemo(() => getFactCards(component.facts), [component.facts]);
+
     return (
         <div className="h-full flex flex-col">
-            {component ? (
-                <div className="flex-1 overflow-auto space-y-4 pr-3">
-                    {/* Summary Card */}
-                    <SummaryFacts
-                        id={component.id}
-                        businessCapabilities={component.facts.businessCapabilities}
-                        platforms={component.facts.platforms}
-                        techStack={component.facts.techStack}
-                        name={component.facts.cmdbFacts.name}
-                        description={component.facts.cmdbFacts.description}
-                        teamName={component.facts.team?.teamName}
-                        coveragePercentage={component.facts.qualityMetrics?.codeCoveragePercentage}
-                    />
+            <div className="flex-1 overflow-auto space-y-4 pr-3">
+                {/* Summary Card */}
+                <SummaryFacts
+                    id={component.id}
+                    businessCapabilities={component.facts.businessCapabilities}
+                    platforms={component.facts.platforms}
+                    techStack={component.facts.techStack}
+                    name={component.facts.cmdbFacts.name}
+                    description={component.facts.cmdbFacts.description}
+                    teamName={component.facts.team?.teamName}
+                    coveragePercentage={component.facts.qualityMetrics?.codeCoveragePercentage}
+                />
 
-                    {/* Technical Details Cards */}
-                    {!!(component.facts.techStack && component.facts.techStack.length > 0) && (
-                        <TechStackFacts techStack={component.facts.techStack} />
-                    )}
-
-                    <CmdbFacts cmdbFacts={component.facts.cmdbFacts} />
-
-                    {component.facts.qualityMetrics && (
-                        <QualityMetricsFacts qualityMetrics={component.facts.qualityMetrics} />
-                    )}
-
-                    {/* Development & Collaboration Cards */}
-                    {component.facts.git && <GitFacts git={component.facts.git} />}
-
-                    {component.facts.team && <TeamFacts team={component.facts.team} />}
-
-                    {component.facts.apiSpecifications && component.facts.apiSpecifications.length > 0 && (
-                        <ApiSpecificationsFacts apiSpecifications={component.facts.apiSpecifications} />
-                    )}
-
-                    {component.facts.documents && component.facts.documents.length > 0 && (
-                        <DocumentsFacts documents={component.facts.documents} />
-                    )}
-
-                    {component.facts.platforms && component.facts.platforms.length > 0 && (
-                        <PlatformsFacts platforms={component.facts.platforms} />
-                    )}
-
-                    <LinksFacts links={component.facts.links} />
-
-                    {component.facts.kafka ? <KafkaFacts kafka={component.facts.kafka} /> : null}
-                </div>
-            ) : (
-                <div className="h-full flex items-center justify-center">
-                    <NoComponentSelected />
-                </div>
-            )}
+                {...facts}
+            </div>
         </div>
     );
 };

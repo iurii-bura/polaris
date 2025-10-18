@@ -1,9 +1,21 @@
-const CustomTooltip = ({ active, payload, label }: any) => {
-    if (active && payload?.length) {
+type TooltipPayloadEntry = {
+    name: string;
+    value: number;
+    color: string;
+};
+
+type CustomTooltipProps = {
+    readonly active?: boolean;
+    readonly payload?: TooltipPayloadEntry[];
+    readonly label?: string;
+};
+
+const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
+    if (active && payload && payload.length > 0) {
         return (
             <div className="bg-base-100 border border-base-300 rounded-lg shadow-lg p-3">
                 <p className="font-semibold text-base-content mb-2">{label}</p>
-                {payload.map((entry: any) => (
+                {payload.map((entry) => (
                     <div
                         key={entry.name}
                         className="flex items-center gap-2 text-sm"
