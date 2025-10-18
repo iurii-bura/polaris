@@ -37,7 +37,7 @@ const ComponentDetails: FunctionComponent<ComponentDetailsProps> = ({ component 
                     />
 
                     {/* Technical Details Cards */}
-                    {component.facts.techStack && component.facts.techStack.length > 0 && (
+                    {!!(component.facts.techStack && component.facts.techStack.length > 0) && (
                         <TechStackFacts techStack={component.facts.techStack} />
                     )}
 
