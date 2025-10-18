@@ -101,9 +101,9 @@ const LinksFacts: FunctionComponent<LinksFactsProps> = ({ links }): ReactElement
                     <div className="mt-4 space-y-4">
                         {hasLinks ? (
                             <div className="space-y-3">
-                                {links.map((link, index) => (
+                                {links.map((link) => (
                                     <div
-                                        key={`${link.type}-${index}`}
+                                        key={`${link.type}-${link.url}`}
                                         className="flex items-center gap-3 p-3 rounded-lg bg-base-200 hover:bg-base-300 transition-colors"
                                     >
                                         <div className="text-primary">{getLinkIcon(link.type)}</div>
