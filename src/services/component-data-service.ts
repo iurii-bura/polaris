@@ -1,4 +1,4 @@
-import type { ComponentData } from '../components/types';
+import type { ComponentData, ComponentGraph, Group } from '../components/types';
 import mockDataJson from '../../data/example.json';
 
 /**
@@ -6,9 +6,14 @@ import mockDataJson from '../../data/example.json';
  * This abstraction allows for easy replacement with REST API calls in the future.
  *
  * Data persistence strategy:
- * 1. First load: Reads from example.json
- * 2. Subsequent loads: Reads from localStorage if available, fallback to example.json
+ * 1. First load: Configurable to read from localStorage or example.json based on preferBrowserStorage setting
+ * 2. Subsequent loads: Follows the same strategy as configured
  * 3. All updates: Automatically saved to localStorage for persistence
+ *
+ * Configuration:
+ * - Use ComponentDataService.setPreferBrowserStorage(true) to prefer localStorage over file data
+ * - Use ComponentDataService.setPreferBrowserStorage(false) to always load from file, ignoring localStorage
+ * - Call reloadData() after changing the preference to apply the new setting
  */
 export class ComponentDataService {
     /**
@@ -26,6 +31,7 @@ export class ComponentDataService {
         CREATE: 300, // Delay for createComponent()
         UPDATE: 300, // Delay for updateComponent()
         BATCH_UPDATE: 350, // Delay for batchUpdateComponents()
+        BATCH_UPDATE_GROUPS: 350, // Delay for batchUpdateGroups()
         DELETE: 300 // Delay for deleteComponent()
     } as const;
 
@@ -35,10 +41,19 @@ export class ComponentDataService {
     private static readonly STORAGE_KEY = 'viz-lib-component-data';
 
     /**
+     * Configuration flag to control data loading behavior
+     * - true: Always prefer localStorage over file data on initialization
+     * - false: Always load from file, ignore localStorage on initialization
+     *
+     * Note: This only affects the initial data loading. Updates are always saved to localStorage.
+     */
+    private static preferBrowserStorage = false;
+
+    /**
      * Mock data storage - simulates a database or API data source
      * Data is loaded from localStorage first, then falls back to external JSON file
      */
-    private mockData: ComponentData[] = this.loadDataFromStorage();
+    private mockData: ComponentGraph = this.loadDataFromStorage();
 
     /**
      * Singleton instance for consistent data state across the application
@@ -53,23 +68,65 @@ export class ComponentDataService {
     }
 
     /**
-     * Loads component data from localStorage if available, otherwise from example.json
+     * Configure the data loading behavior for the service
+     * @param preferStorage - If true, prefers localStorage over file data on initialization
+     *                       If false, always loads from file and ignores localStorage on initialization
+     *
+     * Note: This setting only affects initial data loading. All updates continue to be saved to localStorage.
+     * To apply this setting, you may need to call clearStoredData() and reload the service.
      */
-    private loadDataFromStorage(): ComponentData[] {
+    static setPreferBrowserStorage(preferStorage: boolean): void {
+        ComponentDataService.preferBrowserStorage = preferStorage;
+        console.log(`Data loading preference set to: ${preferStorage ? 'browser storage' : 'file'}`);
+    }
+
+    /**
+     * Get the current data loading preference
+     */
+    static getPreferBrowserStorage(): boolean {
+        return ComponentDataService.preferBrowserStorage;
+    }
+
+    /**
+     * Loads component data from localStorage if available, otherwise from example.json
+     * Behavior is controlled by the preferBrowserStorage configuration
+     */
+    private loadDataFromStorage(): ComponentGraph {
+        // If preferBrowserStorage is false, skip localStorage and load directly from file
+        if (!ComponentDataService.preferBrowserStorage) {
+            console.log('Loading component graph from example.json (browser storage disabled)');
+            const componentGraph = mockDataJson as ComponentGraph;
+            return {
+                components: [...componentGraph.components],
+                groups: [...componentGraph.groups]
+            };
+        }
+
+        // Original behavior: try localStorage first, fallback to file
         try {
             const storedData = localStorage.getItem(ComponentDataService.STORAGE_KEY);
             if (storedData) {
-                const parsedData = JSON.parse(storedData) as ComponentData[];
-                console.log('Loaded component data from localStorage:', parsedData.length, 'components');
+                const parsedData = JSON.parse(storedData) as ComponentGraph;
+                console.log(
+                    'Loaded component graph from localStorage:',
+                    parsedData.components.length,
+                    'components',
+                    parsedData.groups.length,
+                    'groups'
+                );
                 return parsedData;
             }
         } catch (error) {
             console.warn('Failed to load data from localStorage, falling back to example.json:', error);
         }
 
-        // Fallback to example.json
-        console.log('Loading component data from example.json');
-        return [...(mockDataJson as ComponentData[])];
+        // Fallback to example.json - extract components from new data structure
+        console.log('Loading component graph from example.json');
+        const componentGraph = mockDataJson as ComponentGraph;
+        return {
+            components: [...componentGraph.components],
+            groups: [...componentGraph.groups]
+        };
     }
 
     /**
@@ -79,10 +136,31 @@ export class ComponentDataService {
         try {
             const dataToStore = JSON.stringify(this.mockData);
             localStorage.setItem(ComponentDataService.STORAGE_KEY, dataToStore);
-            console.log('Saved component data to localStorage:', this.mockData.length, 'components');
+            console.log(
+                'Saved component graph to localStorage:',
+                this.mockData.components.length,
+                'components',
+                this.mockData.groups.length,
+                'groups'
+            );
         } catch (error) {
             console.error('Failed to save data to localStorage:', error);
         }
+    }
+
+    /**
+     * Simulates fetching the complete component graph from an API.
+     * Returns both components and groups.
+     */
+    async fetchComponentGraph(): Promise<ComponentGraph> {
+        // Simulate network delay
+        await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.FETCH_ALL));
+
+        // Return copy of mock data to prevent external mutations
+        return {
+            components: [...this.mockData.components],
+            groups: [...this.mockData.groups]
+        };
     }
 
     /**
@@ -94,7 +172,7 @@ export class ComponentDataService {
         await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.FETCH_ALL));
 
         // Return copy of mock data to prevent external mutations
-        return [...this.mockData];
+        return [...this.mockData.components];
     }
 
     /**
@@ -105,7 +183,7 @@ export class ComponentDataService {
         // Simulate network delay
         await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.FETCH_BY_ID));
 
-        const component = this.mockData.find((component) => component.id === id);
+        const component = this.mockData.components.find((component) => component.id === id);
         return component ? { ...component } : null;
     }
 
@@ -122,7 +200,7 @@ export class ComponentDataService {
         const newComponent: ComponentData = { id, ...data };
 
         // Add to mock data
-        this.mockData.push(newComponent);
+        this.mockData.components.push(newComponent);
 
         // Save to localStorage
         this.saveDataToStorage();
@@ -138,18 +216,18 @@ export class ComponentDataService {
         // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.UPDATE));
 
-        const index = this.mockData.findIndex((component) => component.id === id);
+        const index = this.mockData.components.findIndex((component) => component.id === id);
         if (index === -1) {
             throw new Error(`Component with id ${id} not found`);
         }
 
         // Update the component in mock data
-        this.mockData[index] = { ...this.mockData[index], ...updates };
+        this.mockData.components[index] = { ...this.mockData.components[index], ...updates };
 
         // Save to localStorage
         this.saveDataToStorage();
 
-        return { ...this.mockData[index] };
+        return { ...this.mockData.components[index] };
     }
 
     /**
@@ -170,7 +248,7 @@ export class ComponentDataService {
 
         // Process each update
         for (const update of updates) {
-            const index = this.mockData.findIndex((component) => component.id === update.id);
+            const index = this.mockData.components.findIndex((component) => component.id === update.id);
 
             if (index === -1) {
                 notFoundIds.push(update.id);
@@ -178,8 +256,8 @@ export class ComponentDataService {
             }
 
             // Update the component in mock data
-            this.mockData[index] = { ...this.mockData[index], ...update.data };
-            updatedComponents.push({ ...this.mockData[index] });
+            this.mockData.components[index] = { ...this.mockData.components[index], ...update.data };
+            updatedComponents.push({ ...this.mockData.components[index] });
         }
 
         // Throw error if any components were not found
@@ -194,6 +272,45 @@ export class ComponentDataService {
     }
 
     /**
+     * Updates multiple groups in batch.
+     * Simulates API batch update operation.
+     * @param updates Array of objects containing group id and partial group data to update
+     * @returns Promise resolving to array of updated groups
+     * @throws Error if any group ID is not found
+     */
+    async batchUpdateGroups(updates: { id: string; data: Partial<Group> }[]): Promise<Group[]> {
+        // Simulate API call - batch operations typically take slightly longer than single operations
+        await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.BATCH_UPDATE_GROUPS));
+
+        const updatedGroups: Group[] = [];
+        const notFoundIds: string[] = [];
+
+        // Process each update
+        for (const update of updates) {
+            const index = this.mockData.groups.findIndex((group) => group.id === update.id);
+
+            if (index === -1) {
+                notFoundIds.push(update.id);
+                continue;
+            }
+
+            // Update the group in mock data
+            this.mockData.groups[index] = { ...this.mockData.groups[index], ...update.data };
+            updatedGroups.push({ ...this.mockData.groups[index] });
+        }
+
+        // Throw error if any groups were not found
+        if (notFoundIds.length > 0) {
+            throw new Error(`Groups with ids [${notFoundIds.join(', ')}] not found`);
+        }
+
+        // Save to localStorage after all updates
+        this.saveDataToStorage();
+
+        return updatedGroups;
+    }
+
+    /**
      * Deletes a component from the mock data.
      * Future implementation will make DELETE request to API.
      */
@@ -201,13 +318,13 @@ export class ComponentDataService {
         // Simulate API call
         await new Promise((resolve) => setTimeout(resolve, ComponentDataService.DELAYS.DELETE));
 
-        const index = this.mockData.findIndex((component) => component.id === id);
+        const index = this.mockData.components.findIndex((component) => component.id === id);
         if (index === -1) {
             throw new Error(`Component with id ${id} not found`);
         }
 
         // Remove from mock data
-        this.mockData.splice(index, 1);
+        this.mockData.components.splice(index, 1);
 
         // Save to localStorage
         this.saveDataToStorage();
@@ -217,7 +334,7 @@ export class ComponentDataService {
      * Utility method to get current mock data count (useful for testing)
      */
     getDataCount(): number {
-        return this.mockData.length;
+        return this.mockData.components.length;
     }
 
     /**
@@ -227,7 +344,11 @@ export class ComponentDataService {
     clearStoredData(): void {
         try {
             localStorage.removeItem(ComponentDataService.STORAGE_KEY);
-            this.mockData = [...(mockDataJson as ComponentData[])];
+            const componentGraph = mockDataJson as ComponentGraph;
+            this.mockData = {
+                components: [...componentGraph.components],
+                groups: [...componentGraph.groups]
+            };
             console.log('Cleared stored data and reset to example.json');
         } catch (error) {
             console.error('Failed to clear stored data:', error);
@@ -245,5 +366,29 @@ export class ComponentDataService {
 
             return false;
         }
+    }
+
+    /**
+     * Reload data from the configured source (localStorage or file)
+     * Useful when changing the preferBrowserStorage setting
+     */
+    reloadData(): void {
+        this.mockData = this.loadDataFromStorage();
+        console.log('Data reloaded from configured source');
+    }
+
+    /**
+     * Utility method to get the current data loading configuration
+     */
+    getCurrentDataSource(): 'localStorage' | 'file' | 'mixed' {
+        if (!ComponentDataService.preferBrowserStorage) {
+            return 'file';
+        }
+
+        if (this.isUsingStoredData()) {
+            return 'localStorage';
+        }
+
+        return 'mixed'; // Fallback scenario where localStorage is preferred but file is used
     }
 }

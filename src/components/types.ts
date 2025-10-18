@@ -28,13 +28,6 @@ export type TechStackItem = {
     source: string;
 };
 
-export type CmdbInfo = {
-    id: string;
-    name: string;
-    description: string;
-    type: string;
-};
-
 export type Document = {
     url: string;
     description: string;
@@ -103,84 +96,33 @@ export type CmdbFacts = {
         link: string; // Link to subcomponent CMDB entry
     }[];
 
-    // Classification
-    applicationType:
-        | 'web-application'
-        | 'desktop-application'
-        | 'mobile-app'
-        | 'api-service'
-        | 'batch-job'
-        | 'database'
-        | 'middleware'
-        | 'other';
-    applicationCategory:
-        | 'core-business'
-        | 'supporting'
-        | 'infrastructure'
-        | 'integration'
-        | 'analytics'
-        | 'security'
-        | 'other';
-
-    // Business Context
-    businessCapabilities: string[]; // Inherited from existing structure
-    dataClassification: 'public' | 'internal' | 'confidential' | 'restricted';
-
-    // Technical Details
-    architecturePattern?: 'monolith' | 'microservices' | 'soa' | 'serverless' | 'event-driven' | 'layered' | 'other';
-    deploymentModel: 'on-premises' | 'cloud' | 'hybrid' | 'multi-cloud';
-
-    // Lifecycle & Status
-    status: 'active' | 'under-development' | 'decommissioned' | 'retired';
-
-    // Financial & Governance
-    owner: {
-        businessOwner?: {
-            name: string;
-            email: string;
-            department?: string;
-        };
-        technicalOwner?: {
-            name: string;
-            email: string;
-            team?: string;
-        };
-    };
-
-    costCenter?: string;
     annualCost?: {
         amount: number;
         currency: string; // USD, EUR, etc.
     };
-
-    // Vendor & Licensing
-    vendor?: {
-        name: string;
-        supportContact?: string;
-        contractEndDate?: string;
-    };
-    licenseModel?: 'open-source' | 'commercial' | 'saas' | 'subscription' | 'perpetual';
 };
 
 export type LayoutInfo = {
     x: number;
     y: number;
+    width?: number;
+    height?: number;
     nodeType: string;
+    backgroundColor?: string;
 };
 
-export type Layouts = Record<string, LayoutInfo>;
+export type Layouts = Partial<Record<string, LayoutInfo>>;
 
 export type Facts = {
     businessCapabilities: string[];
-    cmdb: CmdbInfo;
     cmdbFacts: CmdbFacts;
-    git: GitInfo;
-    techStack: TechStackItem[];
+    git?: GitInfo;
+    techStack?: TechStackItem[];
     documents?: Document[];
     links: Link[];
     apiSpecifications?: ApiSpecification[];
-    qualityMetrics: QualityMetrics;
-    platforms: Platform[];
+    qualityMetrics?: QualityMetrics;
+    platforms?: Platform[];
     team?: Team;
     kafka?: KafkaInfo;
 };
@@ -191,4 +133,32 @@ export type ComponentData = {
     description: string;
     facts: Facts;
     layouts: Layouts;
+};
+
+export type Group = {
+    id: string;
+    label: string;
+    description: string;
+    componentIds: string[];
+    layouts: Layouts;
+};
+
+export type ComponentGraph = {
+    components: ComponentData[];
+    groups: Group[];
+};
+
+// Graph node update types
+export type GraphNode = ComponentData | Group;
+
+export type ComponentLayoutUpdate = {
+    node: ComponentData;
+    position?: { x: number; y: number };
+    size?: { width: number; height: number };
+};
+
+export type GroupLayoutUpdate = {
+    node: Group;
+    position?: { x: number; y: number };
+    size?: { width: number; height: number };
 };

@@ -1,3 +1,5 @@
+data/example-2.json
+
 # Logs
 logs
 *.log
@@ -110,6 +112,7 @@ dist/
 # IDE
 .idea
 .vscode/
+*.code-workspace
 
 # MacOS
 .DS_Store

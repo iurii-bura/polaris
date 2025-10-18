@@ -1,67 +1,138 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useCallback, useState, useRef, useEffect } from 'react';
 
-import { Graph, ComponentDetails, Loading, LayoutControls, type ComponentData } from 'src/components';
+import {
+    Graph,
+    ComponentDetails,
+    Loading,
+    LayoutControls,
+    type ComponentData,
+    type Group,
+    type ComponentLayoutUpdate,
+    type GraphNode,
+    type GroupLayoutUpdate
+} from 'src/components';
 import { useComponentData } from '../hooks';
 import { ComponentDataService } from 'src/services';
 
 import './app.css';
 
 const App: FunctionComponent = (): ReactElement => {
-    const { data: graph, loading, error } = useComponentData();
+    const { data: componentGraph, loading, error } = useComponentData();
     const [selectedComponent, setSelectedComponent] = useState<ComponentData | null>(null);
     const [currentLayout, setCurrentLayout] = useState<string>('default');
     const [panelWidth, setPanelWidth] = useState(470); // Default panel width in pixels
     const [isDragging, setIsDragging] = useState(false);
     const dragRef = useRef<number>(0);
     const [componentData, setComponentData] = useState<ComponentData[]>([]);
+    const [groups, setGroups] = useState<Group[]>([]);
 
     // Sync component data when graph data loads
     useEffect(() => {
-        setComponentData(graph);
-    }, [graph]);
+        setComponentData(componentGraph.components);
+        setGroups(componentGraph.groups);
+    }, [componentGraph]);
 
+    /**
+     * Handles selection changes in the graph, updates which component is selected
+     * @param component The component that was selected, or null if nothing is selected
+     */
     const handleSelectionChange = useCallback((component: ComponentData | null) => {
         component && setSelectedComponent(component);
     }, []);
 
+    /**
+     * Handles the change of the layout (e.g., switching between different layout views)
+     * @param layout The new layout identifier
+     */
     const handleLayoutChange = useCallback((layout: string) => {
-        console.log(`Switching to layout: ${layout}`);
         setCurrentLayout(layout);
     }, []);
 
-    const handleNodeLayoutChange = useCallback(
-        (updates: { node: ComponentData; position: { x: number; y: number } }[]) => {
-            if (!updates.length) {
-                return;
-            }
-
-            const updatedItems = updates.map((u) => ({
+    /**
+     * Generic helper function to update node layouts
+     * @param updates Array of layout updates for any node type
+     * @param defaultNodeType Default node type to use if not specified
+     * @returns Array of updated nodes with modified layouts
+     */
+    const createUpdatedNodes = useCallback(
+        <T extends GraphNode>(
+            updates: { node: T; position?: { x: number; y: number }; size?: { width: number; height: number } }[],
+            defaultNodeType: string
+        ): T[] => {
+            return updates.map((u) => ({
                 ...u.node,
                 layouts: {
                     ...u.node.layouts,
                     [currentLayout]: {
                         ...u.node.layouts[currentLayout],
-                        x: u.position.x,
-                        y: u.position.y,
-                        nodeType: u.node.layouts[currentLayout].nodeType || 'componentDetails'
+                        ...(u.position && { x: u.position.x, y: u.position.y }),
+                        ...(u.size && { width: u.size.width, height: u.size.height }),
+                        nodeType: u.node.layouts[currentLayout]?.nodeType ?? defaultNodeType
                     }
                 }
             }));
+        },
+        [currentLayout]
+    );
 
-            setComponentData((prevData) => {
+    /**
+     * Generic helper function to update state array
+     * @param setState State setter function
+     * @param updatedItems Array of updated items
+     */
+    const updateStateArray = useCallback(
+        <T extends { id: string }>(setState: React.Dispatch<React.SetStateAction<T[]>>, updatedItems: T[]) => {
+            setState((prevData) => {
                 return prevData.map((item) => {
                     const update = updatedItems.find(({ id }) => id === item.id);
                     return update ?? item;
                 });
             });
+        },
+        []
+    );
 
-            // console.log(updatedItems);
+    /**
+     * Handles component layout changes
+     * Updates the local state and persists changes via the component service
+     * @param updates Array of component layout updates
+     */
+    const handleComponentLayoutChange = useCallback(
+        (updates: ComponentLayoutUpdate[]) => {
+            if (!updates.length) {
+                return;
+            }
+
+            const updatedComponents = createUpdatedNodes(updates, 'componentDetails');
+            updateStateArray(setComponentData, updatedComponents);
+
             void ComponentDataService.getInstance().batchUpdateComponents(
-                updatedItems.map((item) => ({ id: item.id, data: item }))
+                updatedComponents.map((item) => ({ id: item.id, data: item }))
             );
         },
-        [currentLayout]
+        [createUpdatedNodes, updateStateArray]
+    );
+
+    /**
+     * Handles group layout changes
+     * Updates the local state and persists changes via the group service
+     * @param updates Array of group layout updates
+     */
+    const handleGroupLayoutChange = useCallback(
+        (updates: GroupLayoutUpdate[]) => {
+            if (!updates.length) {
+                return;
+            }
+
+            const updatedGroups = createUpdatedNodes(updates, 'group');
+            updateStateArray(setGroups, updatedGroups);
+
+            void ComponentDataService.getInstance().batchUpdateGroups(
+                updatedGroups.map((item) => ({ id: item.id, data: item }))
+            );
+        },
+        [createUpdatedNodes, updateStateArray]
     );
 
     const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -141,10 +212,12 @@ const App: FunctionComponent = (): ReactElement => {
                 <section className="flex-1 p-4 overflow-hidden relative">
                     <div style={{ width: '100%', height: '100%' }}>
                         <Graph
-                            graph={componentData.length > 0 ? componentData : graph}
+                            components={componentData}
+                            groups={groups}
                             layout={currentLayout}
                             onSelectionChange={handleSelectionChange}
-                            onLayoutChange={handleNodeLayoutChange}
+                            onComponentLayoutChange={handleComponentLayoutChange}
+                            onGroupLayoutChange={handleGroupLayoutChange}
                         />
                     </div>
 

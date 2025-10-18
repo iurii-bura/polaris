@@ -25,7 +25,8 @@ export default pluginTs.config(
             '**/.env',
             '**/npm-debug.log*',
             '**/crash.log',
-            '**/crash.*.log'
+            '**/crash.*.log',
+            '**/scripts/**'
         ]
     },
 
