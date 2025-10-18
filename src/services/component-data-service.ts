@@ -1,5 +1,5 @@
 import type { ComponentData, ComponentGraph, Group } from '../components/types';
-import mockDataJson from '../../data/example-2.json';
+import mockDataJson from '../../data/example.json';
 
 /**
  * Service class for managing component data operations.
