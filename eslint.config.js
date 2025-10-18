@@ -11,7 +11,7 @@ export default pluginTs.config(
         languageOptions: {
             parserOptions: {
                 projectService: true,
-                tsconfigRootDir: import.meta.dirname
+                tsconfigRootDir: import.meta.dirname,
             }
         }
     },
@@ -25,7 +25,8 @@ export default pluginTs.config(
             '**/.env',
             '**/npm-debug.log*',
             '**/crash.log',
-            '**/crash.*.log'
+            '**/crash.*.log',
+            '**/scripts/**'
         ]
     },
 
