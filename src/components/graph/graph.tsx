@@ -10,13 +10,15 @@ import {
     Background,
     BackgroundVariant,
     type Edge,
-    MarkerType
+    MarkerType,
+    BezierEdge
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
 
 import type { ComponentData, Group, ComponentLayoutUpdate, GroupLayoutUpdate } from '../types';
 import { ComponentDetailsNode, ResizableGroupNode } from './nodes';
+import { CustomEdge } from './edges';
 
 // Type guard for completed position changes
 const isCompletedPositionChange = (change: NodeChange): change is NodePositionChange => {
@@ -143,6 +145,15 @@ const Graph: FunctionComponent<GraphProps> = ({
         []
     );
 
+    // Custom edge types
+    const edgeTypes = useMemo(
+        () => ({
+            default: BezierEdge,
+            custom: CustomEdge
+        }),
+        []
+    );
+
     const [nodes, setNodes] = useState<Node[]>([]);
 
     useEffect(() => {
@@ -165,6 +176,7 @@ const Graph: FunctionComponent<GraphProps> = ({
 
     const onSelectionChange = useCallback(
         (selection: { nodes: Node[]; edges: Edge[] }) => {
+            console.log(JSON.stringify(selection, null, 2));
             if (!onSelectionChangeCallback) {
                 return;
             }
@@ -191,18 +203,28 @@ const Graph: FunctionComponent<GraphProps> = ({
                         type: MarkerType.ArrowClosed,
                         width: 20,
                         height: 20,
-                        color: '#FF0072',
+                        color: '#FF0072'
                     },
                     label: 'marker size and color',
                     style: {
                         strokeWidth: 2,
-                        stroke: '#FF0072',
-                    },
+                        stroke: '#FF0072'
+                    }
                 },
                 {
                     id: 'conn-02',
                     source: 'AC-003-BP',
-                    target: 'CR-007-ML'
+                    target: 'CR-007-ML',
+                    type: 'custom',
+                    markerEnd: {
+                        type: MarkerType.ArrowClosed,
+                        width: 20,
+                        height: 20
+                    },
+                    style: {
+                        strokeWidth: 2,
+                        stroke: '#103dafff'
+                    }
                 },
                 {
                     id: 'conn-03',
@@ -211,6 +233,7 @@ const Graph: FunctionComponent<GraphProps> = ({
                 }
             ]}
             nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
             onNodesChange={onNodesChange}
             proOptions={{ hideAttribution: true }}
             defaultViewport={{ x: 200, y: 300, zoom: 1.5 }}
