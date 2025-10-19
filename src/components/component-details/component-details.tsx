@@ -13,7 +13,8 @@ import {
     KafkaFacts,
     CmdbFacts,
     PlatformsFacts,
-    LinksFacts
+    LinksFacts,
+    JourneyStepFacts
 } from '../facts';
 
 type ComponentDetailsProps = {
@@ -26,8 +27,20 @@ type ComponentDetailsProps = {
  * witohut touching this code
  */
 const getFactCards = (facts: Facts): ReactElement[] => {
+    const summary = facts.cmdbFacts && (
+        <SummaryFacts
+            id={facts.cmdbFacts.id}
+            businessCapabilities={facts.businessCapabilities}
+            platforms={facts.platforms}
+            techStack={facts.techStack}
+            name={facts.cmdbFacts.name}
+            description={facts.cmdbFacts.description}
+            teamName={facts.team?.teamName}
+            coveragePercentage={facts.qualityMetrics?.codeCoveragePercentage}
+        />
+    );
     const techStack = facts.techStack && facts.techStack.length > 0 && <TechStackFacts techStack={facts.techStack} />;
-    const cmdb = <CmdbFacts cmdbFacts={facts.cmdbFacts} />;
+    const cmdb = facts.cmdbFacts && <CmdbFacts cmdbFacts={facts.cmdbFacts} />;
     const qualityMetrics = facts.qualityMetrics && <QualityMetricsFacts qualityMetrics={facts.qualityMetrics} />;
     const git = facts.git && <GitFacts git={facts.git} />;
     const team = facts.team && <TeamFacts team={facts.team} />;
@@ -36,10 +49,11 @@ const getFactCards = (facts: Facts): ReactElement[] => {
     );
     const docs = facts.documents && facts.documents.length > 0 && <DocumentsFacts documents={facts.documents} />;
     const platforms = facts.platforms && facts.platforms.length > 0 && <PlatformsFacts platforms={facts.platforms} />;
-    const links = <LinksFacts links={facts.links} />;
+    const links = facts.links && <LinksFacts links={facts.links} />;
     const kafka = facts.kafka && <KafkaFacts kafka={facts.kafka} />;
+    const journeyStep = facts.journeyStep && <JourneyStepFacts journeyStepFacts={facts.journeyStep} />;
 
-    return [techStack, cmdb, qualityMetrics, git, team, api, docs, platforms, links, kafka].filter((el) => !!el);
+    return [summary, techStack, cmdb, qualityMetrics, git, team, api, docs, platforms, links, kafka, journeyStep].filter((el) => !!el);
 };
 
 const ComponentDetails: FunctionComponent<ComponentDetailsProps> = ({ component }): ReactElement => {
@@ -57,16 +71,6 @@ const ComponentDetails: FunctionComponent<ComponentDetailsProps> = ({ component 
         <div className="h-full flex flex-col">
             <div className="flex-1 overflow-auto space-y-4 pr-3">
                 {/* Summary Card */}
-                <SummaryFacts
-                    id={component.id}
-                    businessCapabilities={component.facts.businessCapabilities}
-                    platforms={component.facts.platforms}
-                    techStack={component.facts.techStack}
-                    name={component.facts.cmdbFacts.name}
-                    description={component.facts.cmdbFacts.description}
-                    teamName={component.facts.team?.teamName}
-                    coveragePercentage={component.facts.qualityMetrics?.codeCoveragePercentage}
-                />
 
                 {...facts}
             </div>

@@ -21,22 +21,19 @@ const mockStepData: JourneyStepData = {
  * 1. ✅ Renders step label and number correctly
  * 2. ✅ Renders description when provided
  * 3. ✅ Renders screenshot when provided with proper alt text
- * 4. ✅ Handles click events and calls onClick callback
- * 5. ✅ Renders without step number when not provided
- * 6. ✅ Shows fallback UI when screenshot fails to load
- * 7. ✅ Renders fallback when no screenshot is provided
- * 8. ✅ Has proper accessibility attributes (aria-label, tabIndex, role)
- * 9. ✅ Handles hover states correctly
- * 10. ✅ Renders handles for ReactFlow connections
- * 11. ✅ Supports custom positions for handles
- * 12. ✅ Applies proper styling and responsive design
+ * 4. ✅ Renders without step number when not provided
+ * 5. ✅ Shows fallback UI when screenshot fails to load
+ * 6. ✅ Renders fallback when no screenshot is provided
+ * 7. ✅ Renders handles for ReactFlow connections
+ * 8. ✅ Supports custom positions for handles
+ * 9. ✅ Applies proper styling and responsive design
+ * 10. ✅ Integrates with ReactFlow selection system
  * 
  * Component Features:
  * - Screenshot display with error handling
  * - Step numbering with badges
- * - Hover animations and interactions
- * - Click handlers for step selection
- * - Accessibility support
+ * - Static design (no hover animations)
+ * - ReactFlow selection integration
  * - Responsive design with TailwindCSS
  * - ReactFlow integration with handles
  */

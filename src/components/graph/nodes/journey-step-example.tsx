@@ -13,11 +13,7 @@ const exampleJourneySteps: Node<JourneyStepData>[] = [
             label: 'User Login',
             stepNumber: 1,
             description: 'User enters credentials to access the application',
-            screenshot: '/screenshots/login-form.png',
-            onClick: (stepData: JourneyStepData) => {
-                console.log('Clicked on step:', stepData);
-                // Handle step click - could open modal, navigate, etc.
-            }
+            screenshot: '/screenshots/login-form.png'
         }
     },
     {
@@ -29,10 +25,7 @@ const exampleJourneySteps: Node<JourneyStepData>[] = [
             label: 'Dashboard Overview',
             stepNumber: 2,
             description: 'Main dashboard showing user metrics and navigation options',
-            screenshot: '/screenshots/dashboard.png',
-            onClick: (stepData: JourneyStepData) => {
-                console.log('Clicked on step:', stepData);
-            }
+            screenshot: '/screenshots/dashboard.png'
         }
     },
     {
@@ -44,10 +37,7 @@ const exampleJourneySteps: Node<JourneyStepData>[] = [
             label: 'Edit Profile',
             stepNumber: 3,
             description: 'User can update their personal information and preferences',
-            screenshot: '/screenshots/profile-form.png',
-            onClick: (stepData: JourneyStepData) => {
-                console.log('Clicked on step:', stepData);
-            }
+            screenshot: '/screenshots/profile-form.png'
         }
     }
 ];

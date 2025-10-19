@@ -7,10 +7,8 @@ A custom ReactFlow node component designed to display user journey steps with sc
 - 📸 **Screenshot Display**: Shows screenshots of UI steps with error handling
 - 🏷️ **Step Numbering**: Optional numbered badges for sequential steps
 - 📝 **Rich Metadata**: Displays step name, description, and ID
-- 🖱️ **Interactive**: Click handlers and hover effects
-- ♿ **Accessible**: Full accessibility support with ARIA labels
-- 📱 **Responsive**: Mobile-first design with TailwindCSS
-- 🔌 **ReactFlow Integration**: Built-in handles for connections
+-  **Responsive**: Mobile-first design with TailwindCSS
+- 🔌 **ReactFlow Integration**: Built-in handles for connections with selection support
 
 ## Usage
 
@@ -35,10 +33,7 @@ const journeyNodes: Node<JourneyStepData>[] = [
             label: 'User Login',
             stepNumber: 1,
             description: 'User enters credentials',
-            screenshot: '/screenshots/login.png',
-            onClick: (stepData) => {
-                console.log('Step clicked:', stepData);
-            }
+            screenshot: '/screenshots/login.png'
         }
     }
 ];
@@ -77,7 +72,6 @@ const stepNode = createJourneyStepNode('my-step', { x: 0, y: 0 }, {
 | `stepNumber` | `number` | ❌ | Optional step number for sequential flows |
 | `description` | `string` | ❌ | Additional description text |
 | `screenshot` | `string` | ❌ | URL/path to screenshot image |
-| `onClick` | `(stepData: JourneyStepData) => void` | ❌ | Click handler function |
 
 ### JourneyStepNodeProps
 
@@ -96,11 +90,9 @@ const stepNode = createJourneyStepNode('my-step', { x: 0, y: 0 }, {
 - Screenshot thumbnail (if available)
 - Step name and description
 
-### Hover State
-- Increased shadow and slight scale transform
-- Blue border highlight
-- Screenshot overlay with "Click to view" text
-- Enhanced step number badge
+### Selected State
+- ReactFlow handles selection styling automatically
+- Standard ReactFlow selection outline and highlighting
 
 ### Error State
 - Fallback UI when screenshot fails to load
@@ -110,17 +102,15 @@ const stepNode = createJourneyStepNode('my-step', { x: 0, y: 0 }, {
 
 The component uses TailwindCSS for styling with the following key classes:
 
-- **Container**: `bg-white border-2 rounded-lg shadow-md`
-- **Hover**: `border-blue-400 shadow-lg transform scale-105`
+- **Container**: `bg-white border-2 border-gray-200 rounded-lg shadow-md`
 - **Badge**: `bg-blue-500 text-white rounded-full`
 - **Image**: `w-full h-32 object-cover object-top`
 
 ## Accessibility
 
-- **Role**: `button` for interactive elements
-- **ARIA Labels**: Descriptive labels for screen readers
-- **Keyboard Navigation**: `tabIndex="0"` for focus management
-- **Alt Text**: Meaningful image descriptions
+- **Semantic HTML**: Proper structure for screen readers
+- **Alt Text**: Meaningful image descriptions for screenshots
+- **ReactFlow Integration**: Leverages ReactFlow's built-in accessibility features
 
 ## Examples
 
@@ -146,11 +136,7 @@ The component uses TailwindCSS for styling with the following key classes:
         label: 'Profile Setup',
         stepNumber: 2,
         description: 'Complete your profile information',
-        screenshot: '/screenshots/profile-form.png',
-        onClick: (stepData) => {
-            // Open detailed view
-            openStepModal(stepData);
-        }
+        screenshot: '/screenshots/profile-form.png'
     }
 }
 ```
@@ -183,7 +169,7 @@ The component is designed to work seamlessly with ReactFlow:
 1. **Screenshots**: Use consistent aspect ratios for better visual harmony
 2. **Labels**: Keep step names concise (3-7 words)
 3. **Numbering**: Use sequential numbers for linear flows
-4. **Click Handlers**: Provide meaningful interactions (modals, navigation)
+4. **Selection**: Use ReactFlow's built-in selection and interaction patterns
 5. **Error Handling**: Always handle screenshot loading failures gracefully
 
 ## Troubleshooting
@@ -200,5 +186,5 @@ The component is designed to work seamlessly with ReactFlow:
 
 ### TypeScript Errors
 - Import types from the correct path: `./components/types`
-- Ensure onClick handlers match the expected signature
 - Verify all required props are provided
+- Ensure data object matches JourneyStepData interface

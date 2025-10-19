@@ -1,4 +1,4 @@
-import type { FunctionComponent, ReactElement, MouseEvent } from 'react';
+import type { FunctionComponent, ReactElement } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { useCallback, useState } from 'react';
 
@@ -8,7 +8,6 @@ type JourneyStepNodeData = {
     screenshot?: string;
     stepNumber?: number;
     description?: string;
-    onClick?: (stepData: JourneyStepNodeData) => void;
 };
 
 type JourneyStepNodeProps = {
@@ -25,65 +24,35 @@ export const JourneyStepNode: FunctionComponent<JourneyStepNodeProps> = ({
     sourcePosition = Position.Bottom
 }): ReactElement => {
     const [imageError, setImageError] = useState(false);
-    const [isHovered, setIsHovered] = useState(false);
-
-    const handleClick = useCallback((event: MouseEvent) => {
-        event.stopPropagation();
-        if (data.onClick) {
-            data.onClick(data);
-        }
-    }, [data]);
 
     const handleImageError = useCallback(() => {
         setImageError(true);
     }, []);
 
-    const handleMouseEnter = useCallback(() => {
-        setIsHovered(true);
-    }, []);
-
-    const handleMouseLeave = useCallback(() => {
-        setIsHovered(false);
-    }, []);
-
     return (
-        <div 
-            className={`journey-step-node relative bg-white border-2 rounded-lg shadow-md transition-all duration-200 p-4 min-w-[200px] max-w-[300px] cursor-pointer ${
-                isHovered 
-                    ? 'border-blue-400 shadow-lg transform scale-105' 
-                    : 'border-gray-200 hover:border-gray-300'
-            }`}
-            onClick={handleClick}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            role="button"
-            tabIndex={0}
-            aria-label={`Journey step: ${data.label}`}
-        >
+        <div className="journey-step-node relative bg-white border-2 border-gray-200 rounded-lg shadow-md p-4 min-w-[200px] max-w-[300px]">
             <Handle
                 type="target"
                 position={targetPosition}
                 isConnectable={isConnectable}
-                className="!bg-blue-500 !border-2 !border-white !w-3 !h-3 hover:!bg-blue-600"
+                className="!bg-blue-500 !border-2 !border-white !w-3 !h-3"
             />
             
             {/* Step Number Badge */}
             {data.stepNumber && (
-                <div className={`absolute -top-2 -left-2 rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold transition-colors duration-200 ${
-                    isHovered ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'
-                }`}>
+                <div className="absolute -top-2 -left-2 bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
                     {data.stepNumber}
                 </div>
             )}
             
             {/* Screenshot Section */}
             <div className="mb-3">
-                <div className="bg-gray-100 rounded-md overflow-hidden border border-gray-200 relative">
+                <div className="bg-gray-100 rounded-md overflow-hidden border border-gray-200">
                     {data.screenshot && !imageError ? (
                         <img
                             src={data.screenshot}
                             alt={`Screenshot for ${data.label}`}
-                            className="w-full h-32 object-cover object-top transition-transform duration-200 hover:scale-110"
+                            className="w-full h-32 object-cover object-top"
                             onError={handleImageError}
                             loading="lazy"
                         />
@@ -95,15 +64,6 @@ export const JourneyStepNode: FunctionComponent<JourneyStepNodeProps> = ({
                                     {data.screenshot ? 'Image unavailable' : 'No screenshot'}
                                 </div>
                             </div>
-                        </div>
-                    )}
-                    
-                    {/* Overlay for better text visibility on hover */}
-                    {isHovered && data.screenshot && !imageError && (
-                        <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center">
-                            <span className="text-white text-xs font-medium px-2 py-1 bg-black bg-opacity-50 rounded">
-                                Click to view
-                            </span>
                         </div>
                     )}
                 </div>
@@ -130,7 +90,7 @@ export const JourneyStepNode: FunctionComponent<JourneyStepNodeProps> = ({
                 type="source"
                 position={sourcePosition}
                 isConnectable={isConnectable}
-                className="!bg-blue-500 !border-2 !border-white !w-3 !h-3 hover:!bg-blue-600"
+                className="!bg-blue-500 !border-2 !border-white !w-3 !h-3"
             />
         </div>
     );

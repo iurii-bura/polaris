@@ -125,6 +125,7 @@ export type Facts = {
     platforms?: Platform[];
     team?: Team;
     kafka?: KafkaInfo;
+    journeyStep?: JourneyStepFacts;
 };
 
 export type ComponentData = {
@@ -185,5 +186,10 @@ export type JourneyStepData = {
     screenshot?: string;
     stepNumber?: number;
     description?: string;
-    onClick?: (stepData: JourneyStepData) => void;
+};
+
+export type JourneyStepFacts = {
+    name: string;
+    screenshot: string;
+    description: string;
 };

@@ -19,7 +19,7 @@ import {
 import '@xyflow/react/dist/style.css';
 
 import type { ComponentData, Group, ComponentLayoutUpdate, GroupLayoutUpdate, EdgeData } from '../types';
-import { ComponentDetailsNode, ResizableGroupNode } from './nodes';
+import { ComponentDetailsNode, JourneyStepNode, ResizableGroupNode } from './nodes';
 import { CustomEdge } from './edges';
 
 // Type guard for completed position changes
@@ -170,7 +170,8 @@ const Graph: FunctionComponent<GraphProps> = ({
     const nodeTypes = useMemo(
         () => ({
             componentDetails: ComponentDetailsNode,
-            group: ResizableGroupNode
+            group: ResizableGroupNode,
+            journeyStep: JourneyStepNode
         }),
         []
     );

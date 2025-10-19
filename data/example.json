@@ -1,6 +1,25 @@
 {
     "components": [
         {
+            "id": "step-001",
+            "label": "This is step 1 of a journey",
+            "description": "User starts a journey",
+            "facts": {
+                "journeyStep": {
+                    "name": "Login Form",
+                    "screenshot": "https://via.placeholder.com/800x600/4A90E2/FFFFFF?text=Login+Form+Screenshot",
+                    "description": "User enters their credentials to access the application. This is the first step in the authentication process where users provide their username and password."
+                }
+            },
+            "layouts": {
+                "default": {
+                    "x": 20,
+                    "y": -200,
+                    "nodeType": "journeyStep"
+                }
+            }
+        },        
+        {
             "id": "CR-001-FX",
             "label": "Customer Portfolio Management Engine",
             "description": "A system for managing customer portfolios.",
@@ -1841,6 +1860,11 @@
                 "kafka": {
                     "publishingToTopics": ["mobile.events", "user.interactions"],
                     "listeningToTopics": ["push.notifications", "account.updates"]
+                },
+                "journeyStep": {
+                    "name": "Account Balance View",
+                    "screenshot": "https://via.placeholder.com/900x1600/2E8B57/FFFFFF?text=Mobile+Banking+Account+Balance+Screen",
+                    "description": "The main account overview screen where users can view their current account balance, recent transactions, and quick action buttons. This screen serves as the primary dashboard after successful login, providing users with immediate access to their most important banking information."
                 }
             },
             "layouts": {
