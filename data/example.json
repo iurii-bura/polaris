@@ -7,7 +7,7 @@
             "facts": {
                 "journeyStep": {
                     "name": "Login Form",
-                    "screenshot": "https://via.placeholder.com/800x600/4A90E2/FFFFFF?text=Login+Form+Screenshot",
+                    "screenshot": "/img/login-form-screenshot.svg",
                     "description": "User enters their credentials to access the application. This is the first step in the authentication process where users provide their username and password."
                 }
             },
@@ -1863,7 +1863,7 @@
                 },
                 "journeyStep": {
                     "name": "Account Balance View",
-                    "screenshot": "https://via.placeholder.com/900x1600/2E8B57/FFFFFF?text=Mobile+Banking+Account+Balance+Screen",
+                    "screenshot": "/img/account-balance-screenshot.svg",
                     "description": "The main account overview screen where users can view their current account balance, recent transactions, and quick action buttons. This screen serves as the primary dashboard after successful login, providing users with immediate access to their most important banking information."
                 }
             },

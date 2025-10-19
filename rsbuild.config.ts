@@ -61,6 +61,10 @@ export default defineConfig({
     server: {
         open: false,
         port: parseInt(process.env.APP_DEV_SERVER_PORT ?? '8080', 10),
-        strictPort: true
+        strictPort: true,
+        publicDir: {
+            name: 'public',
+            copyOnBuild: true
+        }
     }
 });

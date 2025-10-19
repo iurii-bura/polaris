@@ -1,0 +1,49 @@
+<svg width="400" height="600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="400" height="600" fill="#f8f9fa"/>
+  
+  <!-- Header -->
+  <rect width="400" height="80" fill="#4A90E2"/>
+  <text x="200" y="50" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">Login</text>
+  
+  <!-- Form Container -->
+  <rect x="40" y="120" width="320" height="320" fill="white" stroke="#e0e0e0" stroke-width="1" rx="8"/>
+  
+  <!-- Title -->
+  <text x="200" y="160" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#333" text-anchor="middle">Welcome Back</text>
+  <text x="200" y="185" font-family="Arial, sans-serif" font-size="14" fill="#666" text-anchor="middle">Sign in to your account</text>
+  
+  <!-- Username Field -->
+  <text x="60" y="230" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">Username</text>
+  <rect x="60" y="240" width="280" height="40" fill="#f8f9fa" stroke="#d0d0d0" stroke-width="1" rx="4"/>
+  <text x="70" y="262" font-family="Arial, sans-serif" font-size="14" fill="#999">Enter your username</text>
+  
+  <!-- Password Field -->
+  <text x="60" y="310" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#333">Password</text>
+  <rect x="60" y="320" width="280" height="40" fill="#f8f9fa" stroke="#d0d0d0" stroke-width="1" rx="4"/>
+  <circle cx="80" cy="340" r="2" fill="#999"/>
+  <circle cx="90" cy="340" r="2" fill="#999"/>
+  <circle cx="100" cy="340" r="2" fill="#999"/>
+  <circle cx="110" cy="340" r="2" fill="#999"/>
+  <circle cx="120" cy="340" r="2" fill="#999"/>
+  <circle cx="130" cy="340" r="2" fill="#999"/>
+  <circle cx="140" cy="340" r="2" fill="#999"/>
+  <circle cx="150" cy="340" r="2" fill="#999"/>
+  
+  <!-- Remember Me -->
+  <rect x="60" y="380" width="16" height="16" fill="white" stroke="#d0d0d0" stroke-width="1" rx="2"/>
+  <text x="85" y="392" font-family="Arial, sans-serif" font-size="12" fill="#666">Remember me</text>
+  
+  <!-- Login Button -->
+  <rect x="60" y="410" width="280" height="45" fill="#4A90E2" rx="6"/>
+  <text x="200" y="437" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="white" text-anchor="middle">Sign In</text>
+  
+  <!-- Footer Links -->
+  <text x="200" y="480" font-family="Arial, sans-serif" font-size="12" fill="#4A90E2" text-anchor="middle">Forgot Password?</text>
+  <text x="200" y="500" font-family="Arial, sans-serif" font-size="12" fill="#666" text-anchor="middle">Don't have an account?</text>
+  <text x="200" y="520" font-family="Arial, sans-serif" font-size="12" fill="#4A90E2" text-anchor="middle">Sign Up</text>
+  
+  <!-- Footer -->
+  <rect y="540" width="400" height="60" fill="#f0f0f0"/>
+  <text x="200" y="575" font-family="Arial, sans-serif" font-size="10" fill="#999" text-anchor="middle">© 2025 Banking App. All rights reserved.</text>
+</svg>
