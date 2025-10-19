@@ -1,1 +1,1 @@
-export { default as CustomEdge } from './custom-edge';
+export { CustomEdge } from './custom-edge';

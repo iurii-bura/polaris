@@ -39,11 +39,11 @@ export const JourneyStepNode: FunctionComponent<JourneyStepNodeProps> = ({
             />
 
             {/* Step Number Badge */}
-            {data.stepNumber && (
+            {data.stepNumber ? (
                 <div className="absolute -top-2 -left-2 bg-blue-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
                     {data.stepNumber}
                 </div>
-            )}
+            ) : null}
 
             {/* Screenshot Section */}
             <div className="mb-3">
@@ -71,9 +71,9 @@ export const JourneyStepNode: FunctionComponent<JourneyStepNodeProps> = ({
             <div className="text-center space-y-1">
                 <h3 className="text-sm font-semibold text-gray-800 leading-tight line-clamp-2">{data.label}</h3>
 
-                {data.description && (
+                {data.description ? (
                     <p className="text-xs text-gray-600 leading-relaxed line-clamp-2">{data.description}</p>
-                )}
+                ) : null}
 
                 <p className="text-xs text-gray-400 font-mono">{data.id}</p>
             </div>

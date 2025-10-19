@@ -1,6 +1,8 @@
-import { BaseEdge, EdgeLabelRenderer, EdgeText, getBezierPath, type EdgeProps } from '@xyflow/react';
+import { BaseEdge, EdgeText, getBezierPath, type EdgeProps } from '@xyflow/react';
 
-export default function CustomEdge({
+const defaultStyle = {};
+
+export const CustomEdge = ({
     id,
     sourceX,
     sourceY,
@@ -9,10 +11,10 @@ export default function CustomEdge({
     targetY,
     sourcePosition,
     targetPosition,
-    style = {},
+    style = defaultStyle,
     markerEnd,
     selected
-}: EdgeProps) {
+}: EdgeProps) => {
     const [edgePath, labelX, labelY] = getBezierPath({
         sourceX,
         sourceY,
@@ -70,4 +72,4 @@ export default function CustomEdge({
             />
         </>
     );
-}
+};

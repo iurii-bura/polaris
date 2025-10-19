@@ -114,12 +114,12 @@ export type LayoutInfo = {
 export type Layouts = Partial<Record<string, LayoutInfo>>;
 
 export type Facts = {
-    businessCapabilities: string[];
-    cmdbFacts: CmdbFacts;
+    businessCapabilities?: string[];
+    cmdbFacts?: CmdbFacts;
     git?: GitInfo;
     techStack?: TechStackItem[];
     documents?: Document[];
-    links: Link[];
+    links?: Link[];
     apiSpecifications?: ApiSpecification[];
     qualityMetrics?: QualityMetrics;
     platforms?: Platform[];

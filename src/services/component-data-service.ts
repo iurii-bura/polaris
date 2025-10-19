@@ -1,4 +1,4 @@
-import type { ComponentData, ComponentGraph, Group, EdgeData } from '../components/types';
+import type { ComponentData, ComponentGraph, Group } from '../components/types';
 import mockDataJson from '../../data/example.json';
 
 /**
@@ -99,7 +99,7 @@ export class ComponentDataService {
             return {
                 components: [...componentGraph.components],
                 groups: [...componentGraph.groups],
-                edges: [...(componentGraph.edges || [])]
+                edges: [...componentGraph.edges]
             };
         }
 
@@ -127,7 +127,7 @@ export class ComponentDataService {
         return {
             components: [...componentGraph.components],
             groups: [...componentGraph.groups],
-            edges: [...(componentGraph.edges || [])]
+            edges: [...componentGraph.edges]
         };
     }
 
@@ -351,7 +351,7 @@ export class ComponentDataService {
             this.mockData = {
                 components: [...componentGraph.components],
                 groups: [...componentGraph.groups],
-                edges: [...(componentGraph.edges || [])]
+                edges: [...componentGraph.edges]
             };
             console.log('Cleared stored data and reset to example.json');
         } catch (error) {

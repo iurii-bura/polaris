@@ -40,7 +40,7 @@ const isCompletedPositionChange = (change: NodeChange): change is NodePositionCh
 type GraphProps = {
     readonly components: ComponentData[];
     readonly groups: Group[];
-    readonly edges?: EdgeData[];
+    readonly edges: EdgeData[];
     readonly layout?: string;
     readonly onSelectionChange?: (component: ComponentData | null) => void;
     readonly onComponentLayoutChange?: (updates: ComponentLayoutUpdate[]) => void;
@@ -73,7 +73,7 @@ const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'defa
             data: {
                 id: item.id,
                 label: item.label,
-                screenshot: item.facts?.journeyStep?.screenshot
+                screenshot: item.facts.journeyStep?.screenshot
             }
         };
     });
@@ -161,7 +161,7 @@ const mapToEdges = (edgeData: EdgeData[], layout = 'default'): Edge[] => {
 const Graph: FunctionComponent<GraphProps> = ({
     components,
     groups,
-    edges: edgeData = [],
+    edges: edgeData,
     layout,
     onSelectionChange: onSelectionChangeCallback,
     onComponentLayoutChange,
