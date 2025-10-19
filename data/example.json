@@ -1852,5 +1852,25 @@
             }
         }
     ],
+    "edges": [
+        {
+            "id": "conn-01",
+            "source": "TR-002-LM",
+            "target": "AC-003-BP",
+            "facts": {
+                "label": "Some Label",
+                "description": "This is the description"
+            }
+        },
+        {
+            "id": "conn-02",
+            "source": "AC-003-BP",
+            "target": "CR-007-ML",
+            "facts": {
+                "label": "Other Label",
+                "description": "Other description"
+            }
+        }
+    ],
     "groups": []
 }
