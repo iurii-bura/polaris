@@ -9,7 +9,8 @@ import {
     type NodeChange,
     Background,
     BackgroundVariant,
-    type Edge
+    type Edge,
+    MarkerType
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
@@ -185,7 +186,18 @@ const Graph: FunctionComponent<GraphProps> = ({
                 {
                     id: 'conn-01',
                     source: 'TR-002-LM',
-                    target: 'AC-003-BP'
+                    target: 'AC-003-BP',
+                    markerEnd: {
+                        type: MarkerType.ArrowClosed,
+                        width: 20,
+                        height: 20,
+                        color: '#FF0072',
+                    },
+                    label: 'marker size and color',
+                    style: {
+                        strokeWidth: 2,
+                        stroke: '#FF0072',
+                    },
                 },
                 {
                     id: 'conn-02',
