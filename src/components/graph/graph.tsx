@@ -72,7 +72,8 @@ const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'defa
             position,
             data: {
                 id: item.id,
-                label: item.label
+                label: item.label,
+                screenshot: item.facts?.journeyStep?.screenshot
             }
         };
     });
