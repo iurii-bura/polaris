@@ -53,7 +53,20 @@ const getFactCards = (facts: Facts): ReactElement[] => {
     const kafka = facts.kafka && <KafkaFacts kafka={facts.kafka} />;
     const journeyStep = facts.journeyStep && <JourneyStepFacts journeyStepFacts={facts.journeyStep} />;
 
-    return [summary, techStack, cmdb, qualityMetrics, git, team, api, docs, platforms, links, kafka, journeyStep].filter((el) => !!el);
+    return [
+        summary,
+        techStack,
+        cmdb,
+        qualityMetrics,
+        git,
+        team,
+        api,
+        docs,
+        platforms,
+        links,
+        kafka,
+        journeyStep
+    ].filter((el) => !!el);
 };
 
 const ComponentDetails: FunctionComponent<ComponentDetailsProps> = ({ component }): ReactElement => {

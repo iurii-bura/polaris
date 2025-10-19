@@ -67,7 +67,7 @@ const exampleEdges = [
 
 /**
  * Example usage of JourneyStepNode in a ReactFlow diagram
- * 
+ *
  * To use this in your application:
  * 1. Import the JourneyStepNode component
  * 2. Register it in the nodeTypes object

@@ -7,7 +7,7 @@ A custom ReactFlow node component designed to display user journey steps with sc
 - 📸 **Screenshot Display**: Shows screenshots of UI steps with error handling
 - 🏷️ **Step Numbering**: Optional numbered badges for sequential steps
 - 📝 **Rich Metadata**: Displays step name, description, and ID
--  **Responsive**: Mobile-first design with TailwindCSS
+- **Responsive**: Mobile-first design with TailwindCSS
 - 🔌 **ReactFlow Integration**: Built-in handles for connections with selection support
 
 ## Usage
@@ -54,47 +54,54 @@ function JourneyFlow() {
 ```tsx
 import { createJourneyStepNode } from './components/graph/nodes';
 
-const stepNode = createJourneyStepNode('my-step', { x: 0, y: 0 }, {
-    label: 'My Step',
-    stepNumber: 1,
-    screenshot: '/path/to/screenshot.png'
-});
+const stepNode = createJourneyStepNode(
+    'my-step',
+    { x: 0, y: 0 },
+    {
+        label: 'My Step',
+        stepNumber: 1,
+        screenshot: '/path/to/screenshot.png'
+    }
+);
 ```
 
 ## Props
 
 ### JourneyStepData
 
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `id` | `string` | ✅ | Unique identifier for the step |
-| `label` | `string` | ✅ | Display name of the step |
-| `stepNumber` | `number` | ❌ | Optional step number for sequential flows |
-| `description` | `string` | ❌ | Additional description text |
-| `screenshot` | `string` | ❌ | URL/path to screenshot image |
+| Property      | Type     | Required | Description                               |
+| ------------- | -------- | -------- | ----------------------------------------- |
+| `id`          | `string` | ✅       | Unique identifier for the step            |
+| `label`       | `string` | ✅       | Display name of the step                  |
+| `stepNumber`  | `number` | ❌       | Optional step number for sequential flows |
+| `description` | `string` | ❌       | Additional description text               |
+| `screenshot`  | `string` | ❌       | URL/path to screenshot image              |
 
 ### JourneyStepNodeProps
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `data` | `JourneyStepData` | - | Step data object |
-| `isConnectable` | `boolean` | `true` | Whether handles can be connected |
-| `targetPosition` | `Position` | `Position.Top` | Position of input handle |
-| `sourcePosition` | `Position` | `Position.Bottom` | Position of output handle |
+| Property         | Type              | Default           | Description                      |
+| ---------------- | ----------------- | ----------------- | -------------------------------- |
+| `data`           | `JourneyStepData` | -                 | Step data object                 |
+| `isConnectable`  | `boolean`         | `true`            | Whether handles can be connected |
+| `targetPosition` | `Position`        | `Position.Top`    | Position of input handle         |
+| `sourcePosition` | `Position`        | `Position.Bottom` | Position of output handle        |
 
 ## Visual States
 
 ### Default State
+
 - Clean card layout with shadow
 - Blue step number badge (if provided)
 - Screenshot thumbnail (if available)
 - Step name and description
 
 ### Selected State
+
 - ReactFlow handles selection styling automatically
 - Standard ReactFlow selection outline and highlighting
 
 ### Error State
+
 - Fallback UI when screenshot fails to load
 - Graceful degradation with icon placeholder
 
@@ -115,6 +122,7 @@ The component uses TailwindCSS for styling with the following key classes:
 ## Examples
 
 ### Simple Step
+
 ```tsx
 {
     id: 'step-1',
@@ -127,6 +135,7 @@ The component uses TailwindCSS for styling with the following key classes:
 ```
 
 ### Complete Step with All Features
+
 ```tsx
 {
     id: 'step-2',
@@ -142,6 +151,7 @@ The component uses TailwindCSS for styling with the following key classes:
 ```
 
 ### Error Handling
+
 ```tsx
 // Screenshot will show fallback UI if image fails to load
 {
@@ -175,16 +185,19 @@ The component is designed to work seamlessly with ReactFlow:
 ## Troubleshooting
 
 ### Images Not Loading
+
 - Ensure image paths are correct and accessible
 - Check CORS settings for external images
 - Verify image formats are supported (PNG, JPG, WebP)
 
 ### Styling Issues
+
 - Ensure TailwindCSS is properly configured
 - Check for conflicting CSS rules
 - Verify custom styles don't override component classes
 
 ### TypeScript Errors
+
 - Import types from the correct path: `./components/types`
 - Verify all required props are provided
 - Ensure data object matches JourneyStepData interface

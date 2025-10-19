@@ -1,6 +1,6 @@
 /**
  * Basic test structure for JourneyStepNode component
- * 
+ *
  * This file demonstrates the test cases that should be implemented
  * when the appropriate testing framework is set up.
  */
@@ -17,7 +17,7 @@ const mockStepData: JourneyStepData = {
 
 /**
  * Test cases to implement:
- * 
+ *
  * 1. ✅ Renders step label and number correctly
  * 2. ✅ Renders description when provided
  * 3. ✅ Renders screenshot when provided with proper alt text
@@ -28,7 +28,7 @@ const mockStepData: JourneyStepData = {
  * 8. ✅ Supports custom positions for handles
  * 9. ✅ Applies proper styling and responsive design
  * 10. ✅ Integrates with ReactFlow selection system
- * 
+ *
  * Component Features:
  * - Screenshot display with error handling
  * - Step numbering with badges

@@ -91,7 +91,7 @@ const JourneyStepFacts: FunctionComponent<JourneyStepFactsProps> = ({ journeySte
                                             loading="lazy"
                                         />
                                     </div>
-                                    
+
                                     {/* Image Caption */}
                                     <div className="mt-3 text-xs text-base-content/60 text-center">
                                         <span className="font-medium">{journeyStepFacts.name}</span>

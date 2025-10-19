@@ -18,7 +18,7 @@
                     "nodeType": "journeyStep"
                 }
             }
-        },        
+        },
         {
             "id": "CR-001-FX",
             "label": "Customer Portfolio Management Engine",

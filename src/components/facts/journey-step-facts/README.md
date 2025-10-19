@@ -15,17 +15,17 @@ The component is automatically rendered when a component has `journeyStep` facts
 
 ```json
 {
-  "id": "example-component",
-  "label": "Example Component",
-  "description": "Component description",
-  "facts": {
-    "journeyStep": {
-      "name": "Login Form",
-      "screenshot": "https://example.com/screenshot.png",
-      "description": "Detailed description of the journey step..."
-    },
-    // ... other facts
-  }
+    "id": "example-component",
+    "label": "Example Component",
+    "description": "Component description",
+    "facts": {
+        "journeyStep": {
+            "name": "Login Form",
+            "screenshot": "https://example.com/screenshot.png",
+            "description": "Detailed description of the journey step..."
+        }
+        // ... other facts
+    }
 }
 ```
 
@@ -33,21 +33,22 @@ The component is automatically rendered when a component has `journeyStep` facts
 
 ### JourneyStepFactsProps
 
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `journeyStepFacts` | `JourneyStepFacts` | ✅ | Journey step data object |
+| Property           | Type               | Required | Description              |
+| ------------------ | ------------------ | -------- | ------------------------ |
+| `journeyStepFacts` | `JourneyStepFacts` | ✅       | Journey step data object |
 
 ### JourneyStepFacts Type
 
-| Property | Type | Required | Description |
-|----------|------|----------|-------------|
-| `name` | `string` | ✅ | Display name of the journey step |
-| `screenshot` | `string` | ✅ | URL to the screenshot image |
-| `description` | `string` | ✅ | Detailed description of the step |
+| Property      | Type     | Required | Description                      |
+| ------------- | -------- | -------- | -------------------------------- |
+| `name`        | `string` | ✅       | Display name of the journey step |
+| `screenshot`  | `string` | ✅       | URL to the screenshot image      |
+| `description` | `string` | ✅       | Detailed description of the step |
 
 ## Visual Design
 
 ### Header Section
+
 - 🗺️ **Map Icon**: Visual identifier for journey steps
 - **Title**: "Journey Step"
 - **Expand/Collapse Button**: Standard chevron icons
@@ -55,15 +56,15 @@ The component is automatically rendered when a component has `journeyStep` facts
 ### Content Sections
 
 1. **Step Information**
-   - 📄 **File Text Icon**: Section identifier
-   - **Step Name**: Prominently displayed with primary color
-   - **Description**: Full description with proper text formatting
+    - 📄 **File Text Icon**: Section identifier
+    - **Step Name**: Prominently displayed with primary color
+    - **Description**: Full description with proper text formatting
 
 2. **Screenshot Display**
-   - 🖼️ **Image Icon**: Section identifier  
-   - **Large Image**: Full-width screenshot with proper aspect ratio
-   - **Image Caption**: Step name and type indicator
-   - **Error Handling**: Graceful fallback when image fails to load
+    - 🖼️ **Image Icon**: Section identifier
+    - **Large Image**: Full-width screenshot with proper aspect ratio
+    - **Image Caption**: Step name and type indicator
+    - **Error Handling**: Graceful fallback when image fails to load
 
 ## Screenshot Error Handling
 
@@ -87,7 +88,7 @@ For testing purposes, you can use placeholder URLs:
 
 ```json
 {
-  "screenshot": "https://via.placeholder.com/800x600/4A90E2/FFFFFF?text=Login+Form+Screenshot"
+    "screenshot": "https://via.placeholder.com/800x600/4A90E2/FFFFFF?text=Login+Form+Screenshot"
 }
 ```
 

@@ -144,7 +144,7 @@ const mapToEdges = (edgeData: EdgeData[], layout = 'default'): Edge[] => {
             target: edge.target,
             selectable: true,
             // label: edge.facts.label,
-            type: 'default', 
+            type: 'default',
             style: {
                 strokeWidth: 2,
                 stroke: '#FF0072'
@@ -211,16 +211,12 @@ const Graph: FunctionComponent<GraphProps> = ({
         [components, groups, onComponentLayoutChange, onGroupLayoutChange]
     );
 
-    const onEdgesChange = useCallback(
-        (changes: EdgeChange[]) => {
-            setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot));
-        },
-        []
-    );
+    const onEdgesChange = useCallback((changes: EdgeChange[]) => {
+        setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot));
+    }, []);
 
     const onSelectionChange = useCallback(
         (selection: { nodes: Node[]; edges: Edge[] }) => {
-
             // Handle edge selection
             if (selection.edges.length > 0) {
                 const selectedEdge = selection.edges[0];
