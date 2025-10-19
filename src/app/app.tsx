@@ -8,6 +8,7 @@ import {
     LayoutControls,
     type ComponentData,
     type Group,
+    type EdgeData,
     type ComponentLayoutUpdate,
     type GraphNode,
     type GroupLayoutUpdate
@@ -26,11 +27,13 @@ const App: FunctionComponent = (): ReactElement => {
     const dragRef = useRef<number>(0);
     const [componentData, setComponentData] = useState<ComponentData[]>([]);
     const [groups, setGroups] = useState<Group[]>([]);
+    const [edges, setEdges] = useState<EdgeData[]>([]);
 
     // Sync component data when graph data loads
     useEffect(() => {
         setComponentData(componentGraph.components);
         setGroups(componentGraph.groups);
+        setEdges(componentGraph.edges);
     }, [componentGraph]);
 
     /**
@@ -214,6 +217,7 @@ const App: FunctionComponent = (): ReactElement => {
                         <Graph
                             components={componentData}
                             groups={groups}
+                            edges={edges}
                             layout={currentLayout}
                             onSelectionChange={handleSelectionChange}
                             onComponentLayoutChange={handleComponentLayoutChange}

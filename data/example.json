@@ -1,6 +1,25 @@
 {
     "components": [
         {
+            "id": "step-001",
+            "label": "This is step 1 of a journey",
+            "description": "User starts a journey",
+            "facts": {
+                "journeyStep": {
+                    "name": "Login Form",
+                    "screenshot": "/img/login-form-screenshot.svg",
+                    "description": "User enters their credentials to access the application. This is the first step in the authentication process where users provide their username and password."
+                }
+            },
+            "layouts": {
+                "default": {
+                    "x": 20,
+                    "y": -200,
+                    "nodeType": "journeyStep"
+                }
+            }
+        },
+        {
             "id": "CR-001-FX",
             "label": "Customer Portfolio Management Engine",
             "description": "A system for managing customer portfolios.",
@@ -1841,6 +1860,11 @@
                 "kafka": {
                     "publishingToTopics": ["mobile.events", "user.interactions"],
                     "listeningToTopics": ["push.notifications", "account.updates"]
+                },
+                "journeyStep": {
+                    "name": "Account Balance View",
+                    "screenshot": "/img/account-balance-screenshot.svg",
+                    "description": "The main account overview screen where users can view their current account balance, recent transactions, and quick action buttons. This screen serves as the primary dashboard after successful login, providing users with immediate access to their most important banking information."
                 }
             },
             "layouts": {
@@ -1852,67 +1876,31 @@
             }
         }
     ],
-
-    "groups": [
+    "edges": [
         {
-            "id": "grp-001",
-            "label": "Core Banking Systems",
-            "description": "Group of core banking applications and services.",
-            "componentIds": ["CR-001-WS", "CR-002-API", "CR-003-DB"],
+            "id": "conn-01",
+            "source": "TR-002-LM",
+            "target": "AC-003-BP",
             "layouts": {
-                "default": {
-                    "x": 220,
-                    "y": 30,
-                    "width": 400,
-                    "height": 250,
-                    "nodeType": "groupDetails"
-                }
+                "default": true
+            },
+            "facts": {
+                "label": "Some Label",
+                "description": "This is the description"
             }
         },
         {
-            "id": "grp-002",
-            "label": "Customer Interaction Platforms",
-            "description": "Applications focused on customer engagement and services.",
-            "componentIds": ["CR-004-CS", "CR-008-MC"],
+            "id": "conn-02",
+            "source": "AC-003-BP",
+            "target": "CR-007-ML",
             "layouts": {
-                "default": {
-                    "x": 320,
-                    "y": 130,
-                    "width": 400,
-                    "height": 250,
-                    "nodeType": "groupDetails"
-                }
-            }
-        },
-        {
-            "id": "grp-003",
-            "label": "Security and Risk Management",
-            "description": "Systems dedicated to security, fraud detection, and risk assessment.",
-            "componentIds": ["CR-005-ID", "CR-007-ML"],
-            "layouts": {
-                "default": {
-                    "x": 420,
-                    "y": 230,
-                    "width": 400,
-                    "height": 250,
-                    "nodeType": "groupDetails"
-                }
-            }
-        },
-        {
-            "id": "grp-004",
-            "label": "Legacy Systems",
-            "description": "Older systems that are still in use but planned for decommissioning.",
-            "componentIds": ["CR-006-LG"],
-            "layouts": {
-                "default": {
-                    "x": 520,
-                    "y": 330,
-                    "width": 400,
-                    "height": 250,
-                    "nodeType": "groupDetails"
-                }
+                "default": true
+            },
+            "facts": {
+                "label": "Other Label",
+                "description": "Other description"
             }
         }
-    ]
+    ],
+    "groups": []
 }

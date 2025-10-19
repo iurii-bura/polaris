@@ -114,17 +114,18 @@ export type LayoutInfo = {
 export type Layouts = Partial<Record<string, LayoutInfo>>;
 
 export type Facts = {
-    businessCapabilities: string[];
-    cmdbFacts: CmdbFacts;
+    businessCapabilities?: string[];
+    cmdbFacts?: CmdbFacts;
     git?: GitInfo;
     techStack?: TechStackItem[];
     documents?: Document[];
-    links: Link[];
+    links?: Link[];
     apiSpecifications?: ApiSpecification[];
     qualityMetrics?: QualityMetrics;
     platforms?: Platform[];
     team?: Team;
     kafka?: KafkaInfo;
+    journeyStep?: JourneyStepFacts;
 };
 
 export type ComponentData = {
@@ -143,9 +144,25 @@ export type Group = {
     layouts: Layouts;
 };
 
+export type EdgeFacts = {
+    label?: string;
+    description?: string;
+};
+
+export type EdgeLayouts = Partial<Record<string, boolean>>;
+
+export type EdgeData = {
+    id: string;
+    source: string;
+    target: string;
+    layouts: EdgeLayouts;
+    facts: EdgeFacts;
+};
+
 export type ComponentGraph = {
     components: ComponentData[];
     groups: Group[];
+    edges: EdgeData[];
 };
 
 // Graph node update types
@@ -161,4 +178,18 @@ export type GroupLayoutUpdate = {
     node: Group;
     position?: { x: number; y: number };
     size?: { width: number; height: number };
+};
+
+export type JourneyStepData = {
+    id: string;
+    label: string;
+    screenshot?: string;
+    stepNumber?: number;
+    description?: string;
+};
+
+export type JourneyStepFacts = {
+    name: string;
+    screenshot: string;
+    description: string;
 };

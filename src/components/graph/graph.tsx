@@ -5,17 +5,22 @@ import type { NodeDimensionChange, NodePositionChange } from '@xyflow/react';
 import {
     ReactFlow,
     applyNodeChanges,
+    applyEdgeChanges,
     type Node,
     type NodeChange,
+    type EdgeChange,
     Background,
     BackgroundVariant,
-    type Edge
+    type Edge,
+    MarkerType,
+    BezierEdge
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
 
-import type { ComponentData, Group, ComponentLayoutUpdate, GroupLayoutUpdate } from '../types';
-import { ComponentDetailsNode, ResizableGroupNode } from './nodes';
+import type { ComponentData, Group, ComponentLayoutUpdate, GroupLayoutUpdate, EdgeData } from '../types';
+import { ComponentDetailsNode, JourneyStepNode, ResizableGroupNode } from './nodes';
+import { CustomEdge } from './edges';
 
 // Type guard for completed position changes
 const isCompletedPositionChange = (change: NodeChange): change is NodePositionChange => {
@@ -35,6 +40,7 @@ const isCompletedPositionChange = (change: NodeChange): change is NodePositionCh
 type GraphProps = {
     readonly components: ComponentData[];
     readonly groups: Group[];
+    readonly edges: EdgeData[];
     readonly layout?: string;
     readonly onSelectionChange?: (component: ComponentData | null) => void;
     readonly onComponentLayoutChange?: (updates: ComponentLayoutUpdate[]) => void;
@@ -66,7 +72,8 @@ const mapToNodes = (components: ComponentData[], groups: Group[], layout = 'defa
             position,
             data: {
                 id: item.id,
-                label: item.label
+                label: item.label,
+                screenshot: item.facts.journeyStep?.screenshot
             }
         };
     });
@@ -125,9 +132,36 @@ function mapChangesToLayoutUpdates<T extends { id: string }>(
         .filter((update): update is NonNullable<typeof update> => !!update);
 }
 
+/**
+ * Maps EdgeData to React Flow Edge format
+ */
+const mapToEdges = (edgeData: EdgeData[], layout = 'default'): Edge[] => {
+    return edgeData
+        .filter((edge) => edge.layouts[layout]) // Only include edges visible in this layout
+        .map((edge) => ({
+            id: edge.id,
+            source: edge.source,
+            target: edge.target,
+            selectable: true,
+            // label: edge.facts.label,
+            type: 'default',
+            style: {
+                strokeWidth: 2,
+                stroke: '#FF0072'
+            },
+            markerEnd: {
+                type: MarkerType.Arrow,
+                width: 20,
+                height: 20,
+                color: '#FF0072'
+            }
+        }));
+};
+
 const Graph: FunctionComponent<GraphProps> = ({
     components,
     groups,
+    edges: edgeData,
     layout,
     onSelectionChange: onSelectionChangeCallback,
     onComponentLayoutChange,
@@ -137,16 +171,31 @@ const Graph: FunctionComponent<GraphProps> = ({
     const nodeTypes = useMemo(
         () => ({
             componentDetails: ComponentDetailsNode,
-            group: ResizableGroupNode
+            group: ResizableGroupNode,
+            journeyStep: JourneyStepNode
+        }),
+        []
+    );
+
+    // Custom edge types
+    const edgeTypes = useMemo(
+        () => ({
+            default: BezierEdge,
+            custom: CustomEdge
         }),
         []
     );
 
     const [nodes, setNodes] = useState<Node[]>([]);
+    const [edges, setEdges] = useState<Edge[]>([]);
 
     useEffect(() => {
         setNodes(mapToNodes(components, groups, layout));
-    }, [components, layout]);
+    }, [components, groups, layout]);
+
+    useEffect(() => {
+        setEdges(mapToEdges(edgeData, layout));
+    }, [edgeData, layout]);
 
     const onNodesChange = useCallback(
         (changes: NodeChange[]) => {
@@ -162,8 +211,18 @@ const Graph: FunctionComponent<GraphProps> = ({
         [components, groups, onComponentLayoutChange, onGroupLayoutChange]
     );
 
+    const onEdgesChange = useCallback((changes: EdgeChange[]) => {
+        setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot));
+    }, []);
+
     const onSelectionChange = useCallback(
         (selection: { nodes: Node[]; edges: Edge[] }) => {
+            // Handle edge selection
+            if (selection.edges.length > 0) {
+                const selectedEdge = selection.edges[0];
+                console.log('Selected edge ID:', selectedEdge.id);
+            }
+
             if (!onSelectionChangeCallback) {
                 return;
             }
@@ -181,9 +240,11 @@ const Graph: FunctionComponent<GraphProps> = ({
     return (
         <ReactFlow
             nodes={nodes}
-            edges={[]}
+            edges={edges}
             nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
             onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
             proOptions={{ hideAttribution: true }}
             defaultViewport={{ x: 200, y: 300, zoom: 1.5 }}
             onSelectionChange={onSelectionChange}

@@ -98,7 +98,8 @@ export class ComponentDataService {
             const componentGraph = mockDataJson as ComponentGraph;
             return {
                 components: [...componentGraph.components],
-                groups: [...componentGraph.groups]
+                groups: [...componentGraph.groups],
+                edges: [...componentGraph.edges]
             };
         }
 
@@ -125,7 +126,8 @@ export class ComponentDataService {
         const componentGraph = mockDataJson as ComponentGraph;
         return {
             components: [...componentGraph.components],
-            groups: [...componentGraph.groups]
+            groups: [...componentGraph.groups],
+            edges: [...componentGraph.edges]
         };
     }
 
@@ -159,7 +161,8 @@ export class ComponentDataService {
         // Return copy of mock data to prevent external mutations
         return {
             components: [...this.mockData.components],
-            groups: [...this.mockData.groups]
+            groups: [...this.mockData.groups],
+            edges: [...this.mockData.edges]
         };
     }
 
@@ -347,7 +350,8 @@ export class ComponentDataService {
             const componentGraph = mockDataJson as ComponentGraph;
             this.mockData = {
                 components: [...componentGraph.components],
-                groups: [...componentGraph.groups]
+                groups: [...componentGraph.groups],
+                edges: [...componentGraph.edges]
             };
             console.log('Cleared stored data and reset to example.json');
         } catch (error) {

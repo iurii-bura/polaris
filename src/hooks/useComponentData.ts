@@ -30,7 +30,7 @@ export type UseComponentDataResult = {
  * @returns Object containing data, loading state, error state, and CRUD operations
  */
 export const useComponentData = (): UseComponentDataResult => {
-    const [data, setData] = useState<ComponentGraph>({ components: [], groups: [] });
+    const [data, setData] = useState<ComponentGraph>({ components: [], groups: [], edges: [] });
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 

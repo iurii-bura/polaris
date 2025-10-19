@@ -7,7 +7,7 @@ import PlatformBadges from './platform-badges';
 
 type SummaryFactsProps = {
     readonly id: string;
-    readonly businessCapabilities: string[];
+    readonly businessCapabilities?: string[];
     readonly platforms?: { type: string; comment: string }[];
     readonly techStack?: { name: string; version: string; source: string }[];
     readonly name: string;
@@ -57,17 +57,19 @@ const SummaryFacts: FunctionComponent<SummaryFactsProps> = ({
                     {/* Left Column */}
                     <div className="space-y-4">
                         {/* Business Capabilities */}
-                        <div>
-                            <h4 className="text-sm font-medium text-base-content/60 mb-2">Business Capabilities</h4>
-                            <div className="flex flex-wrap gap-2">
-                                {businessCapabilities.map((capability) => (
-                                    <BusinessCapabilityBadge
-                                        key={capability}
-                                        capability={capability}
-                                    />
-                                ))}
+                        {businessCapabilities ? (
+                            <div>
+                                <h4 className="text-sm font-medium text-base-content/60 mb-2">Business Capabilities</h4>
+                                <div className="flex flex-wrap gap-2">
+                                    {businessCapabilities.map((capability) => (
+                                        <BusinessCapabilityBadge
+                                            key={capability}
+                                            capability={capability}
+                                        />
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        ) : null}
 
                         {/* Team */}
                         <div>
