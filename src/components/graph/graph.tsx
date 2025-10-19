@@ -142,14 +142,14 @@ const mapToEdges = (edgeData: EdgeData[], layout = 'default'): Edge[] => {
             source: edge.source,
             target: edge.target,
             selectable: true,
-            label: edge.facts.label,
+            // label: edge.facts.label,
             type: 'default', 
             style: {
                 strokeWidth: 2,
                 stroke: '#FF0072'
             },
             markerEnd: {
-                type: MarkerType.ArrowClosed,
+                type: MarkerType.Arrow,
                 width: 20,
                 height: 20,
                 color: '#FF0072'

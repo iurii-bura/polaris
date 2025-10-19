@@ -178,3 +178,12 @@ export type GroupLayoutUpdate = {
     position?: { x: number; y: number };
     size?: { width: number; height: number };
 };
+
+export type JourneyStepData = {
+    id: string;
+    label: string;
+    screenshot?: string;
+    stepNumber?: number;
+    description?: string;
+    onClick?: (stepData: JourneyStepData) => void;
+};
