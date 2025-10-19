@@ -18,7 +18,7 @@ import {
 
 import '@xyflow/react/dist/style.css';
 
-import type { ComponentData, Group, ComponentLayoutUpdate, GroupLayoutUpdate } from '../types';
+import type { ComponentData, Group, ComponentLayoutUpdate, GroupLayoutUpdate, EdgeData } from '../types';
 import { ComponentDetailsNode, ResizableGroupNode } from './nodes';
 import { CustomEdge } from './edges';
 
@@ -40,6 +40,7 @@ const isCompletedPositionChange = (change: NodeChange): change is NodePositionCh
 type GraphProps = {
     readonly components: ComponentData[];
     readonly groups: Group[];
+    readonly edges?: EdgeData[];
     readonly layout?: string;
     readonly onSelectionChange?: (component: ComponentData | null) => void;
     readonly onComponentLayoutChange?: (updates: ComponentLayoutUpdate[]) => void;
@@ -130,9 +131,36 @@ function mapChangesToLayoutUpdates<T extends { id: string }>(
         .filter((update): update is NonNullable<typeof update> => !!update);
 }
 
+/**
+ * Maps EdgeData to React Flow Edge format
+ */
+const mapToEdges = (edgeData: EdgeData[], layout = 'default'): Edge[] => {
+    return edgeData
+        .filter((edge) => edge.layouts[layout]) // Only include edges visible in this layout
+        .map((edge) => ({
+            id: edge.id,
+            source: edge.source,
+            target: edge.target,
+            selectable: true,
+            label: edge.facts.label,
+            type: 'default', 
+            style: {
+                strokeWidth: 2,
+                stroke: '#FF0072'
+            },
+            markerEnd: {
+                type: MarkerType.ArrowClosed,
+                width: 20,
+                height: 20,
+                color: '#FF0072'
+            }
+        }));
+};
+
 const Graph: FunctionComponent<GraphProps> = ({
     components,
     groups,
+    edges: edgeData = [],
     layout,
     onSelectionChange: onSelectionChangeCallback,
     onComponentLayoutChange,
@@ -157,51 +185,15 @@ const Graph: FunctionComponent<GraphProps> = ({
     );
 
     const [nodes, setNodes] = useState<Node[]>([]);
-    const [edges, setEdges] = useState<Edge[]>([
-        {
-            id: 'conn-01',
-            source: 'TR-002-LM',
-            target: 'AC-003-BP',
-            selectable: true,
-            markerEnd: {
-                type: MarkerType.ArrowClosed,
-                width: 20,
-                height: 20,
-                color: '#FF0072'
-            },
-            label: 'marker size and color',
-            style: {
-                strokeWidth: 2,
-                stroke: '#FF0072'
-            }
-        },
-        {
-            id: 'conn-02',
-            source: 'AC-003-BP',
-            target: 'CR-007-ML',
-            type: 'custom',
-            selectable: true,
-            markerEnd: {
-                type: MarkerType.ArrowClosed,
-                width: 20,
-                height: 20
-            },
-            style: {
-                strokeWidth: 2,
-                stroke: '#103dafff'
-            }
-        },
-        {
-            id: 'conn-03',
-            source: 'AC-003-BP',
-            target: 'PY-004-MN',
-            selectable: true
-        }
-    ]);
+    const [edges, setEdges] = useState<Edge[]>([]);
 
     useEffect(() => {
         setNodes(mapToNodes(components, groups, layout));
-    }, [components, layout]);
+    }, [components, groups, layout]);
+
+    useEffect(() => {
+        setEdges(mapToEdges(edgeData, layout));
+    }, [edgeData, layout]);
 
     const onNodesChange = useCallback(
         (changes: NodeChange[]) => {

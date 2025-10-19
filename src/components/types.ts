@@ -143,9 +143,25 @@ export type Group = {
     layouts: Layouts;
 };
 
+export type EdgeFacts = {
+    label?: string;
+    description?: string;
+};
+
+export type EdgeLayouts = Partial<Record<string, boolean>>;
+
+export type EdgeData = {
+    id: string;
+    source: string;
+    target: string;
+    layouts: EdgeLayouts;
+    facts: EdgeFacts;
+};
+
 export type ComponentGraph = {
     components: ComponentData[];
     groups: Group[];
+    edges: EdgeData[];
 };
 
 // Graph node update types
