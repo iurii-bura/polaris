@@ -5,8 +5,10 @@ import type { NodeDimensionChange, NodePositionChange } from '@xyflow/react';
 import {
     ReactFlow,
     applyNodeChanges,
+    applyEdgeChanges,
     type Node,
     type NodeChange,
+    type EdgeChange,
     Background,
     BackgroundVariant,
     type Edge,
@@ -155,6 +157,47 @@ const Graph: FunctionComponent<GraphProps> = ({
     );
 
     const [nodes, setNodes] = useState<Node[]>([]);
+    const [edges, setEdges] = useState<Edge[]>([
+        {
+            id: 'conn-01',
+            source: 'TR-002-LM',
+            target: 'AC-003-BP',
+            selectable: true,
+            markerEnd: {
+                type: MarkerType.ArrowClosed,
+                width: 20,
+                height: 20,
+                color: '#FF0072'
+            },
+            label: 'marker size and color',
+            style: {
+                strokeWidth: 2,
+                stroke: '#FF0072'
+            }
+        },
+        {
+            id: 'conn-02',
+            source: 'AC-003-BP',
+            target: 'CR-007-ML',
+            type: 'custom',
+            selectable: true,
+            markerEnd: {
+                type: MarkerType.ArrowClosed,
+                width: 20,
+                height: 20
+            },
+            style: {
+                strokeWidth: 2,
+                stroke: '#103dafff'
+            }
+        },
+        {
+            id: 'conn-03',
+            source: 'AC-003-BP',
+            target: 'PY-004-MN',
+            selectable: true
+        }
+    ]);
 
     useEffect(() => {
         setNodes(mapToNodes(components, groups, layout));
@@ -174,9 +217,22 @@ const Graph: FunctionComponent<GraphProps> = ({
         [components, groups, onComponentLayoutChange, onGroupLayoutChange]
     );
 
+    const onEdgesChange = useCallback(
+        (changes: EdgeChange[]) => {
+            setEdges((edgesSnapshot) => applyEdgeChanges(changes, edgesSnapshot));
+        },
+        []
+    );
+
     const onSelectionChange = useCallback(
         (selection: { nodes: Node[]; edges: Edge[] }) => {
-            console.log(JSON.stringify(selection, null, 2));
+
+            // Handle edge selection
+            if (selection.edges.length > 0) {
+                const selectedEdge = selection.edges[0];
+                console.log('Selected edge ID:', selectedEdge.id);
+            }
+
             if (!onSelectionChangeCallback) {
                 return;
             }
@@ -194,47 +250,11 @@ const Graph: FunctionComponent<GraphProps> = ({
     return (
         <ReactFlow
             nodes={nodes}
-            edges={[
-                {
-                    id: 'conn-01',
-                    source: 'TR-002-LM',
-                    target: 'AC-003-BP',
-                    markerEnd: {
-                        type: MarkerType.ArrowClosed,
-                        width: 20,
-                        height: 20,
-                        color: '#FF0072'
-                    },
-                    label: 'marker size and color',
-                    style: {
-                        strokeWidth: 2,
-                        stroke: '#FF0072'
-                    }
-                },
-                {
-                    id: 'conn-02',
-                    source: 'AC-003-BP',
-                    target: 'CR-007-ML',
-                    type: 'custom',
-                    markerEnd: {
-                        type: MarkerType.ArrowClosed,
-                        width: 20,
-                        height: 20
-                    },
-                    style: {
-                        strokeWidth: 2,
-                        stroke: '#103dafff'
-                    }
-                },
-                {
-                    id: 'conn-03',
-                    source: 'AC-003-BP',
-                    target: 'PY-004-MN'
-                }
-            ]}
+            edges={edges}
             nodeTypes={nodeTypes}
             edgeTypes={edgeTypes}
             onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
             proOptions={{ hideAttribution: true }}
             defaultViewport={{ x: 200, y: 300, zoom: 1.5 }}
             onSelectionChange={onSelectionChange}
