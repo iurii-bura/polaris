@@ -181,7 +181,23 @@ const Graph: FunctionComponent<GraphProps> = ({
     return (
         <ReactFlow
             nodes={nodes}
-            edges={[]}
+            edges={[
+                {
+                    id: 'conn-01',
+                    source: 'TR-002-LM',
+                    target: 'AC-003-BP'
+                },
+                {
+                    id: 'conn-02',
+                    source: 'AC-003-BP',
+                    target: 'CR-007-ML'
+                },
+                {
+                    id: 'conn-03',
+                    source: 'AC-003-BP',
+                    target: 'PY-004-MN'
+                }
+            ]}
             nodeTypes={nodeTypes}
             onNodesChange={onNodesChange}
             proOptions={{ hideAttribution: true }}
