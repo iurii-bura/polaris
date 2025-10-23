@@ -13,7 +13,8 @@ import {
     BackgroundVariant,
     type Edge,
     MarkerType,
-    BezierEdge
+    BezierEdge,
+    Controls
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
@@ -248,11 +249,13 @@ const Graph: FunctionComponent<GraphProps> = ({
             proOptions={{ hideAttribution: true }}
             defaultViewport={{ x: 200, y: 300, zoom: 1.5 }}
             onSelectionChange={onSelectionChange}
+            fitView={true}
         >
             <Background
                 color="#ccc"
                 variant={BackgroundVariant.Dots}
             />
+            <Controls />
         </ReactFlow>
     );
 };
