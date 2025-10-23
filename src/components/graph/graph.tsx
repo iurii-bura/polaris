@@ -218,19 +218,34 @@ const Graph: FunctionComponent<GraphProps> = ({
 
     const onSelectionChange = useCallback(
         (selection: { nodes: Node[]; edges: Edge[] }) => {
-            // Handle edge selection
-            if (selection.edges.length > 0) {
-                const selectedEdge = selection.edges[0];
-                console.log('Selected edge ID:', selectedEdge.id);
-            }
-
             if (!onSelectionChangeCallback) {
                 return;
             }
 
+            // Handle edge selection
+            if (selection.edges.length > 0) {
+                const selectedEdge = edges.find(({ id }) => id === selection.edges[0].id);
+                console.log('Selected edge ID:', selectedEdge?.id);
+                return onSelectionChangeCallback({
+                    type: "edge",
+                    element: selectedEdge
+                });
+            } 
             if (selection.nodes.length > 0) {
                 const selectedNode = components.find(({ id }) => id === selection.nodes[0].id);
-                onSelectionChangeCallback(selectedNode ?? null);
+                if (selectedNode) {
+                    return onSelectionChangeCallback({
+                        type: "node",
+                        element: selectedNode
+                    });
+                }
+                const selectedGroup = groups.find(({ id }) => id === selection.nodes[0].id);
+                if (selectedGroup) {
+                    return onSelectionChangeCallback({
+                        type: "group",
+                        element: selectedGroup
+                    });
+                }
             } else {
                 onSelectionChangeCallback(null);
             }
