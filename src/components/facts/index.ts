@@ -10,3 +10,4 @@ export { PlatformsFacts } from './platforms-facts';
 export { TeamFacts } from './team-facts';
 export { KafkaFacts } from './kafka-facts';
 export { JourneyStepFacts } from './journey-step-facts';
+export { EaCapabilityFacts } from './ea-capability-facts';

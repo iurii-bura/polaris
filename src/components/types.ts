@@ -126,6 +126,7 @@ export type Facts = {
     team?: Team;
     kafka?: KafkaInfo;
     journeyStep?: JourneyStepFacts;
+    eaCapabilityFacts?: EaCapabilityFacts;
 };
 
 // Common interface for objects that have facts
@@ -146,7 +147,6 @@ export type Group = WithFacts & {
     componentIds: string[];
     layouts: Layouts;
 };
-
 
 export type EdgeLayouts = Partial<Record<string, boolean>>;
 
@@ -193,7 +193,11 @@ export type JourneyStepFacts = {
     description: string;
 };
 
-// Selection types for graph interaction
+export type EaCapabilityFacts = {
+    name: string;
+    description: string;
+    capabilityDomain: string;
+}; // Selection types for graph interaction
 export type NodeSelection = {
     type: 'node';
     element: ComponentData;

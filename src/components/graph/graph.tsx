@@ -19,7 +19,14 @@ import {
 
 import '@xyflow/react/dist/style.css';
 
-import type { ComponentData, Group, ComponentLayoutUpdate, GroupLayoutUpdate, EdgeData, GraphSelection } from '../types';
+import type {
+    ComponentData,
+    Group,
+    ComponentLayoutUpdate,
+    GroupLayoutUpdate,
+    EdgeData,
+    GraphSelection
+} from '../types';
 import { ComponentDetailsNode, JourneyStepNode, ResizableGroupNode } from './nodes';
 import { CustomEdge } from './edges';
 
@@ -228,23 +235,23 @@ const Graph: FunctionComponent<GraphProps> = ({
                 if (selectedEdge) {
                     console.log('Selected edge ID:', selectedEdge.id);
                     return onSelectionChangeCallback({
-                        type: "edge",
+                        type: 'edge',
                         element: selectedEdge
                     });
                 }
-            } 
+            }
             if (selection.nodes.length > 0) {
                 const selectedNode = components.find(({ id }) => id === selection.nodes[0].id);
                 if (selectedNode) {
                     return onSelectionChangeCallback({
-                        type: "node",
+                        type: 'node',
                         element: selectedNode
                     });
                 }
                 const selectedGroup = groups.find(({ id }) => id === selection.nodes[0].id);
                 if (selectedGroup) {
                     return onSelectionChangeCallback({
-                        type: "group",
+                        type: 'group',
                         element: selectedGroup
                     });
                 }

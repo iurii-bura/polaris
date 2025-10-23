@@ -14,7 +14,8 @@ import {
     CmdbFacts,
     PlatformsFacts,
     LinksFacts,
-    JourneyStepFacts
+    JourneyStepFacts,
+    EaCapabilityFacts
 } from '../facts';
 
 type ComponentDetailsProps = {
@@ -52,9 +53,11 @@ const getFactCards = (facts: Facts): ReactElement[] => {
     const links = facts.links && <LinksFacts links={facts.links} />;
     const kafka = facts.kafka && <KafkaFacts kafka={facts.kafka} />;
     const journeyStep = facts.journeyStep && <JourneyStepFacts journeyStepFacts={facts.journeyStep} />;
+    const eaCapability = facts.eaCapabilityFacts && <EaCapabilityFacts eaCapabilityFacts={facts.eaCapabilityFacts} />;
 
     return [
         summary,
+        eaCapability,
         techStack,
         cmdb,
         qualityMetrics,
