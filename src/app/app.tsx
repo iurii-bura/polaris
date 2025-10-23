@@ -11,7 +11,9 @@ import {
     type EdgeData,
     type ComponentLayoutUpdate,
     type GraphNode,
-    type GroupLayoutUpdate
+    type GroupLayoutUpdate,
+    type GraphSelection,
+    type WithFacts
 } from 'src/components';
 import { useComponentData } from '../hooks';
 import { ComponentDataService } from 'src/services';
@@ -20,7 +22,7 @@ import './app.css';
 
 const App: FunctionComponent = (): ReactElement => {
     const { data: componentGraph, loading, error } = useComponentData();
-    const [selectedComponent, setSelectedComponent] = useState<ComponentData | null>(null);
+    const [selectedElement, setSelectedElement] = useState<WithFacts | null>(null);
     const [currentLayout, setCurrentLayout] = useState<string>('default');
     const [panelWidth, setPanelWidth] = useState(470); // Default panel width in pixels
     const [isDragging, setIsDragging] = useState(false);
@@ -37,11 +39,15 @@ const App: FunctionComponent = (): ReactElement => {
     }, [componentGraph]);
 
     /**
-     * Handles selection changes in the graph, updates which component is selected
-     * @param component The component that was selected, or null if nothing is selected
+     * Handles selection changes in the graph, updates which element is selected
+     * @param selection The selection object containing type and element, or null if nothing is selected
      */
-    const handleSelectionChange = useCallback((component: ComponentData | null) => {
-        component && setSelectedComponent(component);
+    const handleSelectionChange = useCallback((selection: GraphSelection | null) => {
+        if (selection) {
+            setSelectedElement(selection.element);
+        } else {
+            setSelectedElement(null);
+        }
     }, []);
 
     /**
@@ -248,7 +254,7 @@ const App: FunctionComponent = (): ReactElement => {
                     className="bg-base-200 p-4 border-l border-base-300 overflow-hidden flex-shrink-0"
                     style={{ width: String(panelWidth) + 'px' }}
                 >
-                    <ComponentDetails component={selectedComponent} />
+                    <ComponentDetails component={selectedElement} />
                 </aside>
             </div>
         </main>

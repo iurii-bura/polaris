@@ -1,6 +1,6 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useMemo } from 'react';
-import type { ComponentData, Facts } from '../types';
+import type { ComponentData, Facts, WithFacts } from '../types';
 import NoComponentSelected from './no-component-selected';
 import {
     SummaryFacts,
@@ -18,7 +18,7 @@ import {
 } from '../facts';
 
 type ComponentDetailsProps = {
-    readonly component: ComponentData | null;
+    readonly component: WithFacts | null;
 };
 
 /*

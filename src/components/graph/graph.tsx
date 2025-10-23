@@ -19,7 +19,7 @@ import {
 
 import '@xyflow/react/dist/style.css';
 
-import type { ComponentData, Group, ComponentLayoutUpdate, GroupLayoutUpdate, EdgeData } from '../types';
+import type { ComponentData, Group, ComponentLayoutUpdate, GroupLayoutUpdate, EdgeData, GraphSelection } from '../types';
 import { ComponentDetailsNode, JourneyStepNode, ResizableGroupNode } from './nodes';
 import { CustomEdge } from './edges';
 
@@ -43,7 +43,7 @@ type GraphProps = {
     readonly groups: Group[];
     readonly edges: EdgeData[];
     readonly layout?: string;
-    readonly onSelectionChange?: (component: ComponentData | null) => void;
+    readonly onSelectionChange?: (selection: GraphSelection | null) => void;
     readonly onComponentLayoutChange?: (updates: ComponentLayoutUpdate[]) => void;
     readonly onGroupLayoutChange?: (updates: GroupLayoutUpdate[]) => void;
 };
@@ -224,12 +224,14 @@ const Graph: FunctionComponent<GraphProps> = ({
 
             // Handle edge selection
             if (selection.edges.length > 0) {
-                const selectedEdge = edges.find(({ id }) => id === selection.edges[0].id);
-                console.log('Selected edge ID:', selectedEdge?.id);
-                return onSelectionChangeCallback({
-                    type: "edge",
-                    element: selectedEdge
-                });
+                const selectedEdge = edgeData.find(({ id }) => id === selection.edges[0].id);
+                if (selectedEdge) {
+                    console.log('Selected edge ID:', selectedEdge.id);
+                    return onSelectionChangeCallback({
+                        type: "edge",
+                        element: selectedEdge
+                    });
+                }
             } 
             if (selection.nodes.length > 0) {
                 const selectedNode = components.find(({ id }) => id === selection.nodes[0].id);
@@ -250,7 +252,7 @@ const Graph: FunctionComponent<GraphProps> = ({
                 onSelectionChangeCallback(null);
             }
         },
-        [onSelectionChangeCallback, components]
+        [onSelectionChangeCallback, components, groups, edgeData]
     );
 
     return (
