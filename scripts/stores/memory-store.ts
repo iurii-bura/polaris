@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import type { ComponentData, ComponentGraph, EdgeData, Facts, Group } from '../../src/components/types.js';
+import type { ComponentData, ComponentGraph, EdgeData, Facts, Group, LayoutInfo } from '../../src/components/types.js';
 
 /**
  * Deep clone helper to prevent mutation of original data
@@ -16,22 +16,52 @@ export type MemoryStore = {
     findComponent: (componentId: string) => Promise<ComponentData | undefined>;
     addComponent: (component: ComponentData) => Promise<ComponentData>;
     deleteComponent: (componentId: string) => Promise<void>;
+    updateComponent: (componentId: string, updates: { label?: string; description?: string }) => Promise<ComponentData>;
     upsertComponentFacts: (componentId: string, facts: Partial<Facts>) => Promise<ComponentData>;
     removeComponentFacts: (componentId: string, factKeys: (keyof Facts)[]) => Promise<ComponentData>;
+
+    // Component layout operations
+    addComponentLayout: (componentId: string, layoutName: string, layout: LayoutInfo) => Promise<ComponentData>;
+    updateComponentLayout: (
+        componentId: string,
+        layoutName: string,
+        layout: Partial<LayoutInfo>
+    ) => Promise<ComponentData>;
+    removeComponentLayout: (componentId: string, layoutName: string) => Promise<ComponentData>;
+    getComponentLayout: (componentId: string, layoutName: string) => Promise<LayoutInfo | undefined>;
 
     // Group operations
     findGroup: (groupId: string) => Promise<Group | undefined>;
     addGroup: (group: Group) => Promise<Group>;
     deleteGroup: (groupId: string) => Promise<void>;
+    updateGroup: (
+        groupId: string,
+        updates: { label?: string; description?: string; componentIds?: string[] }
+    ) => Promise<Group>;
     upsertGroupFacts: (groupId: string, facts: Partial<Facts>) => Promise<Group>;
     removeGroupFacts: (groupId: string, factKeys: (keyof Facts)[]) => Promise<Group>;
+
+    // Group layout operations
+    addGroupLayout: (groupId: string, layoutName: string, layout: LayoutInfo) => Promise<Group>;
+    updateGroupLayout: (groupId: string, layoutName: string, layout: Partial<LayoutInfo>) => Promise<Group>;
+    removeGroupLayout: (groupId: string, layoutName: string) => Promise<Group>;
+    getGroupLayout: (groupId: string, layoutName: string) => Promise<LayoutInfo | undefined>;
 
     // Edge operations
     findEdge: (edgeId: string) => Promise<EdgeData | undefined>;
     addEdge: (edge: EdgeData) => Promise<EdgeData>;
     deleteEdge: (edgeId: string) => Promise<void>;
+    updateEdge: (
+        edgeId: string,
+        updates: { source?: string; target?: string; label?: string; description?: string }
+    ) => Promise<EdgeData>;
     upsertEdgeFacts: (edgeId: string, facts: Partial<Facts>) => Promise<EdgeData>;
     removeEdgeFacts: (edgeId: string, factKeys: (keyof Facts)[]) => Promise<EdgeData>;
+
+    // Edge layout operations
+    addEdgeLayout: (edgeId: string, layoutName: string, visible: boolean) => Promise<EdgeData>;
+    removeEdgeLayout: (edgeId: string, layoutName: string) => Promise<EdgeData>;
+    getEdgeLayout: (edgeId: string, layoutName: string) => Promise<boolean | undefined>;
 
     // Store operations
     clearStore: () => Promise<void>;
@@ -129,6 +159,95 @@ export const memoryStore = (dataset: ComponentGraph): MemoryStore => {
         return Promise.resolve(deepClone(component));
     };
 
+    const updateComponent = (
+        componentId: string,
+        updates: { label?: string; description?: string }
+    ): Promise<ComponentData> => {
+        const component = store.components.find(({ id }) => id === componentId);
+        if (!component) {
+            throw new Error(`Component with ID "${componentId}" not found`);
+        }
+
+        if (updates.label !== undefined) {
+            component.label = updates.label;
+        }
+        if (updates.description !== undefined) {
+            component.description = updates.description;
+        }
+
+        return Promise.resolve(deepClone(component));
+    };
+
+    // ============================================================================
+    // Component layout operations
+    // ============================================================================
+
+    const addComponentLayout = (
+        componentId: string,
+        layoutName: string,
+        layout: LayoutInfo
+    ): Promise<ComponentData> => {
+        const component = store.components.find(({ id }) => id === componentId);
+        if (!component) {
+            throw new Error(`Component with ID "${componentId}" not found`);
+        }
+
+        if (component.layouts[layoutName]) {
+            throw new Error(`Layout "${layoutName}" already exists for component "${componentId}"`);
+        }
+
+        component.layouts[layoutName] = deepClone(layout);
+        return Promise.resolve(deepClone(component));
+    };
+
+    const updateComponentLayout = (
+        componentId: string,
+        layoutName: string,
+        layout: Partial<LayoutInfo>
+    ): Promise<ComponentData> => {
+        const component = store.components.find(({ id }) => id === componentId);
+        if (!component) {
+            throw new Error(`Component with ID "${componentId}" not found`);
+        }
+
+        if (!component.layouts[layoutName]) {
+            throw new Error(`Layout "${layoutName}" not found for component "${componentId}"`);
+        }
+
+        const existingLayout = component.layouts[layoutName];
+        component.layouts[layoutName] = {
+            ...existingLayout,
+            ...deepClone(layout)
+        };
+
+        return Promise.resolve(deepClone(component));
+    };
+
+    const removeComponentLayout = (componentId: string, layoutName: string): Promise<ComponentData> => {
+        const component = store.components.find(({ id }) => id === componentId);
+        if (!component) {
+            throw new Error(`Component with ID "${componentId}" not found`);
+        }
+
+        if (!component.layouts[layoutName]) {
+            throw new Error(`Layout "${layoutName}" not found for component "${componentId}"`);
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete component.layouts[layoutName];
+        return Promise.resolve(deepClone(component));
+    };
+
+    const getComponentLayout = (componentId: string, layoutName: string): Promise<LayoutInfo | undefined> => {
+        const component = store.components.find(({ id }) => id === componentId);
+        if (!component) {
+            throw new Error(`Component with ID "${componentId}" not found`);
+        }
+
+        const layout = component.layouts[layoutName];
+        return Promise.resolve(layout ? deepClone(layout) : undefined);
+    };
+
     // ============================================================================
     // Group operations
     // ============================================================================
@@ -199,6 +318,90 @@ export const memoryStore = (dataset: ComponentGraph): MemoryStore => {
         }
 
         return Promise.resolve(deepClone(group));
+    };
+
+    const updateGroup = (
+        groupId: string,
+        updates: { label?: string; description?: string; componentIds?: string[] }
+    ): Promise<Group> => {
+        const group = store.groups.find(({ id }) => id === groupId);
+        if (!group) {
+            throw new Error(`Group with ID "${groupId}" not found`);
+        }
+
+        if (updates.label !== undefined) {
+            group.label = updates.label;
+        }
+        if (updates.description !== undefined) {
+            group.description = updates.description;
+        }
+        if (updates.componentIds !== undefined) {
+            group.componentIds = deepClone(updates.componentIds);
+        }
+
+        return Promise.resolve(deepClone(group));
+    };
+
+    // ============================================================================
+    // Group layout operations
+    // ============================================================================
+
+    const addGroupLayout = (groupId: string, layoutName: string, layout: LayoutInfo): Promise<Group> => {
+        const group = store.groups.find(({ id }) => id === groupId);
+        if (!group) {
+            throw new Error(`Group with ID "${groupId}" not found`);
+        }
+
+        if (group.layouts[layoutName]) {
+            throw new Error(`Layout "${layoutName}" already exists for group "${groupId}"`);
+        }
+
+        group.layouts[layoutName] = deepClone(layout);
+        return Promise.resolve(deepClone(group));
+    };
+
+    const updateGroupLayout = (groupId: string, layoutName: string, layout: Partial<LayoutInfo>): Promise<Group> => {
+        const group = store.groups.find(({ id }) => id === groupId);
+        if (!group) {
+            throw new Error(`Group with ID "${groupId}" not found`);
+        }
+
+        if (!group.layouts[layoutName]) {
+            throw new Error(`Layout "${layoutName}" not found for group "${groupId}"`);
+        }
+
+        const existingLayout = group.layouts[layoutName];
+        group.layouts[layoutName] = {
+            ...existingLayout,
+            ...deepClone(layout)
+        };
+
+        return Promise.resolve(deepClone(group));
+    };
+
+    const removeGroupLayout = (groupId: string, layoutName: string): Promise<Group> => {
+        const group = store.groups.find(({ id }) => id === groupId);
+        if (!group) {
+            throw new Error(`Group with ID "${groupId}" not found`);
+        }
+
+        if (!group.layouts[layoutName]) {
+            throw new Error(`Layout "${layoutName}" not found for group "${groupId}"`);
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete group.layouts[layoutName];
+        return Promise.resolve(deepClone(group));
+    };
+
+    const getGroupLayout = (groupId: string, layoutName: string): Promise<LayoutInfo | undefined> => {
+        const group = store.groups.find(({ id }) => id === groupId);
+        if (!group) {
+            throw new Error(`Group with ID "${groupId}" not found`);
+        }
+
+        const layout = group.layouts[layoutName];
+        return Promise.resolve(layout ? deepClone(layout) : undefined);
     };
 
     // ============================================================================
@@ -273,6 +476,73 @@ export const memoryStore = (dataset: ComponentGraph): MemoryStore => {
         return Promise.resolve(deepClone(edge));
     };
 
+    const updateEdge = (
+        edgeId: string,
+        updates: { source?: string; target?: string; label?: string; description?: string }
+    ): Promise<EdgeData> => {
+        const edge = store.edges.find(({ id }) => id === edgeId);
+        if (!edge) {
+            throw new Error(`Edge with ID "${edgeId}" not found`);
+        }
+
+        if (updates.source !== undefined) {
+            edge.source = updates.source;
+        }
+        if (updates.target !== undefined) {
+            edge.target = updates.target;
+        }
+        if (updates.label !== undefined) {
+            edge.label = updates.label;
+        }
+        if (updates.description !== undefined) {
+            edge.description = updates.description;
+        }
+
+        return Promise.resolve(deepClone(edge));
+    };
+
+    // ============================================================================
+    // Edge layout operations
+    // ============================================================================
+
+    const addEdgeLayout = (edgeId: string, layoutName: string, visible: boolean): Promise<EdgeData> => {
+        const edge = store.edges.find(({ id }) => id === edgeId);
+        if (!edge) {
+            throw new Error(`Edge with ID "${edgeId}" not found`);
+        }
+
+        if (edge.layouts[layoutName] !== undefined) {
+            throw new Error(`Layout "${layoutName}" already exists for edge "${edgeId}"`);
+        }
+
+        edge.layouts[layoutName] = visible;
+        return Promise.resolve(deepClone(edge));
+    };
+
+    const removeEdgeLayout = (edgeId: string, layoutName: string): Promise<EdgeData> => {
+        const edge = store.edges.find(({ id }) => id === edgeId);
+        if (!edge) {
+            throw new Error(`Edge with ID "${edgeId}" not found`);
+        }
+
+        if (edge.layouts[layoutName] === undefined) {
+            throw new Error(`Layout "${layoutName}" not found for edge "${edgeId}"`);
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+        delete edge.layouts[layoutName];
+        return Promise.resolve(deepClone(edge));
+    };
+
+    const getEdgeLayout = (edgeId: string, layoutName: string): Promise<boolean | undefined> => {
+        const edge = store.edges.find(({ id }) => id === edgeId);
+        if (!edge) {
+            throw new Error(`Edge with ID "${edgeId}" not found`);
+        }
+
+        return Promise.resolve(edge.layouts[layoutName]);
+    };
+
     // ============================================================================
     // Store operations
     // ============================================================================
@@ -293,22 +563,42 @@ export const memoryStore = (dataset: ComponentGraph): MemoryStore => {
         findComponent,
         addComponent,
         deleteComponent,
+        updateComponent,
         upsertComponentFacts,
         removeComponentFacts,
+
+        // Component layout operations
+        addComponentLayout,
+        updateComponentLayout,
+        removeComponentLayout,
+        getComponentLayout,
 
         // Group operations
         findGroup,
         addGroup,
         deleteGroup,
+        updateGroup,
         upsertGroupFacts,
         removeGroupFacts,
+
+        // Group layout operations
+        addGroupLayout,
+        updateGroupLayout,
+        removeGroupLayout,
+        getGroupLayout,
 
         // Edge operations
         findEdge,
         addEdge,
         deleteEdge,
+        updateEdge,
         upsertEdgeFacts,
         removeEdgeFacts,
+
+        // Edge layout operations
+        addEdgeLayout,
+        removeEdgeLayout,
+        getEdgeLayout,
 
         // Store operations
         clearStore,
