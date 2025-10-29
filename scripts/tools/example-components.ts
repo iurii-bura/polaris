@@ -14,7 +14,7 @@ import type { ToolFunction } from './index.js';
  * Arguments:
  *   args[0] - Number of components to generate (optional, default: 10)
  */
-export const exampleComponents: ToolFunction = (data, args) => {
+export const exampleComponents: ToolFunction = async (store, args) => {
     const count = args.length > 0 ? parseInt(args[0], 10) : 10;
 
     if (isNaN(count) || count < 1) {
@@ -52,8 +52,8 @@ export const exampleComponents: ToolFunction = (data, args) => {
 
     console.log(`✨ Generated ${newComponents.length} example components`);
 
-    return Promise.resolve({
-        ...data,
-        components: [...data.components, ...newComponents]
-    });
+    // Add components to the store
+    for (const component of newComponents) {
+        await store.addComponent(component);
+    }
 };

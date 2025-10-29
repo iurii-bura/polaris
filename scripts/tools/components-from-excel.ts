@@ -6,7 +6,7 @@ import type { ToolFunction } from './index.js';
 /**
  * Tool: components-from-excel
  *
- * Imports components from an Excel file and adds them to the dataset.
+ * Imports components from an Excel file and adds them to the store.
  * The Excel file should have columns: team, id, label
  *
  * Usage:
@@ -16,7 +16,7 @@ import type { ToolFunction } from './index.js';
  * Arguments:
  *   args[0] - Path to Excel file (required)
  */
-export const componentsFromExcel: ToolFunction = async (data, args) => {
+export const componentsFromExcel: ToolFunction = async (store, args) => {
     if (args.length === 0) {
         throw new Error('Excel file path is required as first argument');
     }
@@ -80,9 +80,8 @@ export const componentsFromExcel: ToolFunction = async (data, args) => {
 
     console.log(`✨ Imported ${newComponents.length} components from Excel`);
 
-    // Merge with existing components
-    return {
-        ...data,
-        components: [...data.components, ...newComponents]
-    };
+    // Add components to the store
+    for (const component of newComponents) {
+        await store.addComponent(component);
+    }
 };

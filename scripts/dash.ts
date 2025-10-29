@@ -5,6 +5,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import type { ComponentGraph } from '../src/components/types.js';
 import { toolRegistry } from './tools/index.js';
+import { memoryStore } from './stores/index.js';
 
 type DashArgs = {
     data?: string;
@@ -90,8 +91,14 @@ const main = async (): Promise<void> => {
 
         console.log(`🔧 Running tool: ${toolName}`);
 
-        // Execute the tool
-        const result = await tool(data, toolArgs);
+        // Create store instance
+        const store = memoryStore(data);
+
+        // Execute the tool (tools manipulate the store directly)
+        await tool(store, toolArgs);
+
+        // Get the updated data from the store
+        const result = await store.getAll();
 
         // Write result to output file
         const jsonString = JSON.stringify(result, null, 2);

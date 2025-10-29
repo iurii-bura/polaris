@@ -3,7 +3,7 @@ import type { ToolFunction } from './index.js';
 /**
  * Tool: add-layout
  *
- * Adds a new layout to all components in the dataset.
+ * Adds a new layout to all components in the store.
  * The layout will position components in a grid pattern.
  *
  * Usage:
@@ -13,7 +13,7 @@ import type { ToolFunction } from './index.js';
  * Arguments:
  *   args[0] - Layout name (required)
  */
-export const addLayout: ToolFunction = (data, args) => {
+export const addLayout: ToolFunction = async (store, args) => {
     if (args.length === 0) {
         throw new Error('Layout name is required as first argument');
     }
@@ -21,22 +21,20 @@ export const addLayout: ToolFunction = (data, args) => {
     const layoutName = args[0];
     console.log(`📐 Adding layout: ${layoutName}`);
 
-    const updatedComponents = data.components.map((component, idx) => ({
-        ...component,
-        layouts: {
-            ...component.layouts,
-            [layoutName]: {
-                x: (idx % 10) * 150,
-                y: Math.floor(idx / 10) * 150,
-                nodeType: 'componentDetails'
-            }
-        }
-    }));
+    // Get all components from the store
+    const data = await store.getAll();
+    const components = data.components;
 
-    console.log(`✨ Added layout "${layoutName}" to ${updatedComponents.length} components`);
+    // Add layout to each component
+    let count = 0;
+    for (const [idx, component] of components.entries()) {
+        await store.addComponentLayout(component.id, layoutName, {
+            x: (idx % 10) * 150,
+            y: Math.floor(idx / 10) * 150,
+            nodeType: 'componentDetails'
+        });
+        count++;
+    }
 
-    return Promise.resolve({
-        ...data,
-        components: updatedComponents
-    });
+    console.log(`✨ Added layout "${layoutName}" to ${count} components`);
 };

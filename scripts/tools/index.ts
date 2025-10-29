@@ -1,14 +1,14 @@
-import type { ComponentGraph } from '../../src/components/types.js';
+import type { Store } from '../stores/index.js';
 import { componentsFromExcel } from './components-from-excel.js';
 import { addLayout } from './add-layout.js';
 import { exampleComponents } from './example-components.js';
 
 /**
  * Tool function type definition.
- * Each tool receives the current data and additional arguments,
- * and returns a Promise with the modified data.
+ * Each tool receives a store instance and additional arguments.
+ * Tools manipulate the store directly rather than returning data.
  */
-export type ToolFunction = (data: ComponentGraph, args: string[]) => Promise<ComponentGraph>;
+export type ToolFunction = (store: Store, args: string[]) => Promise<void>;
 
 /**
  * Tool registry mapping tool names to their implementations.

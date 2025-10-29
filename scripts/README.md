@@ -4,11 +4,14 @@ A flexible command-line tool for manipulating dashboard component data. The `das
 
 ## Architecture
 
-The dash CLI follows a shell-and-tool pattern:
+The dash CLI follows a shell-and-tool pattern with a store abstraction:
 
-- **Shell** (`dash.ts`): Handles command-line parsing, data I/O, and tool orchestration
-- **Tools** (`tools/`): Individual functions that transform data
+- **Shell** (`dash.ts`): Handles command-line parsing, data I/O, store initialization, and tool orchestration
+- **Store** (`stores/`): Abstraction layer for data persistence (memory, MongoDB, LokiJS, etc.)
+- **Tools** (`tools/`): Individual functions that manipulate data through the store interface
 - **Registry** (`tools/index.ts`): Maps tool names to their implementations
+
+Tools no longer manipulate data directly. Instead, they receive a `Store` instance and use its methods to persist changes. This allows for different storage backends without changing tool implementations.
 
 ## Usage
 
@@ -99,13 +102,18 @@ To add a new tool:
 ```typescript
 import type { ToolFunction } from './index.js';
 
-export const myTool: ToolFunction = async (data, args) => {
-    // Your transformation logic here
+export const myTool: ToolFunction = async (store, args) => {
+    // Get data from store if needed
+    const data = await store.getAll();
     
-    return {
-        ...data,
-        components: modifiedComponents
-    };
+    // Manipulate data through store methods
+    for (const component of data.components) {
+        await store.updateComponent(component.id, {
+            label: `Updated ${component.label}`
+        });
+    }
+    
+    // No return value - store persists changes
 };
 ```
 
@@ -125,6 +133,34 @@ export const toolRegistry: Record<string, ToolFunction> = {
 ```bash
 npm run dash -- my-tool --out data.json
 ```
+
+## Store Interface
+
+Tools interact with data through the `Store` interface, which provides:
+
+**Component Operations:**
+- `findComponent(id)` - Find a component by ID
+- `addComponent(component)` - Add a new component
+- `deleteComponent(id)` - Delete a component
+- `updateComponent(id, updates)` - Update component fields (label, description)
+- `upsertComponentFacts(id, facts)` - Add/update component facts
+- `removeComponentFacts(id, factKeys)` - Remove specific facts
+- `addComponentLayout(id, name, layout)` - Add a layout
+- `updateComponentLayout(id, name, layout)` - Update a layout
+- `removeComponentLayout(id, name)` - Remove a layout
+- `getComponentLayout(id, name)` - Get a specific layout
+
+**Group Operations:**
+- Similar methods for groups (findGroup, addGroup, etc.)
+
+**Edge Operations:**
+- Similar methods for edges (findEdge, addEdge, etc.)
+
+**Store Operations:**
+- `getAll()` - Get the entire component graph
+- `clearStore()` - Clear all data
+
+All methods return Promises for consistency, even when using in-memory storage.
 
 ## Renaming the CLI
 
@@ -170,4 +206,30 @@ All tools work with the `ComponentGraph` type from `src/components/types.ts`:
 }
 ```
 
-Tools receive this structure and must return it (potentially modified).
+The shell loads this data and creates a store instance. Tools manipulate the store, and the shell persists changes back to the output file.
+
+## Implementing Custom Stores
+
+To add a new storage backend (e.g., MongoDB, LokiJS):
+
+1. Create a new file in `scripts/stores/` (e.g., `mongo-store.ts`)
+2. Implement the `Store` interface from `scripts/stores/store.ts`
+3. Export your store factory function
+4. Update `dash.ts` to use your store implementation
+
+Example:
+
+```typescript
+import type { Store } from './store.js';
+import type { ComponentGraph } from '../../src/components/types.js';
+
+export const mongoStore = async (connectionString: string): Promise<Store> => {
+    // Connect to MongoDB
+    // Implement Store interface methods
+    return {
+        findComponent: async (id) => { /* ... */ },
+        addComponent: async (component) => { /* ... */ },
+        // ... implement all Store methods
+    };
+};
+```
