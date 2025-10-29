@@ -4,6 +4,80 @@ import path from 'path';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 
+type CommandLineArgs = {
+    input: string;
+    output: string;
+    help?: boolean;
+};
+
+type Solution = {
+    id: string;
+    name: string;
+    link: string;
+};
+
+type CmdbFacts = {
+    id: string;
+    name: string;
+    description: string;
+    aliases: string[];
+    solution: Solution;
+    subcomponents: string[];
+};
+
+type Document = {
+    url: string;
+    description: string;
+};
+
+type Link = {
+    type: string;
+    url: string;
+};
+
+type SolutionArchitect = {
+    name: string;
+    email: string;
+    avatarUrl: string;
+};
+
+type Team = {
+    teamName: string;
+    kbSpaceLink: string;
+    solutionArchitect: SolutionArchitect;
+};
+
+type Facts = {
+    businessCapabilities: string[];
+    cmdbFacts: CmdbFacts;
+    documents: Document[];
+    links: Link[];
+    team: Team;
+};
+
+type Layout = {
+    x: number;
+    y: number;
+    nodeType: string;
+};
+
+type Layouts = {
+    default: Layout;
+};
+
+type Component = {
+    id: string;
+    label: string;
+    description: string;
+    facts: Facts;
+    layouts: Layouts;
+};
+
+type Result = {
+    components: Component[];
+    groups: unknown[];
+};
+
 // Parse command line arguments
 const argv = yargs(hideBin(process.argv))
     .usage('Usage: $0 [options]')
@@ -12,7 +86,7 @@ const argv = yargs(hideBin(process.argv))
         type: 'string',
         description: 'Path to Excel file to import',
         demandOption: true,
-        coerce: (arg) => path.resolve(arg) // Convert to absolute path
+        coerce: (arg: string) => path.resolve(arg) // Convert to absolute path
     })
     .option('output', {
         alias: 'o',
@@ -26,22 +100,23 @@ const argv = yargs(hideBin(process.argv))
     })
     .example('$0 -i report.xlsx', 'Import components from report.xlsx to imported-components.json')
     .example('$0 -i data/report.xlsx -o components.json', 'Import from data/report.xlsx to components.json')
-    .help().argv;
+    .help()
+    .parseSync() as CommandLineArgs;
 
-const main = async () => {
+const main = async (): Promise<void> => {
     try {
         console.log(`📖 Reading Excel file: ${argv.input}`);
         const rows = await readXlsxFile(argv.input);
 
-        const components = rows.slice(1).map(([team, id, label], idx) => ({
-            id: id,
-            label: label,
+        const components: Component[] = rows.slice(1).map(([team, id, label], idx) => ({
+            id: String(id),
+            label: String(label),
             description: 'TODO',
             facts: {
                 businessCapabilities: ['Client Static Data Distribution'],
                 cmdbFacts: {
-                    id: id,
-                    name: label,
+                    id: String(id),
+                    name: String(label),
                     description: 'TODO',
                     aliases: [],
                     solution: {
@@ -64,7 +139,7 @@ const main = async () => {
                     }
                 ],
                 team: {
-                    teamName: team,
+                    teamName: String(team),
                     kbSpaceLink: 'https://team7.example.com/',
                     solutionArchitect: {
                         name: 'Alice Johnson',
@@ -82,7 +157,7 @@ const main = async () => {
             }
         }));
 
-        const result = {
+        const result: Result = {
             components,
             groups: []
         };
@@ -94,15 +169,16 @@ const main = async () => {
         fs.writeFileSync(outputPath, jsonString, 'utf8');
         console.log(`✅ Successfully wrote ${components.length} components to: ${outputPath}`);
     } catch (error) {
-        if (error.code === 'ENOENT') {
+        const err = error as NodeJS.ErrnoException;
+        if (err.code === 'ENOENT') {
             console.error(`❌ Error: Excel file not found: ${argv.input}`);
-        } else if (error.code === 'EACCES') {
-            console.error(`❌ Error: Permission denied accessing file: ${error.path}`);
+        } else if (err.code === 'EACCES') {
+            console.error(`❌ Error: Permission denied accessing file: ${err.path ?? 'unknown'}`);
         } else {
-            console.error(`❌ Error: ${error.message}`);
+            console.error(`❌ Error: ${err.message}`);
         }
         process.exit(1);
     }
 };
 
-main();
+void main();

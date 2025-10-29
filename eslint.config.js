@@ -25,8 +25,7 @@ export default pluginTs.config(
             '**/.env',
             '**/npm-debug.log*',
             '**/crash.log',
-            '**/crash.*.log',
-            '**/scripts/**'
+            '**/crash.*.log'
         ]
     },
 
@@ -354,7 +353,7 @@ export default pluginTs.config(
         }
     },
 
-    // Configurations files
+    // Configuration files
     {
         files: ['**/*.config.js'],
         languageOptions: {
@@ -370,6 +369,27 @@ export default pluginTs.config(
             globals: {
                 ...globals.node
             }
+        }
+    },
+
+    // Scripts
+    {
+        files: ['scripts/**/*.ts'],
+        languageOptions: {
+            globals: {
+                ...globals.node
+            },
+            parserOptions: {
+                ecmaVersion: 'latest',
+                sourceType: 'module',
+                project: './scripts/tsconfig.json'
+            }
+        },
+        rules: {
+            '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+            '@typescript-eslint/no-unsafe-assignment': 'off',
+            '@typescript-eslint/no-unsafe-member-access': 'off',
+            '@typescript-eslint/restrict-template-expressions': 'off'
         }
     }
 );
