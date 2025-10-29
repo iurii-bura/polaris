@@ -15,8 +15,9 @@
     "scripts": {
         "install:playwright": "playwright install --with-deps",
         "clean": "rimraf dist/ reports/",
-        "format:check": "prettier '**/*.{js,jsx,ts,tsx,css,json,md,yml,yaml}' --check",
-        "format:fix": "prettier '**/*.{js,jsx,ts,tsx,css,json,md,yml,yaml}' --write",
+        "all:check": "npm run type:check && npm run lint:check && npm run format:check",
+        "format:check": "prettier '**/*.{js,jsx,ts,tsx,css,json,yml,yaml}' --check",
+        "format:fix": "prettier '**/*.{js,jsx,ts,tsx,css,json,yml,yaml}' --write",
         "lint:check": "eslint .",
         "lint:fix": "eslint --fix .",
         "type:check": "tsc --noEmit",
@@ -28,7 +29,7 @@
         "build": "rsbuild build",
         "serve": "rsbuild preview",
         "start": "rsbuild dev",
-        "import:excel": "tsx scripts/excel-import.ts"
+        "dash": "tsx scripts/dash.ts"
     },
     "dependencies": {
         "@xyflow/react": "12.8.4",
