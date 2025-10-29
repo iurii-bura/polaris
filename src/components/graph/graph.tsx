@@ -233,27 +233,29 @@ const Graph: FunctionComponent<GraphProps> = ({
             if (selection.edges.length > 0) {
                 const selectedEdge = edgeData.find(({ id }) => id === selection.edges[0].id);
                 if (selectedEdge) {
-                    console.log('Selected edge ID:', selectedEdge.id);
-                    return onSelectionChangeCallback({
+                    onSelectionChangeCallback({
                         type: 'edge',
                         element: selectedEdge
                     });
+                    return;
                 }
             }
             if (selection.nodes.length > 0) {
                 const selectedNode = components.find(({ id }) => id === selection.nodes[0].id);
                 if (selectedNode) {
-                    return onSelectionChangeCallback({
+                    onSelectionChangeCallback({
                         type: 'node',
                         element: selectedNode
                     });
+                    return;
                 }
                 const selectedGroup = groups.find(({ id }) => id === selection.nodes[0].id);
                 if (selectedGroup) {
-                    return onSelectionChangeCallback({
+                    onSelectionChangeCallback({
                         type: 'group',
                         element: selectedGroup
                     });
+                    return;
                 }
             } else {
                 onSelectionChangeCallback(null);

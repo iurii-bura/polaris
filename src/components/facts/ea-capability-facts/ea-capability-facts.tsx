@@ -24,7 +24,7 @@ export const EaCapabilityFacts: FunctionComponent<EaCapabilityFactsProps> = ({ e
                 >
                     <div className="flex items-center gap-3">
                         <FiLayers className="w-6 h-6 text-primary" />
-                        <h2 className="text-xl font-bold">{eaCapabilityFacts?.name || 'EA Capability'}</h2>
+                        <h2 className="text-xl font-bold">{eaCapabilityFacts?.name ?? 'EA Capability'}</h2>
                     </div>
 
                     <div className="flex items-center gap-3">
