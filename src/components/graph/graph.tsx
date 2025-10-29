@@ -13,12 +13,20 @@ import {
     BackgroundVariant,
     type Edge,
     MarkerType,
-    BezierEdge
+    BezierEdge,
+    Controls
 } from '@xyflow/react';
 
 import '@xyflow/react/dist/style.css';
 
-import type { ComponentData, Group, ComponentLayoutUpdate, GroupLayoutUpdate, EdgeData } from '../types';
+import type {
+    ComponentData,
+    Group,
+    ComponentLayoutUpdate,
+    GroupLayoutUpdate,
+    EdgeData,
+    GraphSelection
+} from '../types';
 import { ComponentDetailsNode, JourneyStepNode, ResizableGroupNode } from './nodes';
 import { CustomEdge } from './edges';
 
@@ -42,7 +50,7 @@ type GraphProps = {
     readonly groups: Group[];
     readonly edges: EdgeData[];
     readonly layout?: string;
-    readonly onSelectionChange?: (component: ComponentData | null) => void;
+    readonly onSelectionChange?: (selection: GraphSelection | null) => void;
     readonly onComponentLayoutChange?: (updates: ComponentLayoutUpdate[]) => void;
     readonly onGroupLayoutChange?: (updates: GroupLayoutUpdate[]) => void;
 };
@@ -217,24 +225,43 @@ const Graph: FunctionComponent<GraphProps> = ({
 
     const onSelectionChange = useCallback(
         (selection: { nodes: Node[]; edges: Edge[] }) => {
-            // Handle edge selection
-            if (selection.edges.length > 0) {
-                const selectedEdge = selection.edges[0];
-                console.log('Selected edge ID:', selectedEdge.id);
-            }
-
             if (!onSelectionChangeCallback) {
                 return;
             }
 
+            // Handle edge selection
+            if (selection.edges.length > 0) {
+                const selectedEdge = edgeData.find(({ id }) => id === selection.edges[0].id);
+                if (selectedEdge) {
+                    onSelectionChangeCallback({
+                        type: 'edge',
+                        element: selectedEdge
+                    });
+                    return;
+                }
+            }
             if (selection.nodes.length > 0) {
                 const selectedNode = components.find(({ id }) => id === selection.nodes[0].id);
-                onSelectionChangeCallback(selectedNode ?? null);
+                if (selectedNode) {
+                    onSelectionChangeCallback({
+                        type: 'node',
+                        element: selectedNode
+                    });
+                    return;
+                }
+                const selectedGroup = groups.find(({ id }) => id === selection.nodes[0].id);
+                if (selectedGroup) {
+                    onSelectionChangeCallback({
+                        type: 'group',
+                        element: selectedGroup
+                    });
+                    return;
+                }
             } else {
                 onSelectionChangeCallback(null);
             }
         },
-        [onSelectionChangeCallback, components]
+        [onSelectionChangeCallback, components, groups, edgeData]
     );
 
     return (
@@ -248,11 +275,13 @@ const Graph: FunctionComponent<GraphProps> = ({
             proOptions={{ hideAttribution: true }}
             defaultViewport={{ x: 200, y: 300, zoom: 1.5 }}
             onSelectionChange={onSelectionChange}
+            fitView={true}
         >
             <Background
                 color="#ccc"
                 variant={BackgroundVariant.Dots}
             />
+            <Controls />
         </ReactFlow>
     );
 };

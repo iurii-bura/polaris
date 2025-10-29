@@ -126,37 +126,36 @@ export type Facts = {
     team?: Team;
     kafka?: KafkaInfo;
     journeyStep?: JourneyStepFacts;
+    eaCapabilityFacts?: EaCapabilityFacts;
 };
 
-export type ComponentData = {
+// Common interface for objects that have facts
+export type WithFacts = {
     id: string;
+    facts: Facts;
+};
+
+export type ComponentData = WithFacts & {
     label: string;
     description: string;
-    facts: Facts;
     layouts: Layouts;
 };
 
-export type Group = {
-    id: string;
-    label: string;
-    description: string;
+export type Group = WithFacts & {
+    label?: string;
+    description?: string;
     componentIds: string[];
     layouts: Layouts;
 };
 
-export type EdgeFacts = {
-    label?: string;
-    description?: string;
-};
-
 export type EdgeLayouts = Partial<Record<string, boolean>>;
 
-export type EdgeData = {
-    id: string;
+export type EdgeData = WithFacts & {
     source: string;
     target: string;
+    label?: string;
+    description?: string;
     layouts: EdgeLayouts;
-    facts: EdgeFacts;
 };
 
 export type ComponentGraph = {
@@ -193,3 +192,25 @@ export type JourneyStepFacts = {
     screenshot: string;
     description: string;
 };
+
+export type EaCapabilityFacts = {
+    name: string;
+    description: string;
+    capabilityDomain: string;
+}; // Selection types for graph interaction
+export type NodeSelection = {
+    type: 'node';
+    element: ComponentData;
+};
+
+export type GroupSelection = {
+    type: 'group';
+    element: Group;
+};
+
+export type EdgeSelection = {
+    type: 'edge';
+    element: EdgeData;
+};
+
+export type GraphSelection = NodeSelection | GroupSelection | EdgeSelection;

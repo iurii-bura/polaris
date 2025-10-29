@@ -1879,28 +1879,49 @@
     "edges": [
         {
             "id": "conn-01",
+            "label": "Some Label",
+            "description": "This is the description",
             "source": "TR-002-LM",
             "target": "AC-003-BP",
             "layouts": {
                 "default": true
             },
-            "facts": {
-                "label": "Some Label",
-                "description": "This is the description"
-            }
+            "facts": {}
         },
         {
             "id": "conn-02",
+            "label": "Other Label",
+            "description": "Other description",
             "source": "AC-003-BP",
             "target": "CR-007-ML",
             "layouts": {
                 "default": true
             },
-            "facts": {
-                "label": "Other Label",
-                "description": "Other description"
-            }
+            "facts": {}
         }
     ],
-    "groups": []
+    "groups": [
+        {
+            "id": "grp-001",
+            "label": "Core Banking Systems",
+            "description": "Group of core banking applications and services.",
+            "componentIds": ["CR-001-WS", "CR-002-API", "CR-003-DB"],
+            "layouts": {
+                "default": {
+                    "x": 220,
+                    "y": 30,
+                    "width": 400,
+                    "height": 250,
+                    "nodeType": "groupDetails"
+                }
+            },
+            "facts": {
+                "eaCapabilityFacts": {
+                    "name": "Core banking",
+                    "description": "Represetns the list of core banking systems",
+                    "capabilityDomain": "Banking"
+                }
+            }
+        }
+    ]
 }

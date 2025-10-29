@@ -1,6 +1,6 @@
 import type { FunctionComponent, ReactElement } from 'react';
 import { useMemo } from 'react';
-import type { ComponentData, Facts } from '../types';
+import type { Facts, WithFacts } from '../types';
 import NoComponentSelected from './no-component-selected';
 import {
     SummaryFacts,
@@ -14,11 +14,12 @@ import {
     CmdbFacts,
     PlatformsFacts,
     LinksFacts,
-    JourneyStepFacts
+    JourneyStepFacts,
+    EaCapabilityFacts
 } from '../facts';
 
 type ComponentDetailsProps = {
-    readonly component: ComponentData | null;
+    readonly component: WithFacts | null;
 };
 
 /*
@@ -52,9 +53,11 @@ const getFactCards = (facts: Facts): ReactElement[] => {
     const links = facts.links && <LinksFacts links={facts.links} />;
     const kafka = facts.kafka && <KafkaFacts kafka={facts.kafka} />;
     const journeyStep = facts.journeyStep && <JourneyStepFacts journeyStepFacts={facts.journeyStep} />;
+    const eaCapability = facts.eaCapabilityFacts && <EaCapabilityFacts eaCapabilityFacts={facts.eaCapabilityFacts} />;
 
     return [
         summary,
+        eaCapability,
         techStack,
         cmdb,
         qualityMetrics,
