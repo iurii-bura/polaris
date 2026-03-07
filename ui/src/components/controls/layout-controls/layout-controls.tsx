@@ -27,7 +27,7 @@ const LayoutControls: FunctionComponent<LayoutControlsProps> = ({ currentLayout,
     if (!isExpanded) {
         // Collapsed state - circular menu button
         return (
-            <div className="fixed top-4 left-4 z-50">
+            <div className="fixed top-12 left-4 z-50">
                 <button
                     type="button"
                     className="btn btn-circle btn-primary shadow-lg"
@@ -42,7 +42,7 @@ const LayoutControls: FunctionComponent<LayoutControlsProps> = ({ currentLayout,
 
     // Expanded state - controls panel
     return (
-        <div className="fixed top-4 left-4 z-50">
+        <div className="fixed top-12 left-4 z-50">
             <div className="card bg-base-100 shadow-xl border border-base-300 w-80">
                 <div className="card-body p-4">
                     {/* Header with close button */}

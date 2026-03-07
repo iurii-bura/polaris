@@ -1,0 +1,21 @@
+{
+    "name": "polaris-desktop",
+    "version": "1.0.0",
+    "private": true,
+    "main": "dist/main.js",
+    "scripts": {
+        "build": "tsc -p tsconfig.json",
+        "dev": "wait-on http://localhost:8080 && electron .",
+        "package:mac": "electron-builder --mac --config electron-builder.config.cjs"
+    },
+    "dependencies": {
+        "jszip": "^3.10.1"
+    },
+    "devDependencies": {
+        "@types/node": "^24.0.0",
+        "electron": "^36.0.0",
+        "electron-builder": "^25.0.0",
+        "typescript": "^5.9.0",
+        "wait-on": "^8.0.0"
+    }
+}

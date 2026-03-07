@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
 import { addWebVitalsReporting } from './components';
+import { DataProviderBootstrap } from './context/data-provider-context';
 
 import { App } from './app/app';
 
@@ -19,7 +20,9 @@ const root = createRoot(rootElement);
 root.render(
     <StrictMode>
         <BrowserRouter>
-            <App />
+            <DataProviderBootstrap>
+                <App />
+            </DataProviderBootstrap>
         </BrowserRouter>
     </StrictMode>
 );

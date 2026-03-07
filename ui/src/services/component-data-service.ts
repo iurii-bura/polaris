@@ -1,4 +1,5 @@
 import type { ComponentData, ComponentGraph, Group } from '../components/types';
+import type { IDataProvider } from './data-provider';
 import mockDataJson from '../../data/example.json';
 
 /**
@@ -15,7 +16,7 @@ import mockDataJson from '../../data/example.json';
  * - Use ComponentDataService.setPreferBrowserStorage(false) to always load from file, ignoring localStorage
  * - Call reloadData() after changing the preference to apply the new setting
  */
-export class ComponentDataService {
+export class ComponentDataService implements IDataProvider {
     /**
      * Delay constants for simulating API response times (in milliseconds)
      * Easily configurable for testing purposes
