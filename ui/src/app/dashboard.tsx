@@ -16,54 +16,46 @@ import {
     type WithFacts
 } from 'src/components';
 import { useComponentData } from '../hooks';
-import { ComponentDataService } from 'src/services';
+import { useDataProvider } from '../context/data-provider-context';
+import { WorkspaceSwitcher } from '../components/workspace';
+import type { WorkspaceInfo } from '../context/data-provider-context';
 
-import './app.css';
+type DashboardProps = {
+    readonly workspace: WorkspaceInfo | null;
+};
 
-const App: FunctionComponent = (): ReactElement => {
+/**
+ * The main dashboard view. Only rendered when a data provider is ready.
+ * Extracted from App so that App can safely handle loading / no-workspace states
+ * without violating the rules of hooks.
+ */
+export const Dashboard: FunctionComponent<DashboardProps> = ({ workspace }): ReactElement => {
     const { data: componentGraph, loading, error } = useComponentData();
+    const providerState = useDataProvider();
+    const provider = providerState.status === 'ready' ? providerState.provider : null;
     const [selectedElement, setSelectedElement] = useState<WithFacts | null>(null);
     const [currentLayout, setCurrentLayout] = useState<string>('default');
-    const [panelWidth, setPanelWidth] = useState(470); // Default panel width in pixels
+    const [panelWidth, setPanelWidth] = useState(470);
     const [isDragging, setIsDragging] = useState(false);
     const dragRef = useRef<number>(0);
     const [componentData, setComponentData] = useState<ComponentData[]>([]);
     const [groups, setGroups] = useState<Group[]>([]);
     const [edges, setEdges] = useState<EdgeData[]>([]);
 
-    // Sync component data when graph data loads
     useEffect(() => {
         setComponentData(componentGraph.components);
         setGroups(componentGraph.groups);
         setEdges(componentGraph.edges);
     }, [componentGraph]);
 
-    /**
-     * Handles selection changes in the graph, updates which element is selected
-     * @param selection The selection object containing type and element, or null if nothing is selected
-     */
     const handleSelectionChange = useCallback((selection: GraphSelection | null) => {
-        if (selection) {
-            setSelectedElement(selection.element);
-        } else {
-            setSelectedElement(null);
-        }
+        setSelectedElement(selection ? selection.element : null);
     }, []);
 
-    /**
-     * Handles the change of the layout (e.g., switching between different layout views)
-     * @param layout The new layout identifier
-     */
     const handleLayoutChange = useCallback((layout: string) => {
         setCurrentLayout(layout);
     }, []);
 
-    /**
-     * Generic helper function to update node layouts
-     * @param updates Array of layout updates for any node type
-     * @param defaultNodeType Default node type to use if not specified
-     * @returns Array of updated nodes with modified layouts
-     */
     const createUpdatedNodes = useCallback(
         <T extends GraphNode>(
             updates: { node: T; position?: { x: number; y: number }; size?: { width: number; height: number } }[],
@@ -85,11 +77,6 @@ const App: FunctionComponent = (): ReactElement => {
         [currentLayout]
     );
 
-    /**
-     * Generic helper function to update state array
-     * @param setState State setter function
-     * @param updatedItems Array of updated items
-     */
     const updateStateArray = useCallback(
         <T extends { id: string }>(setState: React.Dispatch<React.SetStateAction<T[]>>, updatedItems: T[]) => {
             setState((prevData) => {
@@ -102,46 +89,24 @@ const App: FunctionComponent = (): ReactElement => {
         []
     );
 
-    /**
-     * Handles component layout changes
-     * Updates the local state and persists changes via the component service
-     * @param updates Array of component layout updates
-     */
     const handleComponentLayoutChange = useCallback(
         (updates: ComponentLayoutUpdate[]) => {
-            if (!updates.length) {
-                return;
-            }
-
+            if (!updates.length || !provider) return;
             const updatedComponents = createUpdatedNodes(updates, 'componentDetails');
             updateStateArray(setComponentData, updatedComponents);
-
-            void ComponentDataService.getInstance().batchUpdateComponents(
-                updatedComponents.map((item) => ({ id: item.id, data: item }))
-            );
+            void provider.batchUpdateComponents(updatedComponents.map((item) => ({ id: item.id, data: item })));
         },
-        [createUpdatedNodes, updateStateArray]
+        [createUpdatedNodes, updateStateArray, provider]
     );
 
-    /**
-     * Handles group layout changes
-     * Updates the local state and persists changes via the group service
-     * @param updates Array of group layout updates
-     */
     const handleGroupLayoutChange = useCallback(
         (updates: GroupLayoutUpdate[]) => {
-            if (!updates.length) {
-                return;
-            }
-
+            if (!updates.length || !provider) return;
             const updatedGroups = createUpdatedNodes(updates, 'group');
             updateStateArray(setGroups, updatedGroups);
-
-            void ComponentDataService.getInstance().batchUpdateGroups(
-                updatedGroups.map((item) => ({ id: item.id, data: item }))
-            );
+            void provider.batchUpdateGroups(updatedGroups.map((item) => ({ id: item.id, data: item })));
         },
-        [createUpdatedNodes, updateStateArray]
+        [createUpdatedNodes, updateStateArray, provider]
     );
 
     const handleMouseDown = useCallback((e: React.MouseEvent) => {
@@ -151,16 +116,14 @@ const App: FunctionComponent = (): ReactElement => {
     }, []);
 
     const handleDoubleClick = useCallback(() => {
-        setPanelWidth(470); // Reset to default width
+        setPanelWidth(470);
     }, []);
 
     const handleMouseMove = useCallback(
         (e: MouseEvent) => {
             if (!isDragging) return;
-
             const deltaX = dragRef.current - e.clientX;
-            const newWidth = Math.max(250, Math.min(600, panelWidth + deltaX)); // Min 250px, max 600px
-
+            const newWidth = Math.max(250, Math.min(600, panelWidth + deltaX));
             setPanelWidth(newWidth);
             dragRef.current = e.clientX;
         },
@@ -177,7 +140,6 @@ const App: FunctionComponent = (): ReactElement => {
             document.addEventListener('mouseup', handleMouseUp);
             document.body.style.cursor = 'col-resize';
             document.body.style.userSelect = 'none';
-
             return () => {
                 document.removeEventListener('mousemove', handleMouseMove);
                 document.removeEventListener('mouseup', handleMouseUp);
@@ -214,10 +176,20 @@ const App: FunctionComponent = (): ReactElement => {
     return (
         <main
             role="main"
-            className="min-h-screen bg-base-100"
+            className="min-h-screen bg-base-100 flex flex-col"
         >
-            <div className="flex h-screen">
-                {/* Middle: Graph section */}
+            {/* Header — only shown in Electron desktop mode */}
+            {workspace !== null && (
+                <header className="flex items-center pr-4 h-10 bg-base-200 border-b border-base-300 flex-shrink-0 app-drag-region">
+                    {/* pl-20 (80px) reserves space for the macOS traffic light buttons */}
+                    <div className="app-no-drag pl-20">
+                        <WorkspaceSwitcher workspace={workspace} />
+                    </div>
+                </header>
+            )}
+
+            <div className="flex flex-1 overflow-hidden">
+                {/* Graph canvas */}
                 <section className="flex-1 p-4 overflow-hidden relative">
                     <div style={{ width: '100%', height: '100%' }}>
                         <Graph
@@ -230,8 +202,6 @@ const App: FunctionComponent = (): ReactElement => {
                             onGroupLayoutChange={handleGroupLayoutChange}
                         />
                     </div>
-
-                    {/* Layout Controls Widget */}
                     <LayoutControls
                         currentLayout={currentLayout}
                         onLayoutChange={handleLayoutChange}
@@ -243,13 +213,11 @@ const App: FunctionComponent = (): ReactElement => {
                     className="w-1 bg-base-300 hover:bg-primary/50 cursor-col-resize flex-shrink-0 transition-colors duration-200 resize-handle"
                     onMouseDown={handleMouseDown}
                     onDoubleClick={handleDoubleClick}
-                    style={{
-                        backgroundColor: isDragging ? 'hsl(var(--p) / 0.7)' : undefined
-                    }}
+                    style={{ backgroundColor: isDragging ? 'hsl(var(--p) / 0.7)' : undefined }}
                     title="Drag to resize, double-click to reset"
                 />
 
-                {/* Right hand side: Component Details section */}
+                {/* Component details panel */}
                 <aside
                     className="bg-base-200 p-4 border-l border-base-300 overflow-hidden flex-shrink-0"
                     style={{ width: String(panelWidth) + 'px' }}
@@ -260,5 +228,3 @@ const App: FunctionComponent = (): ReactElement => {
         </main>
     );
 };
-
-export { App };

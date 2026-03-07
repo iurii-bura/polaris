@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
 import type { ComponentData, ComponentGraph } from '../components/types';
-import { ComponentDataService } from '../services/component-data-service';
+import { useDataProvider } from '../context/data-provider-context';
 
 /**
  * Type definition for the hook's return value
@@ -30,6 +30,9 @@ export type UseComponentDataResult = {
  * @returns Object containing data, loading state, error state, and CRUD operations
  */
 export const useComponentData = (): UseComponentDataResult => {
+    const providerState = useDataProvider();
+    const provider = providerState.status === 'ready' ? providerState.provider : null;
+
     const [data, setData] = useState<ComponentGraph>({ components: [], groups: [], edges: [] });
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -38,11 +41,11 @@ export const useComponentData = (): UseComponentDataResult => {
      * Fetches component data and updates state accordingly
      */
     const fetchData = useCallback(async (): Promise<void> => {
+        if (!provider) return;
         try {
             setLoading(true);
             setError(null);
-            const service = ComponentDataService.getInstance();
-            const componentGraph = await service.fetchComponentGraph();
+            const componentGraph = await provider.fetchComponentGraph();
             setData(componentGraph);
         } catch (err) {
             const errorMessage = err instanceof Error ? err.message : 'Failed to fetch components';
@@ -51,7 +54,7 @@ export const useComponentData = (): UseComponentDataResult => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [provider]);
 
     /**
      * Manually refresh the data
@@ -63,56 +66,67 @@ export const useComponentData = (): UseComponentDataResult => {
     /**
      * Add a new component
      */
-    const addComponent = useCallback(async (componentData: Omit<ComponentData, 'id'>): Promise<void> => {
-        try {
-            const service = ComponentDataService.getInstance();
-            const newComponent = await service.createComponent(componentData);
-            setData((prevData) => ({
-                ...prevData,
-                components: [...prevData.components, newComponent]
-            }));
-        } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : 'Failed to create component';
-            setError(errorMessage);
-            throw err;
-        }
-    }, []);
+    const addComponent = useCallback(
+        async (componentData: Omit<ComponentData, 'id'>): Promise<void> => {
+            if (!provider) return;
+            try {
+                const newComponent = await provider.createComponent(componentData);
+                setData((prevData) => ({
+                    ...prevData,
+                    components: [...prevData.components, newComponent]
+                }));
+            } catch (err) {
+                const errorMessage = err instanceof Error ? err.message : 'Failed to create component';
+                setError(errorMessage);
+                throw err;
+            }
+        },
+        [provider]
+    );
 
     /**
      * Update an existing component
      */
-    const updateComponent = useCallback(async (id: string, updates: Partial<ComponentData>): Promise<void> => {
-        try {
-            const service = ComponentDataService.getInstance();
-            const updatedComponent = await service.updateComponent(id, updates);
-            setData((prevData) => ({
-                ...prevData,
-                components: prevData.components.map((component) => (component.id === id ? updatedComponent : component))
-            }));
-        } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : 'Failed to update component';
-            setError(errorMessage);
-            throw err;
-        }
-    }, []);
+    const updateComponent = useCallback(
+        async (id: string, updates: Partial<ComponentData>): Promise<void> => {
+            if (!provider) return;
+            try {
+                const updatedComponent = await provider.updateComponent(id, updates);
+                setData((prevData) => ({
+                    ...prevData,
+                    components: prevData.components.map((component) =>
+                        component.id === id ? updatedComponent : component
+                    )
+                }));
+            } catch (err) {
+                const errorMessage = err instanceof Error ? err.message : 'Failed to update component';
+                setError(errorMessage);
+                throw err;
+            }
+        },
+        [provider]
+    );
 
     /**
      * Remove a component
      */
-    const removeComponent = useCallback(async (id: string): Promise<void> => {
-        try {
-            const service = ComponentDataService.getInstance();
-            await service.deleteComponent(id);
-            setData((prevData) => ({
-                ...prevData,
-                components: prevData.components.filter((component) => component.id !== id)
-            }));
-        } catch (err) {
-            const errorMessage = err instanceof Error ? err.message : 'Failed to delete component';
-            setError(errorMessage);
-            throw err;
-        }
-    }, []);
+    const removeComponent = useCallback(
+        async (id: string): Promise<void> => {
+            if (!provider) return;
+            try {
+                await provider.deleteComponent(id);
+                setData((prevData) => ({
+                    ...prevData,
+                    components: prevData.components.filter((component) => component.id !== id)
+                }));
+            } catch (err) {
+                const errorMessage = err instanceof Error ? err.message : 'Failed to delete component';
+                setError(errorMessage);
+                throw err;
+            }
+        },
+        [provider]
+    );
 
     // Fetch data on mount
     useEffect(() => {

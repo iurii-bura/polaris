@@ -19,7 +19,7 @@ exports[`<App /> > should render 1`] = `
       <p
         class="text-base-content text-sm font-medium"
       >
-        Loading components...
+        Initializing...
       </p>
     </div>
   </main>

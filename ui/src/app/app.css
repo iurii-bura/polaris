@@ -7,6 +7,17 @@
         cupcake;
 }
 
+/* Electron window drag regions ─────────────────────────────────────────────
+   -webkit-app-region is only meaningful in Electron; browsers ignore it.
+   Any element with app-drag-region makes that area drag the window.
+   Interactive children must opt out with app-no-drag so clicks still work. */
+.app-drag-region {
+    -webkit-app-region: drag;
+}
+.app-no-drag {
+    -webkit-app-region: no-drag;
+}
+
 /* Resizable panel styles */
 .resize-handle {
     position: relative;
